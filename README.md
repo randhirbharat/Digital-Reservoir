@@ -13,6 +13,20 @@ Digital Reservoir is made of three connected applications. They share one identi
 
 > **About the data.** Every dataset, sensor and stream in this repository is **synthetic or simulated**, and is labelled that way wherever it appears (`source=simulated`, the "DEMONSTRATION DATA" banner, `provenance=synthetic`). The demonstration dam does not exist. The demonstration alert criteria are illustrative and were not approved by any project. See [documentation/LIMITATIONS.md](documentation/LIMITATIONS.md).
 
+## Online preview
+
+https://randhirbharat.github.io/Digital-Reservoir/ hosts a **static preview of the public website**. `.github/workflows/pages.yml` builds it and deploys it on every push to `main`. This needs a one-time repository setting: *Settings → Pages → Source: GitHub Actions*.
+
+The Engineering Lab, the Digital Twin and the API handle accounts, data and live monitoring, so they need a server. Run them locally as described below. In the preview, their links lead to a "run locally" page, and the contact form explains that it cannot send messages there.
+
+To build the preview locally, run this from `apps/public-website`:
+
+```bash
+NEXT_PUBLIC_STATIC_PREVIEW=1 NEXT_PUBLIC_BASE_PATH=/Digital-Reservoir pnpm build
+```
+
+The site is written to `apps/public-website/out`.
+
 ## Documentation
 
 | Document | Contents |
@@ -83,10 +97,10 @@ python -m venv .venv && . .venv/bin/activate
 ```
 
 ```bash
-pip install -r services/api/requirements.txt scikit-image
+cd services/api && pip install -r requirements.txt scikit-image
 ```
 
-`requirements.txt` installs the analytics engine (`services/analytics-engine`) in editable mode.
+Run this from `services/api`: `requirements.txt` installs the analytics engine (`../analytics-engine`) in editable mode, using a path relative to that folder.
 
 ### 2. Configure
 

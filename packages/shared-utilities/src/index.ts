@@ -2,13 +2,13 @@
 
 export type AppId = "public" | "lab" | "twin";
 
-/** Application base URLs come from environment configuration — never hard-coded domains. */
+/** Application base URLs come from environment configuration — never hard-coded domains.
+ *  The `process.env.NEXT_PUBLIC_*` references must stay literal so Next.js inlines them into browser bundles. */
 export function appUrls(): Record<AppId, string> {
-  const env = (typeof process !== "undefined" ? process.env : {}) as Record<string, string | undefined>;
   return {
-    public: env.NEXT_PUBLIC_PUBLIC_URL || "http://localhost:3000",
-    lab: env.NEXT_PUBLIC_LAB_URL || "http://localhost:3001",
-    twin: env.NEXT_PUBLIC_TWIN_URL || "http://localhost:3002",
+    public: process.env.NEXT_PUBLIC_PUBLIC_URL || "http://localhost:3000",
+    lab: process.env.NEXT_PUBLIC_LAB_URL || "http://localhost:3001",
+    twin: process.env.NEXT_PUBLIC_TWIN_URL || "http://localhost:3002",
   };
 }
 

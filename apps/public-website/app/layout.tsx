@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { SITE } from "@/lib/site";
+import Link from "next/link";
+import { SITE, STATIC_PREVIEW } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -19,6 +20,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-app="public">
       <body className="min-h-screen flex flex-col">
+        {STATIC_PREVIEW ? (
+          <div role="note" className="bg-bronze-ink text-ivory text-sm">
+            <div className="dr-container py-2">
+              Static preview of the public website. The Engineering Lab, Digital Twin and API need a server —{" "}
+              <Link href="/run-locally/" className="underline font-semibold">how to run them</Link>.
+            </div>
+          </div>
+        ) : null}
         <SiteHeader />
         <main id="main" className="flex-1">{children}</main>
         <SiteFooter />

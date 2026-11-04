@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Logo, buttonClass } from "@dr/design-system";
-import { NAV, urls } from "@/lib/site";
+import { NAV, urls, labHref, twinHref } from "@/lib/site";
 
 function isActive(pathname: string, href: string) {
   return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/");
@@ -28,10 +28,10 @@ export function SiteHeader() {
       <div className="hidden xl:block border-b border-line bg-navy text-[#DCE9E4]">
         <div className="dr-container flex min-h-[40px] items-center justify-end gap-5 text-[0.82rem] font-semibold">
           <span className="mr-auto text-[#9DB3AE] font-normal">Intelligence for Infrastructure</span>
-          <a href={`${urls.lab}/login`} className="inline-flex items-center gap-2 hover:text-aqua">
+          <a href={labHref("/login")} className="inline-flex items-center gap-2 hover:text-aqua">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="M9 3h10v18H9" /><path d="M3 12h11" /><path d="M10 8l4 4-4 4" /></svg>
             Engineering Lab — login / register</a>
-          <a href={`${urls.twin}/login`} className="inline-flex items-center gap-2 rounded-md border border-[#9DB3AE]/50 px-2.5 py-1 hover:text-aqua hover:border-aqua">
+          <a href={twinHref("/login")} className="inline-flex items-center gap-2 rounded-md border border-[#9DB3AE]/50 px-2.5 py-1 hover:text-aqua hover:border-aqua">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
             Digital Twin login</a>
         </div>
@@ -54,8 +54,8 @@ export function SiteHeader() {
         </nav>
         <div className="flex items-center gap-2 xl:hidden">
           <div className="hidden md:flex gap-2">
-            <a href={`${urls.lab}/login`} className={buttonClass("primary", "sm", "min-h-[42px]")}>Lab login / register</a>
-            <a href={`${urls.twin}/login`} className={buttonClass("secondary", "sm", "min-h-[42px] border-ink")}>Digital Twin login</a>
+            <a href={labHref("/login")} className={buttonClass("primary", "sm", "min-h-[42px]")}>Lab login / register</a>
+            <a href={twinHref("/login")} className={buttonClass("secondary", "sm", "min-h-[42px] border-ink")}>Digital Twin login</a>
           </div>
           <button
             type="button"
@@ -81,8 +81,8 @@ export function SiteHeader() {
               </Link>
             ))}
             <div className="grid gap-2 pt-3 pb-2 md:hidden grid-cols-1 min-w-0">
-              <a href={`${urls.lab}/login`} className={buttonClass("primary", "lg")}>Engineering Lab — login / register</a>
-              <a href={`${urls.twin}/login`} className={buttonClass("secondary", "lg", "border-ink")}>Digital Twin — authorised login</a>
+              <a href={labHref("/login")} className={buttonClass("primary", "lg")}>Engineering Lab — login / register</a>
+              <a href={twinHref("/login")} className={buttonClass("secondary", "lg", "border-ink")}>Digital Twin — authorised login</a>
             </div>
           </div>
         </nav>

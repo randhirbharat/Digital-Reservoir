@@ -10,9 +10,12 @@ const securityHeaders = [
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
 ];
 
-const config: NextConfig = {
-  transpilePackages: ["@dr/design-system", "@dr/shared-utilities"],
-  poweredByHeader: false,
+// NEXT_PUBLIC_STATIC_PREVIEW=1 builds a static export of the public website (e.g. for GitHub Pages under NEXT_PUBLIC_BASE_PATH).
+// The Lab, Twin and API need a server, so the preview links to "run locally" instructions instead of to them.
+const staticPreview = process.env.NEXT_PUBLIC_STATIC_PREVIEW === "1";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
+const serverConfig: NextConfig = {
   output: "standalone",
   outputFileTracingRoot: path.join(__dirname, "../../"),
   async rewrites() {
@@ -21,5 +24,13 @@ const config: NextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
+};
+
+const staticConfig: NextConfig = { output: "export", basePath, trailingSlash: true, images: { unoptimized: true } };
+
+const config: NextConfig = {
+  transpilePackages: ["@dr/design-system", "@dr/shared-utilities"],
+  poweredByHeader: false,
+  ...(staticPreview ? staticConfig : serverConfig),
 };
 export default config;

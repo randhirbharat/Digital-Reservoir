@@ -5,7 +5,7 @@ import { HstDemo } from "@/components/figures/HstDemo";
 import { TECHNOLOGIES } from "@/content/technologies";
 import { APPLICATIONS } from "@/content/applications";
 import { ARTICLES } from "@/content/articles";
-import { urls } from "@/lib/site";
+import { labHref, twinHref } from "@/lib/site";
 
 const FEATURED = ["hst-modelling", "physics-informed-neural-networks", "dam-health-index", "ambient-vibration-modal-analysis", "fragility-probabilistic-assessment", "computer-vision-damage-detection"];
 const FLOW = ["Physical infrastructure", "Instrumentation", "Data acquisition", "Data processing", "Statistical analysis", "AI/ML", "Hybrid modelling", "Structural health assessment", "Digital twin", "Engineering decisions"];
@@ -26,7 +26,7 @@ export default function Home() {
             </p>
             <div className="flex flex-wrap gap-3">
               <Link href="/technologies" className={buttonClass("primary", "lg")}>Explore Engineering Technologies</Link>
-              <a href={urls.lab} className={buttonClass("secondary", "lg", "border-ink")}>Enter Engineering Lab</a>
+              <a href={labHref()} className={buttonClass("secondary", "lg", "border-ink")}>Enter Engineering Lab</a>
               <Link href="/digital-twin" className={buttonClass("ghost", "lg", "underline underline-offset-4")}>Explore Digital Twin</Link>
             </div>
           </div>
@@ -105,7 +105,7 @@ export default function Home() {
             <p className="text-[#9DB3AE] max-w-[60ch]">Sensor-to-structure mapping in 3D, live and historical instrumentation, model residuals and configurable alerts — restricted to authorised project teams.</p>
             <div className="flex flex-wrap gap-3">
               <Link href="/digital-twin" className={buttonClass("primary", "lg")}>Explore the Digital Twin</Link>
-              <a href={`${urls.twin}/login`} className={buttonClass("secondary", "lg")}>Authorised login</a>
+              <a href={twinHref("/login")} className={buttonClass("secondary", "lg")}>Authorised login</a>
             </div>
           </div>
           <div className="rounded-2xl border border-line bg-[#0B1820] p-5 space-y-4">

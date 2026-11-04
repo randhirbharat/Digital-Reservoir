@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { asset } from "@/lib/site";
 import { PageHero } from "@/components/PageHero";
 import { ProvenanceBadge } from "@dr/design-system";
 
@@ -31,7 +32,7 @@ export default function ResourcesPage() {
                 <ProvenanceBadge kind="synthetic" className="self-start" />
                 <h3 className="font-display font-bold text-lg">{d.title}</h3>
                 <p className="text-sm text-muted flex-1">{d.text}</p>
-                <a href={`/datasets/${d.file}`} download className="font-mono text-sm text-accent-ink underline">{d.file}</a>
+                <a href={asset(`/datasets/${d.file}`)} download className="font-mono text-sm text-accent-ink underline">{d.file}</a>
               </article>
             ))}
           </div>
@@ -42,7 +43,7 @@ export default function ResourcesPage() {
           <article className="rounded-[var(--radius-card)] border border-line bg-surface p-5 space-y-2">
             <h3 className="font-semibold">hst_example.py — minimal HST fit with chronological validation</h3>
             <p className="text-sm text-muted">NumPy/pandas script that fits a 4th-order HST model to the synthetic gravity-dam dataset and reports calibration and validation RMSE separately.</p>
-            <a href="/code/hst_example.py" download className="font-mono text-sm text-accent-ink underline">hst_example.py</a>
+            <a href={asset("/code/hst_example.py")} download className="font-mono text-sm text-accent-ink underline">hst_example.py</a>
           </article>
         </section>
         <div className="grid gap-6 md:grid-cols-2 grid-cols-1 min-w-0">

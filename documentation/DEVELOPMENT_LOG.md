@@ -72,3 +72,15 @@
   (368–552 ms) — recorded as a limitation, optimisation on the roadmap.
 - Documentation: README (complete setup), ARCHITECTURE (Mermaid diagrams), DEPLOYMENT, TESTING, USER_GUIDE, ROADMAP, LIMITATIONS,
   OpenAPI spec; `.env.example` completed.
+
+## Stage 7 follow-up — GitHub Pages preview and CI fixes
+- Public website can be built as a static export (`NEXT_PUBLIC_STATIC_PREVIEW=1`, `NEXT_PUBLIC_BASE_PATH`); Lab/Twin links point
+  to a "run locally" page and the contact form explains it is unavailable; download links respect the base path.
+  Verified by serving the export under `/Digital-Reservoir/` and crawling all 44 pages (no 4xx, no JS errors, no localhost links).
+- `.github/workflows/pages.yml` deploys the preview on pushes to `main` (requires Pages source = GitHub Actions).
+- First CI run on GitHub failed and exposed two real defects, both fixed:
+  - `pip install -r services/api/requirements.txt` from the repository root fails (the editable `../analytics-engine` path is relative to
+    the working directory) — CI and README now install from `services/api`;
+  - `shared-utilities` used `process` without Node type definitions, and read `NEXT_PUBLIC_*` through an aliased object, which
+    Next.js does not inline into browser bundles (client code would have fallen back to localhost URLs) — now literal
+    `process.env.NEXT_PUBLIC_*` references, with `@types/node` declared in the packages.

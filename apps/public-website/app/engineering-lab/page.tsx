@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { buttonClass, EngineeringDisclaimer } from "@dr/design-system";
 import { PageHero } from "@/components/PageHero";
-import { urls } from "@/lib/site";
+import { labHref } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Engineering Lab", description: "A registration-based web laboratory for monitoring-data processing, statistics, HST, PCA and machine learning." };
 
@@ -20,8 +20,8 @@ export default function LabLanding() {
       <PageHero title="Engineering Lab" eyebrow="Application 02 · registered members"
         lead="Upload monitoring data, process signals, build statistical and machine-learning models, and export results and reports — in the browser, with computation on the server.">
         <div className="flex flex-wrap gap-3 pt-2">
-          <a href={`${urls.lab}/register`} className={buttonClass("primary", "lg")}>Create a free account</a>
-          <a href={`${urls.lab}/login`} className={buttonClass("secondary", "lg", "text-ivory border-[#9DB3AE]")}>Sign in</a>
+          <a href={labHref("/register")} className={buttonClass("primary", "lg")}>Create a free account</a>
+          <a href={labHref("/login")} className={buttonClass("secondary", "lg", "text-ivory border-[#9DB3AE]")}>Sign in</a>
         </div>
       </PageHero>
       <div className="dr-container py-12 space-y-10">

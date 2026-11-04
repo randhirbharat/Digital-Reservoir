@@ -19,7 +19,7 @@ jobs:
           POSTGRES_DB: postgres
         ports: ["5432:5432"]
         options: >-
-          --health-cmd "pg_isready -U dr_owner" --health-interval 5s --health-retries 20
+          --health-cmd "pg_isready -U dr_owner -d postgres" --health-interval 5s --health-retries 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -28,8 +28,8 @@ jobs:
           cache: pip
           cache-dependency-path: services/api/requirements.txt
       - name: Install
-        run: |
-          pip install -r services/api/requirements.txt scikit-image
+        working-directory: services/api   # requirements.txt references ../analytics-engine relative to this folder
+        run: pip install -r requirements.txt scikit-image
       - name: Analytics engine tests
         run: python -m pytest -q services/analytics-engine/tests
       - name: Ingestion bridge tests

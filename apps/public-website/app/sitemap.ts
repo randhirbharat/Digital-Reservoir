@@ -3,6 +3,7 @@ import { TECHNOLOGIES } from "@/content/technologies";
 import { APPLICATIONS } from "@/content/applications";
 import { ARTICLES } from "@/content/articles";
 import { SITE } from "@/lib/site";
+export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = SITE.url.replace(/\/$/, "");

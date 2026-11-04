@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { buttonClass, EngineeringDisclaimer } from "@dr/design-system";
 import { PageHero } from "@/components/PageHero";
-import { urls } from "@/lib/site";
+import { twinHref } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Digital Twin", description: "A secure, project-based digital twin environment linking structures, sensors, live data and analytical models." };
 
@@ -20,8 +21,8 @@ export default function TwinLanding() {
       <PageHero title="Digital Twin" eyebrow="Application 03 · authorised projects"
         lead="A continuously updating digital representation that connects physical structures, instrumentation, data quality and engineering models.">
         <div className="flex flex-wrap gap-3 pt-2">
-          <a href={`${urls.twin}/login`} className={buttonClass("primary", "lg")}>Authorised login</a>
-          <a href="/contact" className={buttonClass("secondary", "lg", "text-ivory border-[#9DB3AE]")}>Request project access</a>
+          <a href={twinHref("/login")} className={buttonClass("primary", "lg")}>Authorised login</a>
+          <Link href="/contact" className={buttonClass("secondary", "lg", "text-ivory border-[#9DB3AE]")}>Request project access</Link>
         </div>
       </PageHero>
       <div className="dr-container py-12 space-y-10">

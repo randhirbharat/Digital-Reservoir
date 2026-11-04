@@ -1,5 +1,6 @@
 "use client";
 import { useState, type FormEvent } from "react";
+import { STATIC_PREVIEW } from "@/lib/site";
 
 type Status = { kind: "idle" | "sending" | "ok" | "error"; message?: string };
 
@@ -18,6 +19,10 @@ export function ContactForm() {
     if (!data.consent) errs.consent = "Please confirm you are authorised to share this information.";
     setErrors(errs);
     if (Object.keys(errs).length) return;
+    if (STATIC_PREVIEW) {
+      setStatus({ kind: "error", message: "This is a static preview without the API server, so enquiries cannot be submitted here." });
+      return;
+    }
     setStatus({ kind: "sending" });
     try {
       const res = await fetch("/api/v1/public/contact", {

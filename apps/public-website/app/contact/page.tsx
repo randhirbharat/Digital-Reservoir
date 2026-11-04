@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
 import { ContactForm } from "@/components/ContactForm";
 
@@ -14,7 +15,7 @@ export default function ContactPage() {
           <h2 className="font-display font-bold text-xl">Get in touch</h2>
           <p className="text-muted">Email: <span className="font-mono">[contact address to be configured]</span></p>
           <p className="text-muted">Location: Roorkee, Uttarakhand, India</p>
-          <p className="text-sm text-muted">Enquiries are stored securely and used only to respond to you. See the <a href="/privacy" className="underline">privacy policy</a>.</p>
+          <p className="text-sm text-muted">Enquiries are stored securely and used only to respond to you. See the <Link href="/privacy" className="underline">privacy policy</Link>.</p>
         </div>
         <ContactForm />
       </div>

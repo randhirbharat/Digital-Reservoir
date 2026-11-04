@@ -22,3 +22,12 @@ export const NAV = [
 ];
 
 export const urls = appUrls();
+
+/** True in the static GitHub Pages preview, where no API, Lab or Twin server is available. */
+export const STATIC_PREVIEW = process.env.NEXT_PUBLIC_STATIC_PREVIEW === "1";
+/** Prefix for plain <a href> / asset URLs (next/link adds the base path itself). */
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+export const asset = (p: string) => `${BASE_PATH}${p}`;
+/** Link into the Engineering Lab / Digital Twin; in the static preview these go to the run-locally page. */
+export const labHref = (path = "") => (STATIC_PREVIEW ? `${BASE_PATH}/run-locally/` : `${urls.lab}${path}`);
+export const twinHref = (path = "") => (STATIC_PREVIEW ? `${BASE_PATH}/run-locally/` : `${urls.twin}${path}`);

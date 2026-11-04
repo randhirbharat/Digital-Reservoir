@@ -6,7 +6,7 @@ import { PageHero } from "@/components/PageHero";
 import { References } from "@/components/References";
 import { TechFigure } from "@/components/figures";
 import { TECHNOLOGIES, techBySlug } from "@/content/technologies";
-import { urls } from "@/lib/site";
+import { labHref, twinHref } from "@/lib/site";
 
 export function generateStaticParams() {
   return TECHNOLOGIES.map((t) => ({ slug: t.slug }));
@@ -63,7 +63,7 @@ export default async function TechnologyPage({ params }: { params: Promise<{ slu
           <Section id="references" title="References and further reading"><References ids={t.refs} /></Section>
           <Section id="lab" title="Related Engineering Lab modules">
             <div className="flex flex-wrap gap-3">
-              {t.lab.map((l) => <a key={l.label} href={l.path === "/twin" ? urls.twin : `${urls.lab}${l.path}`} className={buttonClass("primary")}>{l.label}</a>)}
+              {t.lab.map((l) => <a key={l.label} href={l.path === "/twin" ? twinHref() : labHref(l.path)} className={buttonClass("primary")}>{l.label}</a>)}
             </div>
             <p className="text-sm text-muted">Lab modules require a free, email-verified account.</p>
           </Section>
