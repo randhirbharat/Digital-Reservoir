@@ -46,7 +46,9 @@ def seed_demo(admin_email: str | None, history_days: int) -> None:
     from .models_twin import AlertRule, Asset, Component, Project, ProjectMember, Sensor
     from .twin.simulator import backfill
 
+    from .rls import system_session
     with SessionLocal() as db:
+        system_session(db)
         if db.query(Project).filter(Project.code == "PRJ-D").first():
             print("Demonstration project already exists.")
             return

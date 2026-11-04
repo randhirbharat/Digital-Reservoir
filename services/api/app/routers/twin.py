@@ -531,6 +531,8 @@ def ingest(body: IngestIn, request: Request, db: Session = Depends(get_db)):
     if not g:
         audit(db, "ingest.rejected", outcome="denied", request=request, reason="invalid gateway key")
         raise HTTPException(401, "Invalid or revoked gateway key.")
+    from ..rls import set_context
+    set_context(db, gateway_project=g.project_id)  # RLS: this request may only touch the gateway's own project
     if not limiter.hit(f"ingest:{g.id}", get_settings().ingest_rate_per_minute):
         raise HTTPException(429, "Ingestion rate limit exceeded.")
     sensors = {s.code: s for s in db.query(Sensor).filter(Sensor.project_id == g.project_id)}

@@ -52,6 +52,7 @@ def store_observations(db: Session, sensor: Sensor, rows: list[tuple[datetime, f
     if rows:
         ts, v, _ = rows[-1]
         alerts = evaluate_rules(db, sensor, v, ts, source)
+        alerts += evaluate_model_deviation(db, sensor, v, ts, source)
         if sensor.status == "offline":
             sensor.status = "active"
     db.commit()
@@ -134,3 +135,28 @@ def watchdog(db: Session, project_id: str) -> int:
                 n += 1
     db.commit()
     return n
+
+
+def evaluate_model_deviation(db: Session, sensor: Sensor, value: float | None, ts: datetime, source: str) -> list[Alert]:
+    """Compare a new reading with the active published model for this sensor (if it has a deviation threshold)."""
+    from dr_analytics import hst
+
+    from ..models_twin import ModelPublication
+    if value is None:
+        return []
+    m = db.query(ModelPublication).filter(ModelPublication.sensor_id == sensor.id, ModelPublication.active.is_(True), ModelPublication.deviation_threshold.isnot(None)).first()
+    if not m:
+        return []
+    level_sensor = db.get(Sensor, m.level_sensor_id)
+    lv = db.query(Observation).filter(Observation.sensor_id == m.level_sensor_id, Observation.ts <= ts, Observation.value.isnot(None),
+                                      Observation.ts >= ts - timedelta(seconds=3 * level_sensor.frequency_s)).order_by(Observation.ts.desc()).first()
+    if not lv:
+        return []
+    pred = float(hst.predict(m.model_state, [ts], [lv.value])[0])
+    z = (value - pred) / (m.model_state.get("sigma") or 1.0)
+    if abs(z) <= m.deviation_threshold or db.query(Alert.id).filter(Alert.sensor_id == sensor.id, Alert.kind == "model_deviation", Alert.status != "closed").first():
+        return []
+    a = Alert(project_id=sensor.project_id, sensor_id=sensor.id, kind="model_deviation", severity="attention", value=value, observed_at=ts, source=source,
+              message=f"{sensor.code} {value:.4g} {sensor.unit} vs HST v{m.version} prediction {pred:.4g} (standardised residual {z:+.2f}, screening threshold ±{m.deviation_threshold:g} set at publication)")
+    db.add(a)
+    return [a]

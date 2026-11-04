@@ -26,6 +26,10 @@ PASSWORD = "Reservoir-Test-2026"
 def _schema():
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
+    if engine.dialect.name == "postgresql":
+        from app.rls import apply_rls_sql
+        with engine.begin() as conn:
+            apply_rls_sql(conn)
     yield
 
 
@@ -57,3 +61,9 @@ def make_user(email: str, category: str = "researcher", verify: bool = True, sup
     r = c.post("/api/v1/auth/login", json={"email": email, "password": PASSWORD}, headers=H)
     assert r.status_code == 200, r.text
     return c
+
+
+def system_db():
+    """Session with trusted system context (bypasses RLS) for direct assertions in tests."""
+    from app.rls import system_session
+    return system_session(SessionLocal())

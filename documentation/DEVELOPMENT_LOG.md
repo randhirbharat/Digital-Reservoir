@@ -38,3 +38,10 @@
 - Frontend `apps/digital-twin`: project access page, shell with live status, overview, Three.js 3D model, ECharts monitoring,
   sensor registry/gateways/import, alerts & criteria, members/invitations/requests/audit.
 - Mobile fixes: header status wrapping, unwrapped tables, KPI truncation.
+
+## Stage 5 — Integration
+- `app/routers/integration.py`: model publication, evaluation, export-to-Lab; deviation alerts in the ingestion path.
+- `app/rls.py` + migration 0003: forced RLS policies; context applied per transaction via a Session `after_begin` hook.
+  Important deployment rule: the application database role must not be a superuser (superusers bypass RLS).
+- Lab: "Publish to Digital Twin" on HST results. Twin: published-model panels, model-vs-observation evaluation, "Analyse in Lab".
+- Test-isolation fixes after adding shared-state tests (sources/gateways); the product behaviour was correct.

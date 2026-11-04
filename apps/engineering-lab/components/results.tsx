@@ -7,6 +7,7 @@ import { formatTimestamp } from "@dr/shared-utilities";
 import type { Run } from "@/lib/types";
 import { Plot, line, seriesTable } from "./Plot";
 import { DataTable, KV, Panel, Warnings, fmt } from "./ui";
+import { PublishToTwin } from "./PublishToTwin";
 
 const C = { obs: "#9B8461", pred: "#183C45", band: "rgba(114,190,177,0.25)", h: "#183C45", s: "#C0612B", t: "#5B7FA6", res: "#2C6B61", crit: "#B03A3A" };
 
@@ -273,6 +274,7 @@ export function RunPanel({ run, onDeleted }: { run: Run; onDeleted?: () => void 
       </div>}>
       <p className="mb-4 text-xs text-muted">Run {run.id.slice(0, 8)} · {formatTimestamp(run.created_at)} · engine v{run.engine_version} · {run.duration_ms.toFixed(0)} ms · parameters stored for reproducibility</p>
       <RunResult run={run} />
+      {run.kind === "hst" && run.status === "completed" ? <div className="mt-4"><PublishToTwin runId={run.id} unit={run.result?.unit ?? ""} /></div> : null}
     </Panel>
   );
 }

@@ -188,3 +188,26 @@ class AccessRequest(Base):
     created_at: Mapped[datetime] = mapped_column(TZDateTime(), default=now)
     decided_by: Mapped[str | None] = mapped_column(String(36), nullable=True)
     decided_at: Mapped[datetime | None] = mapped_column(TZDateTime(), nullable=True)
+
+
+class ModelPublication(Base):
+    """An Engineering Lab model published into a Digital Twin project (immutable snapshot, versioned per sensor)."""
+    __tablename__ = "model_publication"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    project_id: Mapped[str] = mapped_column(ForeignKey("project.id", ondelete="CASCADE"), index=True)
+    sensor_id: Mapped[str] = mapped_column(ForeignKey("sensor.id", ondelete="CASCADE"), index=True)
+    level_sensor_id: Mapped[str] = mapped_column(ForeignKey("sensor.id", ondelete="CASCADE"))
+    kind: Mapped[str] = mapped_column(String(16), default="hst")
+    version: Mapped[int] = mapped_column(Integer)
+    source_run_id: Mapped[str] = mapped_column(String(36))
+    model_state: Mapped[dict] = mapped_column(JSONType)
+    formula: Mapped[str] = mapped_column(Text)
+    calibration_period: Mapped[list] = mapped_column(JSONType)
+    validation_period: Mapped[list | None] = mapped_column(JSONType, nullable=True)
+    validation_metrics: Mapped[dict | None] = mapped_column(JSONType, nullable=True)
+    calibration_data_provenance: Mapped[str] = mapped_column(String(32))
+    deviation_threshold: Mapped[float | None] = mapped_column(Float, nullable=True)  # |standardised residual| for model-deviation alerts
+    notes: Mapped[str] = mapped_column(Text, default="")
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
+    published_by: Mapped[str] = mapped_column(String(36))
+    published_at: Mapped[datetime] = mapped_column(TZDateTime(), default=now)

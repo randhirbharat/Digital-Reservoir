@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 from app.db import SessionLocal
 from app.models import User
 from app.models_twin import Alert, Observation, Project, ProjectMember, Sensor
-from conftest import H, PASSWORD, fastapi_app, last_token, make_user, new_client
+from conftest import H, PASSWORD, fastapi_app, last_token, make_user, new_client, system_db
 from fastapi.testclient import TestClient
 
 
@@ -135,7 +135,8 @@ def test_gateway_ingestion_rules_alerts_and_ack():
     assert eng.post(f"/api/v1/twin/projects/{d}/alerts/{aid}/close", json={"note": ""}, headers=H).status_code == 422
     assert eng.post(f"/api/v1/twin/projects/{d}/alerts/{aid}/close", json={"note": "Checked against PZ-01/05; sensor drift suspected."}, headers=H).json()["status"] == "closed"
     gws = eng.get(f"/api/v1/twin/projects/{d}/gateways").json()
-    eng.delete(f"/api/v1/twin/projects/{d}/gateways/{gws[0]['id']}", headers=H)
+    gw = next(g for g in gws if g["name"] == "GW-01" and not g["revoked_at"])
+    eng.delete(f"/api/v1/twin/projects/{d}/gateways/{gw['id']}", headers=H)
     assert c.post("/api/v1/ingest/observations", json={"observations": [{"sensor_code": "PZ-03", "ts": now.isoformat(), "value": 40}]}, headers={"X-DR-Gateway-Key": key}).status_code == 401
 
 
@@ -147,10 +148,10 @@ def test_observations_downsampling_and_simulator_watchdog():
     sensors = {s["code"]: s for s in eng.get(f"/api/v1/twin/projects/{d}/sensors").json()}
     end = datetime.now(timezone.utc)
     r = eng.get(f"/api/v1/twin/projects/{d}/sensors/{sensors['PL-01']['id']}/observations", params={"start": (end - timedelta(days=3)).isoformat(), "end": end.isoformat(), "max_points": 20}).json()
-    assert r["downsampled"] and len(r["points"]) <= 25 and r["n_total"] > 60 and r["sources"] == ["simulated"]
+    assert r["downsampled"] and len(r["points"]) <= 25 and r["n_total"] > 60 and "simulated" in r["sources"]
     from app.twin.simulator import tick
     assert tick() > 0
-    with SessionLocal() as db:
+    with system_db() as db:
         tm = db.query(Sensor).filter(Sensor.project_id == d, Sensor.code == "TM-12").one()
         assert db.query(Alert).filter(Alert.sensor_id == tm.id, Alert.kind == "communication").count() == 1
         assert db.query(Observation).filter(Observation.project_id == d, Observation.source == "simulated").count() > 0

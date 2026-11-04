@@ -10,6 +10,8 @@ import { EChart } from "@/components/EChart";
 import { Panel } from "@/components/ui";
 import { useProject, VARIABLE_LABEL, COND_COLOR } from "@/lib/twin";
 import type { ObsResponse } from "@/lib/useSeries";
+import { ModelEvaluation, usePublications } from "@/components/ModelPanels";
+import { appUrls } from "@dr/shared-utilities";
 
 const WINDOWS = [["Live · 1 h", 1 / 24], ["24 h", 1], ["7 days", 7], ["30 days", 30], ["90 days", 90], ["Custom", -1]] as const;
 const RATES = [["Live stream", 0], ["Poll 30 s", 30], ["Poll 5 min", 300], ["Paused", -1]] as const;
@@ -42,6 +44,8 @@ function Monitoring() {
   const [rules, setRules] = useState<any[]>([]);
   const [clicked, setClicked] = useState<{ id: string; t: string; v: number } | null>(null);
   const [replay, setReplay] = useState(100);
+  const pubs = usePublications(project.id);
+  const [exported, setExported] = useState<string | null>(null);
   useEffect(() => { apiFetch<any[]>(`/twin/projects/${project.id}/rules`).then(setRules).catch(() => setRules([])); }, [project.id]);
   const range = useMemo(() => {
     if (win === -1 && custom.start) return { start: new Date(custom.start + "T00:00:00Z"), end: custom.end ? new Date(custom.end + "T23:59:59Z") : null };
@@ -134,6 +138,7 @@ function Monitoring() {
               {clicked ? <span className="text-ivory">Selected {sensors.find((s) => s.id === clicked.id)?.code} at {formatTimestamp(clicked.t)} = {clicked.v?.toFixed(3)} {unit} · <Link className="underline text-accent-ink" href={`/p/${project.id}/model?sensor=${clicked.id}`}>Locate in 3D</Link></span> : <span>Click a point to locate its sensor in 3D.</span>}
             </div>
           </Panel>
+          {(() => { const m = pubs.find((p) => p.active && shown.includes(p.sensor_id)); return m ? <Panel title={`Published model · HST v${m.version} on ${m.sensor_code}`}><ModelEvaluation pid={project.id} model={m} start={range.start} end={range.end} /></Panel> : null; })()}
           <div className="grid gap-3 lg:grid-cols-2">
             <Panel title="Correlation with reservoir level">
               {corr ? <><EChart height={230} ariaLabel="Scatter of the first selected sensor against reservoir level" option={{ tooltip: { trigger: "item" }, legend: { show: false }, grid: { left: 52, bottom: 36 }, xAxis: { type: "value", scale: true, name: levelSensor?.unit, nameLocation: "middle", nameGap: 24 }, yAxis: { type: "value", scale: true, name: unit }, series: [{ type: "scatter", symbolSize: 4, data: corr.pairs, itemStyle: { color: "#72BEB1", opacity: 0.6 } }] }} />
@@ -162,6 +167,8 @@ function Monitoring() {
           </ul>
           <p className="mt-2 text-xs text-muted">Refresh: {rate === 0 ? "live WebSocket stream" : rate > 0 ? `polling every ${rate} s` : "paused"}. Every value shows its unit, timestamp and provenance.</p>
           <button className={buttonClass("secondary", "sm", "mt-2 w-full")} onClick={() => setTick((x) => x + 1)}>Reload window</button>
+          {can("export") ? <button className={buttonClass("primary", "sm", "mt-2 w-full")} onClick={async () => { const r = await apiFetch<any>(`/twin/projects/${project.id}/export-to-lab`, { json: { sensor_ids: [...shown, ...(levelSensor && !shown.includes(levelSensor.id) ? [levelSensor.id] : [])], start: range.start.toISOString(), end: (range.end ?? new Date()).toISOString() } }).catch((e) => { alert(e.detail); return null; }); if (r) setExported(r.dataset_id); }}>Analyse in Engineering Lab</button> : null}
+          {exported ? <p className="mt-1 text-xs">Exported to your Lab datasets. <a className="underline text-accent-ink" href={`${appUrls().lab}/datasets/${exported}`} target="_blank" rel="noopener">Open dataset</a></p> : null}
         </Panel>
       </div>
     </div>

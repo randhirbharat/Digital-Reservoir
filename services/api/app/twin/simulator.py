@@ -71,7 +71,9 @@ def backfill(db, project: Project, days: int = 120, step_s: int = 3600, seed: in
 def tick(now: datetime | None = None) -> int:
     now = now or utcnow()
     n = 0
+    from ..rls import system_session
     with SessionLocal() as db:
+        system_session(db)
         projects = db.query(Project).filter(Project.data_mode == "simulated").all()
         for p in projects:
             for s in db.query(Sensor).filter(Sensor.project_id == p.id, Sensor.source == "simulated", Sensor.status.in_(["active", "offline"])).all():

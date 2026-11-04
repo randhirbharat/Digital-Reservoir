@@ -9,6 +9,7 @@ import { EChart } from "@/components/EChart";
 import { Panel } from "@/components/ui";
 import { useProject, COND_COLOR } from "@/lib/twin";
 import { useSeries } from "@/lib/useSeries";
+import { PublicationList, usePublications } from "@/components/ModelPanels";
 
 export default function Overview() {
   const { project, readings, alerts, can, subscribe, refresh } = useProject();
@@ -17,6 +18,7 @@ export default function Overview() {
   const reading = readings.find((r) => r.sensor_id === selId);
   const start = useMemo(() => new Date(Date.now() - 6 * 3600e3), [selId]); // eslint-disable-line react-hooks/exhaustive-deps
   const { data, setData } = useSeries(project.id, selId, start, null, 800);
+  const pubs = usePublications(project.id);
   useEffect(() => subscribe((ev) => {
     if (ev.type === "observation" && ev.sensor_id === selId) setData((d) => d ? { ...d, points: [...d.points, { t: ev.t, v: ev.v, q: ev.q }].slice(-2000) } : d);
   }), [selId, subscribe, setData]);
@@ -85,7 +87,7 @@ export default function Overview() {
       </div>
       <div className="grid gap-4 lg:grid-cols-2">
         <Link href={`/p/${project.id}/model`} className="rounded-[14px] border border-line bg-surface p-4 hover:border-accent"><div className="font-display font-bold text-ivory">Open 3D structure</div><p className="text-sm text-muted">Select sensors on the model, inspect components and monitoring locations.</p></Link>
-        <Panel title="Model updates & reports"><p className="text-sm text-muted">No analytical models have been published to this project yet. Models are published from the Engineering Lab (Stage 5 integration).</p></Panel>
+        <Panel title="Published models"><PublicationList pubs={pubs} /></Panel>
       </div>
     </div>
   );

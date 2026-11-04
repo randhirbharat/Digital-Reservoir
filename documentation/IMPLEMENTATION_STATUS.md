@@ -44,5 +44,10 @@ Legend: ✅ complete · 🟡 partial · 🧪 simulated/demonstration · ⏳ pend
 | 4 | Monitoring: groups, windows, refresh modes, comparison, criteria lines, quality flags, level overlay, correlation, availability, replay, CSV export | ✅ | LTTB downsampling for display; flagged points always kept |
 | 4 | Conditions from documented criteria only; 'not assessed' without criteria; demonstration criteria labelled | ✅ | |
 | 4 | Twin E2E (browser): MFA enforcement, live stream, 3D, monitoring, alerts, access, URL manipulation, mobile/tablet | ✅ | |
-| 5 | Integration (SSO, shared APIs, RLS) | ⏳ | |
+| 5 | Single sign-on: one identity/session across the three apps (shared cookie; `DR_COOKIE_DOMAIN` for subdomains) | ✅ | verified across ports locally; production subdomain cookie configuration documented, not deployed |
+| 5 | Twin → Lab export (permission `export` + Lab access), provenance carried into the Lab dataset | ✅ | |
+| 5 | Lab → Twin model publication (run ownership + `models_publish`), immutable versioned snapshot, evaluation on project data, extrapolation & provenance warnings | ✅ | HST (seasonal) only; HTT and ML model publication pending |
+| 5 | Model-deviation alerts during ingestion | ✅ | |
+| 5 | PostgreSQL row-level security (forced) on 7 project-scoped tables; per-transaction user/gateway/system context; migration 0003 | ✅ | tested as a non-superuser role incl. refused forged insert |
+| 5 | Cross-app E2E: Twin export → Lab HST → publish → Twin evaluation (RLS active) | ✅ | |
 | 6 | Advanced (hybrid/PINN, fragility, damage detection) | ⏳ | |

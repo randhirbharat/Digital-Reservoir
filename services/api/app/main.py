@@ -8,7 +8,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .config import get_settings
-from .routers import admin, auth, lab, public, twin
+from .routers import admin, auth, integration, lab, public, twin
+from . import rls  # noqa: F401  (registers the row-level-security session hook)
 from .twin.bus import bus
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
@@ -60,5 +61,5 @@ async def csrf_and_headers(request: Request, call_next):
 app.add_middleware(CORSMiddleware, allow_origins=settings.origins, allow_credentials=True,
                    allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE"], allow_headers=["Content-Type", "X-Requested-With"])
 
-for r in (public.router, auth.router, lab.router, admin.router, twin.router, twin.ingest_router):
+for r in (public.router, auth.router, lab.router, admin.router, twin.router, twin.ingest_router, integration.router):
     app.include_router(r, prefix="/api/v1")

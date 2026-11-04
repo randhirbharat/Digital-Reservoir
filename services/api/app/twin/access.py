@@ -40,6 +40,8 @@ def project_context(db: Session, p: Principal, project_id: str, request: Request
     if not project or not role:
         audit(db, "twin.access_denied", user_id=p.user.id, outcome="denied", project_id=project_id, request=request, reason="not a member")
         raise HTTPException(404, "Project not found.")
+    from ..rls import set_context
+    set_context(db, user_id=p.user.id, superadmin="on" if p.user.is_superadmin else "off")
     if project.require_mfa and get_settings().twin_enforce_mfa and not p.session.mfa_passed:
         audit(db, "twin.access_denied", user_id=p.user.id, outcome="denied", project_id=project_id, request=request, reason="mfa required")
         raise HTTPException(403, "This project requires multi-factor authentication. Sign in with MFA (enable it under Account & security).")
