@@ -13,3 +13,16 @@
 - Verification: production build; Playwright crawl of 43 pages (0 broken links, 0 runtime errors); axe-core WCAG 2.2 AA
   on 6 pages (0 violations after fixing one contrast issue and focusable scroll regions); no horizontal overflow at
   390/834/1440 px after fixing grid min-width issues and moving access buttons to a utility bar at desktop widths.
+
+## Stage 3 — Engineering Lab
+- `services/analytics-engine` (`dr_analytics`): io, quality, signal_proc, stats, hst, ml, anomaly, dhi. Every function returns
+  method, parameters, assumptions, warnings and results; series are LTTB-downsampled for display only.
+- Finding during testing: global MAD outlier screening missed a +4.5 mm spike on a displacement series with larger seasonal
+  swings. Switched time-series screening to a local Hampel filter (global MAD kept as an option).
+- Finding: a naive regression test failed because seepage depends on season, which is correlated with reservoir level
+  (omitted-variable bias) — the engine was right; the test now uses data with a known answer.
+- `services/api`: FastAPI with identity, Lab and admin routers; SQLAlchemy 2 models; Alembic migration 0001 verified on PostgreSQL 16.
+- `apps/engineering-lab`: Next.js app with auth pages, dashboard, projects, datasets/processing, signal, statistics, HST, ML,
+  damage detection, DHI, saved runs, account/MFA, documentation; Plotly charts with data-table alternatives.
+- E2E finding: default Butterworth cut-off of 1 Hz is above Nyquist for daily data; the engine rejected it correctly. The UI now
+  takes cut-offs in cycles/day or Hz.
