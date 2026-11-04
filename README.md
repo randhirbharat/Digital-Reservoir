@@ -13,6 +13,14 @@ Digital Reservoir is made of three connected applications. They share one identi
 
 > **About the data.** Every dataset, sensor and stream in this repository is **synthetic or simulated**, and is labelled that way wherever it appears (`source=simulated`, the "DEMONSTRATION DATA" banner, `provenance=synthetic`). The demonstration dam does not exist. The demonstration alert criteria are illustrative and were not approved by any project. See [documentation/LIMITATIONS.md](documentation/LIMITATIONS.md).
 
+## Screenshots
+
+These screenshots come from the full platform running locally with simulated demonstration data. They are in `documentation/screenshots/`.
+
+| Digital Twin overview | 3D dam | Engineering Lab: HST |
+|---|---|---|
+| ![Twin overview](documentation/screenshots/03-twin-overview.png) | ![3D model](documentation/screenshots/04-twin-3d-model.png) | ![HST analysis](documentation/screenshots/10-lab-hst.png) |
+
 ## Online preview
 
 https://randhirbharat.github.io/Digital-Reservoir/ hosts a **static preview of the public website**. `.github/workflows/pages.yml` builds it and deploys it on every push to `main`. This needs a one-time repository setting: *Settings → Pages → Source: GitHub Actions*.
