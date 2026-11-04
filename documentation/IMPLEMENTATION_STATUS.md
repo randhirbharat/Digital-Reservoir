@@ -50,4 +50,10 @@ Legend: ✅ complete · 🟡 partial · 🧪 simulated/demonstration · ⏳ pend
 | 5 | Model-deviation alerts during ingestion | ✅ | |
 | 5 | PostgreSQL row-level security (forced) on 7 project-scoped tables; per-transaction user/gateway/system context; migration 0003 | ✅ | tested as a non-superuser role incl. refused forged insert |
 | 5 | Cross-app E2E: Twin export → Lab HST → publish → Twin evaluation (RLS active) | ✅ | |
-| 6 | Advanced (hybrid/PINN, fragility, damage detection) | ⏳ | |
+| 6 | Hybrid physics–ML (HST or supplied FE/physics column + GBR residual model), physics-only vs hybrid validation | ✅ | |
+| 6 | Seismic fragility: MLE multiple stripes (binary or EDP threshold), IDA method of moments, record bootstrap CI, AIC | ✅ | validated against the sampled capacities of the synthetic generator |
+| 6 | Operational modal analysis: Welch, FDD, peak picking, half-power damping, MAC | ✅ | recovers 3.2/7.9 Hz synthetic modes; SSI pending |
+| 6 | Image-based crack detection (CLAHE + Sato + Otsu + shape/contrast tests), overlay, metrics, engineer review & defect location, before/after comparison | ✅ | classical baseline; no deep-learning segmentation (needs labelled training data); no image registration |
+| 6 | Physics-informed neural networks, LSTM/GRU/CNN/autoencoders | ⏳ | need the PyTorch runtime; interfaces listed in the ML library as pending |
+| 6 | FE result import/visualisation, MIDAS FEA NX integration | ⏳ | integration architecture documented; no solver claimed |
+| 6 | Digital-twin model updating (e.g. Kalman / Bayesian updating) | ⏳ | |

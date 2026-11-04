@@ -16,5 +16,5 @@ export const KIND_PATH: Record<string, string> = {
   quality: "/datasets", signal: "/analysis/signal", descriptive: "/analysis/statistics", correlation: "/analysis/statistics", regression: "/analysis/statistics",
   pca: "/analysis/statistics", factor: "/analysis/statistics", timeseries: "/analysis/statistics", hypothesis: "/analysis/statistics", hst: "/analysis/hst",
   ml: "/analysis/ml", anomaly_zscore: "/analysis/anomaly", anomaly_cusum: "/analysis/anomaly", anomaly_changepoint: "/analysis/anomaly",
-  anomaly_multivariate: "/analysis/anomaly", dhi: "/analysis/dhi",
+  anomaly_multivariate: "/analysis/anomaly", dhi: "/analysis/dhi", hybrid: "/analysis/hybrid", fragility: "/analysis/fragility", modal: "/analysis/modal", crack_detection: "/analysis/vision",
 };

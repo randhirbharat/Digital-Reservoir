@@ -130,3 +130,10 @@ def test_helpers():
     assert len(idx) == 500 and idx[0] == 0 and idx[-1] == 9999
     m = metrics(np.array([1.0, 2.0, 3.0]), np.array([1.0, 2.0, 4.0]))
     assert m["MAE"] == pytest.approx(1 / 3) and "MAPE_percent" in m
+
+
+def test_to_jsonable_handles_pandas():
+    import json
+    from dr_analytics.common import to_jsonable
+    out = to_jsonable({"s": pd.Series([1.0, np.nan]), "i": pd.Index([1, 2]), "df": pd.DataFrame({"a": [1]}), "t": pd.Timestamp("2026-01-01", tz="UTC")})
+    assert json.dumps(out) and out["s"] == [1.0, None] and out["df"] == [{"a": 1}]

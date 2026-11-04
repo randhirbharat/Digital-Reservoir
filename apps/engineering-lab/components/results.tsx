@@ -8,6 +8,7 @@ import type { Run } from "@/lib/types";
 import { Plot, line, seriesTable } from "./Plot";
 import { DataTable, KV, Panel, Warnings, fmt } from "./ui";
 import { PublishToTwin } from "./PublishToTwin";
+import { FragilityResult, HybridResult, ModalResult, VisionResult } from "./advancedResults";
 
 const C = { obs: "#9B8461", pred: "#183C45", band: "rgba(114,190,177,0.25)", h: "#183C45", s: "#C0612B", t: "#5B7FA6", res: "#2C6B61", crit: "#B03A3A" };
 
@@ -256,6 +257,10 @@ export function RunResult({ run }: { run: Run }) {
   if (run.kind === "hst") return <HstResult r={r} />;
   if (run.kind === "ml") return <MlResult r={r} />;
   if (run.kind === "dhi") return <DhiResult r={r} />;
+  if (run.kind === "hybrid") return <HybridResult r={r} />;
+  if (run.kind === "fragility") return <FragilityResult r={r} />;
+  if (run.kind === "modal") return <ModalResult r={r} />;
+  if (run.kind === "crack_detection") return <VisionResult run={run} />;
   if (run.kind.startsWith("anomaly")) return <AnomalyResult kind={run.kind} r={r} />;
   return <StatsResult kind={run.kind} r={r} />;
 }

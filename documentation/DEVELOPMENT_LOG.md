@@ -45,3 +45,11 @@
   Important deployment rule: the application database role must not be a superuser (superusers bypass RLS).
 - Lab: "Publish to Digital Twin" on HST results. Twin: published-model panels, model-vs-observation evaluation, "Analyse in Lab".
 - Test-isolation fixes after adding shared-state tests (sources/gateways); the product behaviour was correct.
+
+## Stage 6 — Advanced engineering
+- Engine modules `hybrid`, `fragility`, `modal`, `vision`; Lab API kinds `hybrid`, `fragility`, `modal`; vision upload/review/compare endpoints;
+  Lab pages for each; browser E2E of all four.
+- Findings fixed during testing: crack detector produced false positives on crack-free texture (Otsu always finds a threshold) →
+  added local-contrast test; crack length overestimated 4× by summing a branchy skeleton → main geodesic path;
+  fragility test now validates against the sampled capacities rather than the population median; `to_jsonable` handles pandas
+  objects; fragility dispatcher passed `None` instead of engine defaults.

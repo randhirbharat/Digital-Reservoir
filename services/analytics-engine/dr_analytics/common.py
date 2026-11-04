@@ -19,6 +19,10 @@ def to_jsonable(obj: Any) -> Any:
         return [to_jsonable(v) for v in obj]
     if isinstance(obj, np.ndarray):
         return [to_jsonable(v) for v in obj.tolist()]
+    if isinstance(obj, (pd.Series, pd.Index)):
+        return [to_jsonable(v) for v in obj.tolist()]
+    if isinstance(obj, pd.DataFrame):
+        return to_jsonable(obj.to_dict(orient="records"))
     if isinstance(obj, (pd.Timestamp, np.datetime64)):
         ts = pd.Timestamp(obj)
         return None if pd.isna(ts) else ts.isoformat()

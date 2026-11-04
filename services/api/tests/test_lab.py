@@ -92,3 +92,34 @@ def test_ml_and_failed_analysis_messages():
     assert len(r.json()["result"]["ranking"]) == 2
     bad = c.post("/api/v1/lab/analyses/regression", json={"dataset_version_id": vid, "params": {"target": "nope", "features": ["reservoir_level_m"]}}, headers=H)
     assert bad.status_code == 422 and "not found" in bad.json()["detail"]
+
+
+def test_advanced_modules_and_vision_review():
+    import io as _io
+    import numpy as np
+    from PIL import Image
+    DATASETS = Path(__file__).resolve().parents[3] / "datasets"
+    c = make_user("adv@example.org", category="researcher")
+    vib = c.post("/api/v1/lab/datasets", files={"file": ("vib.csv", (DATASETS / "demo_ambient_vibration_100Hz.csv").read_bytes(), "text/csv")}, data={"provenance": "synthetic"}, headers=H).json()
+    r = c.post("/api/v1/lab/analyses/modal", json={"dataset_version_id": vib["versions"][0]["id"], "params": {"channels": ["ACC1_mg", "ACC2_mg"], "time_col": "time_s", "f_max": 20, "n_modes": 2}}, headers=H)
+    assert r.status_code == 201, r.text
+    assert sorted(round(m["frequency_hz"]) for m in r.json()["result"]["modes"]) == [3, 8]
+    frag = c.post("/api/v1/lab/datasets", files={"file": ("f.csv", (DATASETS / "demo_fragility_stripes.csv").read_bytes(), "text/csv")}, data={"provenance": "synthetic"}, headers=H).json()
+    r = c.post("/api/v1/lab/analyses/fragility", json={"dataset_version_id": frag["versions"][0]["id"], "params": {"method": "mle", "n_boot": 50}}, headers=H)
+    assert r.status_code == 201 and r.json()["result"]["beta"] > 0
+    rng = np.random.default_rng(3)
+    img = 0.62 + 0.04 * rng.normal(size=(300, 400))
+    xs = np.arange(40, 360); ys = (150 + 40 * np.sin(xs / 60)).astype(int)
+    for x, y in zip(xs, ys):
+        img[y - 1:y + 2, x] -= 0.4
+    buf = _io.BytesIO(); Image.fromarray((np.clip(img, 0, 1) * 255).astype(np.uint8)).save(buf, format="PNG")
+    r = c.post("/api/v1/lab/vision/cracks", files={"file": ("wall.png", buf.getvalue(), "image/png")}, data={"mm_per_pixel": "0.5", "component": "Downstream face"}, headers=H)
+    assert r.status_code == 201, r.text
+    run = r.json()
+    assert run["result"]["status"] == "model_output_unverified" and run["result"]["n_candidates"] >= 1
+    assert c.get(f"/api/v1/lab/vision/{run['id']}/image").content == buf.getvalue()
+    assert c.post("/api/v1/lab/vision/cracks", files={"file": ("x.png", b"GIF89a....", "image/png")}, headers=H).status_code == 415
+    rv = c.post(f"/api/v1/lab/analyses/{run['id']}/review", json={"verdict": "confirmed", "note": "Confirmed on site 2026-11-04.", "confirmed_ids": [1]}, headers=H).json()
+    assert rv["result"]["status"] == "engineer_reviewed_confirmed" and rv["result"]["review"]["reviewer"]
+    g = make_user("gen-adv@example.org", category="general")
+    assert g.post("/api/v1/lab/vision/cracks", files={"file": ("wall.png", buf.getvalue(), "image/png")}, headers=H).status_code == 403

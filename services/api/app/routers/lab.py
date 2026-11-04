@@ -17,7 +17,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from dr_analytics import ENGINE_VERSION, anomaly, dhi, hst, io as dio, ml, quality, signal_proc, stats
+from dr_analytics import ENGINE_VERSION, anomaly, dhi, fragility, hst, hybrid, io as dio, ml, modal, quality, signal_proc, stats, vision
 from dr_analytics.common import AnalysisError
 
 from ..audit import audit
@@ -314,6 +314,9 @@ ANALYSES: dict[str, tuple[str, str]] = {
     "anomaly_changepoint": ("lab.anomaly", "Change-point detection"),
     "anomaly_multivariate": ("lab.anomaly", "Multivariate novelty detection"),
     "dhi": ("lab.dhi", "Dam Health Index"),
+    "hybrid": ("lab.advanced", "Hybrid physics–ML model"),
+    "fragility": ("lab.advanced", "Fragility analysis"),
+    "modal": ("lab.advanced", "Operational modal analysis"),
 }
 
 
@@ -360,6 +363,17 @@ def _dispatch(kind: str, df: pd.DataFrame | None, prm: dict) -> dict:
     if kind == "dhi":
         return dhi.compute(prm["indicators"], weights=prm.get("weights"), ahp_matrix=prm.get("ahp_matrix"), aggregation=prm.get("aggregation", "arithmetic"),
                            classes=prm.get("classes"), weight_justification=prm.get("weight_justification", ""), df=df, time_col=tc, periods=prm.get("periods"))
+    if kind == "hybrid":
+        return hybrid.fit(df, prm["time_col"], prm["response_col"], prm["level_col"], prm.get("residual_features", []), physics_col=prm.get("physics_col") or None,
+                          degree=int(prm.get("degree", 3)), harmonics=int(prm.get("harmonics", 2)), time_terms=prm.get("time_terms"),
+                          calibration_fraction=float(prm.get("calibration_fraction", 0.8)), n_estimators=int(prm.get("n_estimators", 300)),
+                          learning_rate=float(prm.get("learning_rate", 0.05)), max_depth=int(prm.get("max_depth", 3)), unit=prm.get("unit", ""))
+    if kind == "fragility":
+        return fragility.fit(df, method=prm.get("method", "mle"), im_col=prm.get("im_col", "pga_g"), outcome_col=prm.get("outcome_col", "exceeds_ds2") or None, capacity_col=prm.get("capacity_col") or None,
+                             record_col=prm.get("record_col", "record_id") or None, edp_col=prm.get("edp_col") or None, edp_threshold=prm.get("edp_threshold"),
+                             n_boot=min(int(prm.get("n_boot", 300)), 2000), damage_state=prm.get("damage_state", "DS"), im_label=prm.get("im_label", "IM"))
+    if kind == "modal":
+        return modal.identify(df, prm["channels"], fs_hz=prm.get("fs_hz"), time_col=prm.get("time_col") or None, f_max=prm.get("f_max"), n_modes=int(prm.get("n_modes", 4)))
     raise AnalysisError(f"Unknown analysis '{kind}'.")
 
 
@@ -491,3 +505,80 @@ def dashboard(p: Principal = Depends(require_lab("lab.datasets")), db: Session =
             "usage": {"compute_seconds": round(float(compute_ms) / 1000, 2), "storage_bytes": int(storage)},
             "recent_runs": [run_json(r, False) for r in db.query(AnalysisRun).filter(AnalysisRun.owner_id == uid_).order_by(AnalysisRun.created_at.desc()).limit(6)],
             "notifications": [{"at": n.at.isoformat(), "action": n.action, "outcome": n.outcome, "detail": n.detail} for n in notes]}
+
+
+# ------------------------------------------------------------------ inspection images (computer vision)
+
+
+@router.post("/vision/cracks", status_code=201)
+async def crack_detection(request: Request, file: UploadFile = File(...), mm_per_pixel: float | None = Form(None), sensitivity: float = Form(1.0),
+                          min_length_px: int = Form(40), min_contrast: float = Form(0.08), location: str = Form(""), component: str = Form(""), captured_at: str = Form(""),
+                          project_id: str = Form(""), p: Principal = Depends(require_lab("lab.advanced")), db: Session = Depends(get_db)):
+    data = await file.read(15 * 1024 * 1024 + 1)
+    if len(data) > 15 * 1024 * 1024:
+        raise HTTPException(413, "Image larger than 15 MB.")
+    if not (data[:8] == b"\x89PNG\r\n\x1a\n" or data[:3] == b"\xff\xd8\xff"):
+        raise HTTPException(415, "Only PNG and JPEG images are accepted.")
+    _own_project(db, p.user.id, project_id or None)
+    t0 = time.perf_counter()
+    try:
+        res = vision.detect_cracks(data, mm_per_pixel=mm_per_pixel, sensitivity=sensitivity, min_length_px=min_length_px, min_contrast=min_contrast)
+    except AnalysisError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    key = f"images/{p.user.id}/{uid()}{'.png' if data[:4] == b'\x89PNG' else '.jpg'}"
+    get_storage().put(key, data)
+    res.update({"image": {"storage_key": key, "sha256": sha256(data), "filename": Path(file.filename or "image").name[:200], "location": location, "component": component, "captured_at": captured_at or None},
+                "review": None})
+    run = AnalysisRun(owner_id=p.user.id, lab_project_id=project_id or None, kind="crack_detection", title=f"Crack detection · {Path(file.filename or 'image').name[:80]}",
+                      params={"mm_per_pixel": mm_per_pixel, "sensitivity": sensitivity, "min_length_px": min_length_px, "min_contrast": min_contrast, "location": location, "component": component},
+                      result=res, engine_version=ENGINE_VERSION, duration_ms=(time.perf_counter() - t0) * 1000)
+    db.add(run)
+    db.commit()
+    audit(db, "lab.vision_run", user_id=p.user.id, target=run.id, request=request, candidates=res["n_candidates"])
+    return run_json(run)
+
+
+@router.get("/vision/{rid}/image")
+def vision_image(rid: str, p: Principal = Depends(require_lab("lab.advanced")), db: Session = Depends(get_db)):
+    r = _own_run(db, p.user.id, rid)
+    key = ((r.result or {}).get("image") or {}).get("storage_key")
+    if r.kind != "crack_detection" or not key:
+        raise HTTPException(404, "Image not found.")
+    return Response(get_storage().get(key), media_type="image/png" if key.endswith(".png") else "image/jpeg")
+
+
+class ReviewIn(BaseModel):
+    verdict: str = Field(pattern="^(confirmed|partially_confirmed|rejected)$")
+    note: str = Field(min_length=5, max_length=2000)
+    component: str = Field(default="", max_length=200)
+    location: str = Field(default="", max_length=500)
+    confirmed_ids: list[int] = Field(default_factory=list)
+
+
+@router.post("/analyses/{rid}/review")
+def review_detection(rid: str, body: ReviewIn, request: Request, p: Principal = Depends(require_lab("lab.advanced")), db: Session = Depends(get_db)):
+    """Engineer review of algorithmic detections. Only reviewed detections may be described as findings."""
+    r = _own_run(db, p.user.id, rid)
+    if r.kind != "crack_detection":
+        raise HTTPException(400, "Only image detections can be reviewed.")
+    res = dict(r.result)
+    from ..security import utcnow
+    res["review"] = {**body.model_dump(), "reviewer": p.user.full_name, "reviewer_id": p.user.id, "reviewed_at": utcnow().isoformat()}
+    res["status"] = "engineer_reviewed_" + body.verdict
+    r.result = res
+    db.commit()
+    audit(db, "lab.vision_reviewed", user_id=p.user.id, target=rid, request=request, verdict=body.verdict)
+    return run_json(r)
+
+
+class CompareIn(BaseModel):
+    before_run_id: str
+    after_run_id: str
+
+
+@router.post("/vision/compare")
+def vision_compare(body: CompareIn, p: Principal = Depends(require_lab("lab.advanced")), db: Session = Depends(get_db)):
+    a, b = _own_run(db, p.user.id, body.before_run_id), _own_run(db, p.user.id, body.after_run_id)
+    if a.kind != "crack_detection" or b.kind != "crack_detection":
+        raise HTTPException(400, "Select two image detections.")
+    return vision.compare(a.result, b.result)
