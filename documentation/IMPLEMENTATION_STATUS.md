@@ -20,7 +20,7 @@ Legend: ✅ complete · 🟡 partial · 🧪 simulated/demonstration · ⏳ pend
 | 3 | Identity API: register, email verification, login, lockout, rate limits, MFA (TOTP), password reset/change, sessions, audit log | ✅ | Argon2id, opaque revocable sessions, CSRF header + origin check |
 | 3 | Email delivery | 🟡 | console/outbox backend tested; SMTP backend implemented, not tested against a real server |
 | 3 | Lab permissions by membership category; superadmin user management | ✅ | enforced server-side; tested |
-| 3 | Datasets: CSV/XLSX upload + validation, preview, column/units, immutable originals, versioned processing with history, export | ✅ | malware-scanning hook documented, scanner not integrated |
+| 3 | Datasets: CSV/XLSX upload + validation, preview, column/units, immutable originals, versioned processing with history, export | ✅ | no malware scanning yet (see LIMITATIONS.md) |
 | 3 | Data quality: missing, duplicates, timestamps, gaps, Hampel/global MAD outliers, resampling, unit conversion | ✅ | |
 | 3 | Signal processing: baseline, detrend, moving average, Butterworth LP/HP/BP (zero-phase), FFT, Welch PSD, CWT, STL | ✅ | |
 | 3 | Statistics: descriptive, correlation, OLS/multiple/polynomial + CI/PI + diagnostics, PCA, factor analysis, ACF/PACF/ADF, hypothesis tests | ✅ | |
@@ -57,3 +57,11 @@ Legend: ✅ complete · 🟡 partial · 🧪 simulated/demonstration · ⏳ pend
 | 6 | Physics-informed neural networks, LSTM/GRU/CNN/autoencoders | ⏳ | need the PyTorch runtime; interfaces listed in the ML library as pending |
 | 6 | FE result import/visualisation, MIDAS FEA NX integration | ⏳ | integration architecture documented; no solver claimed |
 | 6 | Digital-twin model updating (e.g. Kalman / Bayesian updating) | ⏳ | |
+| 7 | Automated tests: engine 16, bridge 2, API 28 on PostgreSQL with RLS (27 + 1 skipped on SQLite), utilities 3; type checks; production builds | ✅ | see TESTING.md |
+| 7 | CI workflow (Python suites on SQLite and PostgreSQL, migration up/down/up, typecheck, builds, compose validation) | ✅ | `.github/workflows/ci.yml`; first run happens on GitHub after push |
+| 7 | Browser E2E (public crawl + axe, Lab, Twin, integration, advanced) | 🟡 | executed during development; not yet a committed Playwright suite |
+| 7 | Dependency audits (`pnpm audit --prod`, `pip-audit`) | ✅ | no known vulnerabilities at time of audit (2026-11-04) |
+| 7 | Docker: API, three web apps, MQTT bridge images; compose with PostgreSQL/TimescaleDB, Redis, Mosquitto; non-root containers; restricted DB role; migrations on start | ✅ | images built and the stack smoke-tested locally; not deployed to a public host |
+| 7 | Core Web Vitals | 🟡 | local lab measurement only; INP under 4× CPU throttling exceeds 200 ms — optimisation on roadmap |
+| 7 | Documentation: README, architecture diagrams, deployment, testing, user guide, API (OpenAPI), roadmap, limitations | ✅ | |
+| 7 | Production deployment (subdomains, TLS, backups) | ⏳ | documented in DEPLOYMENT.md; not performed |

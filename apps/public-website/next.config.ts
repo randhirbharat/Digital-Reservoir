@@ -1,3 +1,4 @@
+import path from "node:path";
 import type { NextConfig } from "next";
 
 const apiInternal = process.env.DR_API_INTERNAL_URL || "http://localhost:8000";
@@ -12,6 +13,8 @@ const securityHeaders = [
 const config: NextConfig = {
   transpilePackages: ["@dr/design-system", "@dr/shared-utilities"],
   poweredByHeader: false,
+  output: "standalone",
+  outputFileTracingRoot: path.join(__dirname, "../../"),
   async rewrites() {
     return [{ source: "/api/:path*", destination: `${apiInternal}/api/:path*` }];
   },

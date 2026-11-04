@@ -1,0 +1,17 @@
+# Keep build contexts small and reproducible: dependencies are installed inside the images.
+**/node_modules
+**/.next
+**/__pycache__
+**/*.egg-info
+**/.pytest_cache
+.venv
+.git
+.github
+**/storage
+**/*.db
+.env
+.env.*
+!.env.example
+!.env.docker.example
+legacy
+documentation/prototype

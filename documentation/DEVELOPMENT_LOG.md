@@ -53,3 +53,22 @@
   added local-contrast test; crack length overestimated 4× by summing a branchy skeleton → main geodesic path;
   fragility test now validates against the sampled capacities rather than the population median; `to_jsonable` handles pandas
   objects; fragility dispatcher passed `None` instead of engine defaults.
+
+## Stage 7 — Testing and deployment
+- Docker: `api`, `web` (one Dockerfile, `APP` build-arg, Next.js standalone) and `bridge` images; non-root users; optional BuildKit
+  secret `extra_ca` for builds behind TLS-intercepting proxies; `BASE_REGISTRY` / `DR_IMAGE_*` for registry mirrors.
+- Compose: TimescaleDB (PostgreSQL 16), Redis, API, three apps, optional Mosquitto + bridge (`mqtt` profile). The DB init script creates
+  the restricted `dr_app` role; the API entrypoint migrates as the owner, then serves as `dr_app`.
+- Findings fixed while building the images:
+  - no `.dockerignore` → host `node_modules`/`.next` leaked into the build context → added;
+  - `pnpm --filter "./apps/X..."` did not select workspace dependencies → filter by package name `@dr/X...`;
+  - Mosquitto password file would have been lost (written inside a throwaway container) → dedicated `mqtt-auth` volume.
+- Smoke test of the built stack (2026-11-04): migrations 0001–0003 applied, `observation` became a hypertable, `dr_app` is NOSUPERUSER
+  NOBYPASSRLS and sees 0 observation rows without a user context, admin created via prompt/env (no stored password), demo seeded,
+  login through the Twin proxy, same session accepted by the Lab, PRJ-D refused without MFA (403), login without CSRF header refused (403).
+- Tests: engine 16, bridge 2, API 28 on PostgreSQL as `dr_app` (27 + 1 skipped on SQLite), utilities 3; `pnpm audit --prod` and
+  `pip-audit` clean. CI workflow added.
+- Core Web Vitals measured locally on development builds with 4× CPU throttling: LCP 0.6–1.1 s, CLS 0, but slow interactions
+  (368–552 ms) — recorded as a limitation, optimisation on the roadmap.
+- Documentation: README (complete setup), ARCHITECTURE (Mermaid diagrams), DEPLOYMENT, TESTING, USER_GUIDE, ROADMAP, LIMITATIONS,
+  OpenAPI spec; `.env.example` completed.

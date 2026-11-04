@@ -1,0 +1,127 @@
+# Single-host deployment of the complete Digital Reservoir platform.
+#   cp .env.docker.example .env.docker      # then set real secrets
+#   docker compose --env-file .env.docker up --build -d
+# Public site http://localhost:3000 · Lab http://localhost:3001 · Twin http://localhost:3002 · API docs http://localhost:8000/api/docs
+# Base images come from Docker Hub by default; set DR_IMAGE_REGISTRY=mirror.gcr.io/library and DR_IMAGE_HUB=mirror.gcr.io to use a mirror.
+# Optional MQTT broker + bridge:  docker compose --env-file .env.docker --profile mqtt up -d
+name: digital-reservoir
+
+x-api-env: &api-env
+  DR_ENV: ${DR_ENV:-development}
+  DR_SECRET_KEY: ${DR_SECRET_KEY:?set DR_SECRET_KEY}
+  DR_DATABASE_URL: postgresql+psycopg://dr_app:${DR_APP_DB_PASSWORD}@db:5432/${POSTGRES_DB:-digital_reservoir}
+  DR_MIGRATION_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-dr_owner}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-digital_reservoir}
+  DR_REDIS_URL: redis://redis:6379/0
+  DR_COOKIE_SECURE: ${DR_COOKIE_SECURE:-false}
+  DR_COOKIE_DOMAIN: ${DR_COOKIE_DOMAIN:-}
+  DR_CORS_ORIGINS: ${NEXT_PUBLIC_PUBLIC_URL:-http://localhost:3000},${NEXT_PUBLIC_LAB_URL:-http://localhost:3001},${NEXT_PUBLIC_TWIN_URL:-http://localhost:3002}
+  DR_LAB_URL: ${NEXT_PUBLIC_LAB_URL:-http://localhost:3001}
+  DR_TWIN_URL: ${NEXT_PUBLIC_TWIN_URL:-http://localhost:3002}
+  DR_EMAIL_BACKEND: ${DR_EMAIL_BACKEND:-console}
+  DR_SMTP_HOST: ${DR_SMTP_HOST:-}
+  DR_SMTP_USER: ${DR_SMTP_USER:-}
+  DR_SMTP_PASSWORD: ${DR_SMTP_PASSWORD:-}
+  DR_SMTP_FROM: ${DR_SMTP_FROM:-no-reply@example.org}
+  DR_SIMULATOR_ENABLED: ${DR_SIMULATOR_ENABLED:-true}
+  DR_TWIN_ENFORCE_MFA: ${DR_TWIN_ENFORCE_MFA:-true}
+
+x-web-args: &web-args
+  NEXT_PUBLIC_PUBLIC_URL: ${NEXT_PUBLIC_PUBLIC_URL:-http://localhost:3000}
+  NEXT_PUBLIC_LAB_URL: ${NEXT_PUBLIC_LAB_URL:-http://localhost:3001}
+  NEXT_PUBLIC_TWIN_URL: ${NEXT_PUBLIC_TWIN_URL:-http://localhost:3002}
+  NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+  DR_API_INTERNAL_URL: http://api:8000
+  BASE_REGISTRY: ${DR_IMAGE_REGISTRY:-docker.io/library}
+
+services:
+  db:
+    image: ${DR_IMAGE_HUB:-docker.io}/timescale/timescaledb:2.17.2-pg16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-dr_owner}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-digital_reservoir}
+      DR_APP_DB_PASSWORD: ${DR_APP_DB_PASSWORD:?set DR_APP_DB_PASSWORD}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./infrastructure/database:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      retries: 30
+  redis:
+    image: ${DR_IMAGE_REGISTRY:-docker.io/library}/redis:7.4-alpine
+  mosquitto:
+    image: ${DR_IMAGE_HUB:-docker.io}/eclipse-mosquitto:2.0.20
+    profiles: ["mqtt"]
+    ports: ["1883:1883"]
+    volumes:
+      - ./infrastructure/docker/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mqtt-data:/mosquitto/data
+      - mqtt-auth:/mosquitto/auth
+  api:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/api.Dockerfile
+      network: "${DR_BUILD_NETWORK:-default}"
+      args:
+        BASE_REGISTRY: "${DR_IMAGE_REGISTRY:-docker.io/library}"
+    environment: *api-env
+    volumes: [object-store:/data/storage]
+    depends_on:
+      db: { condition: service_healthy }
+      redis: { condition: service_started }
+    ports: ["8000:8000"]
+  public:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/web.Dockerfile
+      network: "${DR_BUILD_NETWORK:-default}"
+      args:
+        <<: *web-args
+        APP: public-website
+    environment: { PORT: "3000" }
+    ports: ["3000:3000"]
+    depends_on: [api]
+  lab:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/web.Dockerfile
+      network: "${DR_BUILD_NETWORK:-default}"
+      args:
+        <<: *web-args
+        APP: engineering-lab
+    environment: { PORT: "3001" }
+    ports: ["3001:3001"]
+    depends_on: [api]
+  twin:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/web.Dockerfile
+      network: "${DR_BUILD_NETWORK:-default}"
+      args:
+        <<: *web-args
+        APP: digital-twin
+    environment: { PORT: "3002" }
+    ports: ["3002:3002"]
+    depends_on: [api]
+  mqtt-bridge:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/bridge.Dockerfile
+      network: "${DR_BUILD_NETWORK:-default}"
+      args:
+        BASE_REGISTRY: "${DR_IMAGE_REGISTRY:-docker.io/library}"
+    profiles: ["mqtt"]
+    environment:
+      DR_INGEST_API_URL: http://api:8000
+      DR_INGEST_GATEWAY_KEY: ${DR_INGEST_GATEWAY_KEY:-}
+      DR_BRIDGE_PROJECT: ${DR_BRIDGE_PROJECT:-PRJ-A}
+      DR_MQTT_USER: ${DR_MQTT_USER:-}
+      DR_MQTT_PASSWORD: ${DR_MQTT_PASSWORD:-}
+    depends_on: [api, mosquitto]
+
+volumes:
+  db-data: {}
+  object-store: {}
+  mqtt-data: {}
+  mqtt-auth: {}

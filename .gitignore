@@ -17,3 +17,4 @@ playwright-report/
 .DS_Store
 services/api/dr_dev.db
 *.egg-info/
+.env.docker
