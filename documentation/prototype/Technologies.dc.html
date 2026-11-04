@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Digital Reservoir — technologies</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2C6B61}a:hover{color:#183C45}
+.tp{container-type:inline-size}
+.tp .wrap{max-width:1240px;margin:0 auto;padding:0 clamp(16px,4vw,32px);box-sizing:border-box}
+.tp .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.tp .detail{display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px}
+.tp .tabs{display:flex;flex-direction:column;gap:4px}
+.tp .navlinks{display:flex}
+@container (max-width:1100px){.tp .navlinks{display:none}}
+@container (max-width:900px){.tp .grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tp .detail{grid-template-columns:1fr}.tp .tabs{flex-direction:row;overflow-x:auto;padding-bottom:4px}}
+@container (max-width:600px){.tp .grid{grid-template-columns:1fr}}
+</style>
+</helmet>
+<div class="tp" style="background:#F5F4EF;color:#10232D;font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.6">
+  <header style="border-bottom:1px solid #D9DBD2;background:#F5F4EF">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:72px">
+      <a href="PublicHome.dc.html" style="display:flex;align-items:center;gap:11px;text-decoration:none;color:#10232D">
+        <svg width="36" height="36" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#10232D"></rect><path d="M7 21h20v17H7z" fill="#72BEB1" opacity=".28"></path><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><polyline points="7,31 13,31 16,26.5 19.5,34 23,29 30.5,29 34,23" fill="none" stroke="#9B8461" stroke-width="1.9" stroke-linejoin="round"></polyline><circle cx="34" cy="23" r="2.6" fill="#9B8461"></circle></svg>
+        <span style="font-family:Manrope,sans-serif;font-weight:800;letter-spacing:.08em;font-size:15px">DIGITAL RESERVOIR</span>
+      </a>
+      <nav class="navlinks" aria-label="Main" style="gap:2px;font-size:14px;font-weight:500">
+        <a href="PublicHome.dc.html" style="padding:8px 9px;color:#10232D;text-decoration:none">Home</a>
+        <a href="Technologies.dc.html" aria-current="page" style="padding:8px 9px;border-radius:8px;color:#10232D;text-decoration:none;background:#EBE9E0">Technologies</a>
+        <a href="PublicHome.dc.html" style="padding:8px 9px;color:#10232D;text-decoration:none">Applications</a>
+        <a href="PublicHome.dc.html" style="padding:8px 9px;color:#10232D;text-decoration:none">Research</a>
+        <a href="PublicHome.dc.html" style="padding:8px 9px;color:#10232D;text-decoration:none">Publications</a>
+        <a href="PublicHome.dc.html" style="padding:8px 9px;color:#10232D;text-decoration:none">Resources</a>
+        <a href="LabDashboard.dc.html" style="padding:8px 9px;color:#10232D;text-decoration:none">Engineering Lab</a>
+        <a href="TwinDashboard.dc.html" style="padding:8px 9px;color:#10232D;text-decoration:none">Digital Twin</a>
+      </nav>
+      <a href="AuthLogin.dc.html" style="display:inline-flex;align-items:center;min-height:42px;padding:0 14px;border-radius:10px;background:#183C45;color:#F5F4EF;font-size:14px;font-weight:600;text-decoration:none">Lab login</a>
+    </div>
+  </header>
+
+  <section style="background:#10232D;color:#E6EEEB;padding:clamp(40px,6cqi,72px) 0">
+    <div class="wrap" style="display:flex;flex-direction:column;gap:14px;max-width:1240px">
+      <nav aria-label="Breadcrumb" style="font-size:13px;color:#9DB3AE"><a href="PublicHome.dc.html" style="color:#9DB3AE">Home</a> / Technologies</nav>
+      <h1 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(32px,4.4cqi,52px);line-height:1.06;color:#F5F4EF;max-width:20ch">Engineering technologies</h1>
+      <p style="margin:0;color:#9DB3AE;max-width:62ch;font-size:clamp(16px,1.4cqi,18px)">Each technology page covers relevance, theory, governing equations, analytical workflow, data requirements, methods, applications, interactive figures, references and the Engineering Lab module that implements it.</p>
+    </div>
+  </section>
+
+  <section style="padding:32px 0 8px">
+    <div class="wrap" style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+        <div role="group" aria-label="Filter by category" style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{cats}}" as="c" hint-placeholder-count="5">
+            <button onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="{{c.style}}">{{c.label}}</button>
+          </sc-for>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;min-height:44px;border:1px solid #C9CCC2;background:#FFFFFF;border-radius:10px;padding:0 12px;flex:0 1 300px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4C5C62" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+          <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search technologies</span>
+          <input type="search" placeholder="Search technologies" value="{{query}}" onChange="{{onQuery}}" style="border:0;outline:0;font:inherit;flex:1;min-width:0;background:transparent">
+        </label>
+      </div>
+      <div style="font-size:14px;color:#4C5C62">{{countText}}</div>
+    </div>
+  </section>
+
+  <section style="padding:8px 0 56px">
+    <div class="wrap grid">
+      <sc-for list="{{techs}}" as="t" hint-placeholder-count="9">
+        <a href="#detail" style="display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:14px;background:#FFFFFF;border:1px solid #D9DBD2;color:#10232D;text-decoration:none;min-height:170px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#6E5A3A">{{t.num}}</span><span style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#2C6B61">{{t.cat}}</span></div>
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px;line-height:1.25">{{t.title}}</div>
+          <div style="color:#4C5C62;font-size:14px;flex:1">{{t.text}}</div>
+          <div style="font-size:13px;font-weight:600;color:#183C45">Lab module: {{t.lab}} →</div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="detail" style="background:#FFFFFF;border-top:1px solid #D9DBD2;padding:clamp(48px,6cqi,80px) 0">
+    <div class="wrap" style="display:flex;flex-direction:column;gap:24px">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.18em;color:#2C6B61">TECHNOLOGY PAGE TEMPLATE · 05</div>
+        <h2 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(28px,3.4cqi,40px);line-height:1.1">Hydrostatic–Season–Time (HST) modelling</h2>
+      </div>
+      <div class="detail">
+        <nav class="tabs" aria-label="Sections">
+          <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="8">
+            <button onClick="{{tb.pick}}" aria-current="{{tb.current}}" style="{{tb.style}}">{{tb.label}}</button>
+          </sc-for>
+        </nav>
+        <div style="display:flex;flex-direction:column;gap:16px;max-width:76ch;min-width:0">
+          <h3 style="margin:0;font-family:Manrope,sans-serif;font-size:22px">{{tab.label}}</h3>
+          <p style="margin:0;color:#3D4D53">{{tab.body}}</p>
+          <sc-if value="{{tab.hasEq}}" hint-placeholder-val="{{true}}">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:14px;background:#F5F4EF;border:1px solid #D9DBD2;border-radius:10px;padding:14px 16px;overflow-x:auto;white-space:pre;line-height:1.8">{{tab.eq}}</div>
+          </sc-if>
+          <sc-if value="{{tab.hasList}}" hint-placeholder-val="{{false}}">
+            <ul style="margin:0;padding-left:20px;color:#3D4D53;display:flex;flex-direction:column;gap:6px">
+              <sc-for list="{{tab.list}}" as="li" hint-placeholder-count="4"><li>{{li}}</li></sc-for>
+            </ul>
+          </sc-if>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;padding-top:6px">
+            <a href="LabDataProcessing.dc.html" style="display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:10px;background:#183C45;color:#F5F4EF;font-weight:600;text-decoration:none">Open HST module in Engineering Lab</a>
+            <a href="PublicHome.dc.html" style="display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #C9CCC2;color:#10232D;font-weight:600;text-decoration:none">Try the public demo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2500}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { cat: 'All', q: '', tab: 0 }; }
+  renderVals() {
+    var self = this, st = this.state;
+    var T = [
+      ['Instrumentation and structural monitoring', 'Monitoring', 'Sensor selection, placement, redundancy and calibration for dams and structures.', 'Data management'],
+      ['Data acquisition and sensor networks', 'Monitoring', 'Loggers, gateways, sampling, time synchronisation and communication health.', 'Twin connectors'],
+      ['Signal processing and data quality', 'Monitoring', 'Filtering, detrending, outliers, gaps and documented processing history.', 'Signal processing'],
+      ['Statistical analysis and regression', 'Statistics & AI', 'Descriptive statistics, correlation, OLS diagnostics and confidence intervals.', 'Statistics'],
+      ['Hydrostatic–Season–Time (HST) modelling', 'Statistics & AI', 'The reference statistical model for interpreting concrete dam behaviour.', 'HST'],
+      ['Artificial intelligence and machine learning', 'Statistics & AI', 'Regression and anomaly models with leakage-resistant time-series validation.', 'ML laboratory'],
+      ['Physics-informed neural networks (PINNs)', 'Statistics & AI', 'Networks trained with residuals of governing equations as constraints.', 'Hybrid models'],
+      ['Physics-based and data-driven hybrid modelling', 'Statistics & AI', 'Physical model plus learned residual correction, with transparent attribution.', 'Hybrid models'],
+      ['Structural health monitoring', 'Assessment', 'Damage-sensitive features, baselines and novelty detection under varying conditions.', 'Damage detection'],
+      ['Quantitative Dam Health Index', 'Assessment', 'Indicator normalisation, AHP weighting, aggregation and uncertainty.', 'Dam Health Index'],
+      ['Numerical and finite element modelling', 'Structural analysis', 'Geometry, mesh, material models and result post-processing.', 'FE results viewer'],
+      ['Nonlinear analysis of concrete structures', 'Structural analysis', 'Cracking, crushing and interface behaviour in mass concrete.', 'FE results viewer'],
+      ['Fluid-structure interaction', 'Structural analysis', 'Reservoir–dam–foundation interaction, added mass and hydrodynamic pressure.', 'FE results viewer'],
+      ['Ambient vibration and operational modal analysis', 'Structural analysis', 'Frequencies, damping and mode shapes from output-only vibration records.', 'Modal analysis'],
+      ['Seismic response and dynamic analysis', 'Structural analysis', 'Time-history response, ground-motion selection and demand parameters.', 'Seismic module'],
+      ['Fragility and probabilistic vulnerability assessment', 'Assessment', 'IDA post-processing and lognormal fragility fitting with confidence bands.', 'Fragility'],
+      ['Computer vision and image-based damage detection', 'Assessment', 'Crack segmentation and defect mapping with confidence and verification status.', 'Image analysis'],
+      ['Digital twins and predictive infrastructure management', 'Assessment', 'Sensor-to-structure mapping, live models and decision support.', 'Digital Twin']
+    ];
+    var cats = ['All', 'Monitoring', 'Statistics & AI', 'Structural analysis', 'Assessment'];
+    var q = st.q.toLowerCase();
+    var list = T.map(function (t, i) { return { num: (i + 1 < 10 ? '0' : '') + (i + 1), title: t[0], cat: t[1].toUpperCase(), rawCat: t[1], text: t[2], lab: t[3] }; })
+      .filter(function (t) { return (st.cat === 'All' || t.rawCat === st.cat) && (!q || (t.title + ' ' + t.text).toLowerCase().indexOf(q) >= 0); });
+    var chipOn = 'min-height:44px;padding:0 16px;border-radius:999px;border:1px solid #183C45;background:#183C45;color:#F5F4EF;font:inherit;font-size:14px;font-weight:600;cursor:pointer';
+    var chipOff = 'min-height:44px;padding:0 16px;border-radius:999px;border:1px solid #C9CCC2;background:#FFFFFF;color:#10232D;font:inherit;font-size:14px;font-weight:600;cursor:pointer';
+    var tabs = [
+      { label: 'Introduction & relevance', body: 'Concrete dams respond mainly to reservoir water load, seasonal temperature and slow irreversible processes. HST separates these effects so engineers can compare each new reading with what the loading explains, and focus attention on the unexplained part.' },
+      { label: 'Fundamental theory', body: 'The response is modelled as the sum of a polynomial in normalised reservoir level, harmonic terms in the day of year that act as a proxy for the thermal cycle, and monotonic functions of time for irreversible effects. Coefficients are estimated by least squares on a calibration period.' },
+      { label: 'Governing equations', body: 'Typical formulation (the Lab always displays the exact form used):', eq: 'δ(h,s,t) = a₀ + Σᵢ aᵢ·hⁱ                 (i = 1…4)\n        + b₁ sin s + b₂ cos s + b₃ sin²s + b₄ sin s·cos s\n        + c₁ t + c₂ e⁻ᵗ   (or ln(1+t))\nh = (H_max − H)/(H_max − H_min),  s = 2π·d/365.25' },
+      { label: 'Analytical workflow', body: 'From raw readings to an interpreted residual:', list: ['Quality control and gap/outlier review (original data never altered)', 'Choose response, reservoir level and time basis; record assumptions', 'Chronological calibration / validation split — no random shuffling', 'Fit, inspect coefficients and diagnostics (VIF, Durbin–Watson)', 'Report calibration and validation metrics separately, with prediction intervals', 'Monitor standardised residuals against project-specific criteria'] },
+      { label: 'Input data requirements', body: 'At least several complete annual cycles covering the operating range of reservoir level; consistent timestamps with time zone; sensor metadata and units; documented maintenance events and instrument replacements.' },
+      { label: 'Methods & algorithms', body: 'Ordinary least squares with QR decomposition; stepwise or regularised term selection; HTT variant using measured temperatures; rolling-origin evaluation; residual-based anomaly screening.' },
+      { label: 'Applications', body: 'Pendulum and plumb-line displacement, joint meters, piezometric levels, uplift and seepage in concrete gravity and arch dams; behavioural baselines for digital twin alerting.' },
+      { label: 'References & further reading', body: 'Reference lists are compiled from verified bibliographic records before publication. The editor confirms each citation (authors, venue, year, DOI) — the prototype shows no unverified citations.' }
+    ];
+    var tab = tabs[st.tab];
+    return {
+      cats: cats.map(function (c) { return { label: c, pressed: String(st.cat === c), style: st.cat === c ? chipOn : chipOff, pick: function () { self.setState({ cat: c }); } }; }),
+      techs: list,
+      countText: 'Showing ' + list.length + ' of 18 technologies',
+      query: st.q,
+      onQuery: function (e) { self.setState({ q: e.target.value }); },
+      tabs: tabs.map(function (t, i) {
+        return { label: t.label, current: st.tab === i ? 'true' : 'false', pick: function () { self.setState({ tab: i }); },
+          style: 'text-align:left;min-height:44px;padding:0 14px;border-radius:9px;font:inherit;font-size:14px;cursor:pointer;white-space:nowrap;' + (st.tab === i ? 'background:#DCE9E4;color:#10232D;font-weight:700;border:1px solid #C6D9D1' : 'background:transparent;color:#3D4D53;border:1px solid transparent') };
+      }),
+      tab: { label: tab.label, body: tab.body, eq: tab.eq || '', hasEq: !!tab.eq, list: tab.list || [], hasList: !!tab.list }
+    };
+  }
+}
+</script>
+</body>
+</html>

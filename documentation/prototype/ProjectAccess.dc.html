@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Digital Twin — project-level secure access</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#8FD0C4}a:hover{color:#B9E4DC}
+.pa{container-type:inline-size}
+.pa .projects{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.pa .cols{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px}
+@container (max-width:1100px){.pa .projects{grid-template-columns:repeat(2,minmax(0,1fr))}.pa .cols{grid-template-columns:1fr}}
+@container (max-width:600px){.pa .projects{grid-template-columns:1fr}}
+</style>
+</helmet>
+<div class="pa" style="background:#0B1820;color:#E6EEEB;font-family:Inter,system-ui,sans-serif;font-size:14px;line-height:1.5;min-height:1120px">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px clamp(14px,2cqi,22px);background:#10232D;border-bottom:1px solid #26434D">
+    <a href="TwinDashboard.dc.html" style="display:flex;align-items:center;gap:9px;color:#F5F4EF;text-decoration:none"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#183C45"></rect><path d="M7 21h20v17H7z" fill="#72BEB1" opacity=".28"></path><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><polyline points="7,31 13,31 16,26.5 19.5,34 23,29 30.5,29 34,23" fill="none" stroke="#9B8461" stroke-width="1.9" stroke-linejoin="round"></polyline><circle cx="34" cy="23" r="2.6" fill="#9B8461"></circle></svg><span style="display:flex;flex-direction:column;line-height:1.1"><span style="font-family:Manrope,sans-serif;font-weight:800;letter-spacing:.08em;font-size:12px">DIGITAL RESERVOIR</span><span style="font-size:12px;color:#9DB3AE;font-weight:600">Digital Twin</span></span></a>
+    <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#9DB3AE;flex-wrap:wrap"><span style="display:inline-flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5FB592" stroke-width="2.4" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>MFA verified</span><span>Session expires in 11 h 52 min</span><span style="width:34px;height:34px;border-radius:50%;background:#72BEB1;color:#0B1820;display:inline-flex;align-items:center;justify-content:center;font-weight:700" aria-label="Signed in user">PE</span></div>
+  </div>
+
+  <main style="padding:clamp(14px,2cqi,24px);display:flex;flex-direction:column;gap:16px;max-width:1360px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px">
+      <div><h1 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(22px,2.6cqi,30px);color:#F5F4EF">Your projects</h1><p style="margin:2px 0 0;color:#9DB3AE">Access is granted per project. Membership of one project never grants access to another.</p></div>
+      <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#9DB3AE">Prototype: view as
+        <select value="{{viewAs}}" onChange="{{setViewAs}}" style="min-height:36px;border-radius:8px;border:1px solid #26434D;background:#10232D;color:#E6EEEB;font:inherit;font-size:13px;padding:0 8px"><option value="engineer">Project Engineer</option><option value="admin">Project Administrator</option></select>
+      </label>
+    </div>
+
+    <sc-if value="{{showInvite}}" hint-placeholder-val="{{true}}">
+      <div role="region" aria-label="Pending invitation" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;border:1px solid #72BEB1;background:#10313A;border-radius:12px;padding:12px 14px">
+        <div style="display:flex;gap:12px;align-items:flex-start"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#72BEB1" stroke-width="2" aria-hidden="true" style="flex:none;margin-top:2px"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg><div><div style="font-weight:600;color:#F5F4EF">Invitation: Project C · Seismic performance — role Researcher</div><div style="font-size:12px;color:#9DB3AE">From the institutional administrator · expires 2026-11-11 · accepting requires your MFA code</div></div></div>
+        <div style="display:flex;gap:8px"><button onClick="{{acceptInvite}}" style="min-height:40px;padding:0 14px;border-radius:9px;border:0;background:#72BEB1;color:#0B1820;font:inherit;font-weight:700;cursor:pointer">Accept</button><button onClick="{{declineInvite}}" style="min-height:40px;padding:0 14px;border-radius:9px;border:1px solid #26434D;background:transparent;color:#E6EEEB;font:inherit;cursor:pointer">Decline</button></div>
+      </div>
+    </sc-if>
+
+    <div class="projects">
+      <sc-for list="{{projects}}" as="p" hint-placeholder-count="4">
+        <div style="background:#10232D;border:1px solid {{p.border}};border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#9DB3AE">{{p.code}}</span><span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:{{p.stColor}}">{{p.state}}</span></div>
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:16px;color:#F5F4EF">{{p.name}}</div>
+          <div style="font-size:12px;color:#9DB3AE;flex:1">{{p.desc}}</div>
+          <div style="font-size:12px;color:#B7CBC6">{{p.role}}</div>
+          <button onClick="{{p.act}}" disabled="{{p.disabled}}" style="{{p.btnStyle}}">{{p.btn}}</button>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{showRequest}}" hint-placeholder-val="{{false}}">
+      <form onSubmit="{{sendRequest}}" style="background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;max-width:720px">
+        <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px;color:#F5F4EF">Request access · Project B · Dam health assessment</h2>
+        <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;color:#B7CBC6">Requested role<select style="min-height:42px;border-radius:9px;border:1px solid #26434D;background:#0B1820;color:#E6EEEB;font:inherit;padding:0 8px"><option>Read-only Viewer</option><option>Researcher</option><option>Project Engineer</option></select></label>
+        <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;color:#B7CBC6">Justification (seen by the project administrator)<textarea rows="3" style="border-radius:9px;border:1px solid #26434D;background:#0B1820;color:#E6EEEB;font:inherit;padding:8px 10px"></textarea></label>
+        <div style="display:flex;gap:8px"><button type="submit" style="min-height:42px;padding:0 14px;border-radius:9px;border:0;background:#72BEB1;color:#0B1820;font:inherit;font-weight:700;cursor:pointer">Send request</button><button type="button" onClick="{{cancelRequest}}" style="min-height:42px;padding:0 14px;border-radius:9px;border:1px solid #26434D;background:transparent;color:#E6EEEB;font:inherit;cursor:pointer">Cancel</button></div>
+      </form>
+    </sc-if>
+
+    <div class="cols">
+      <section style="background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px;color:#F5F4EF">Members · Project D</h2>
+          <sc-if value="{{isAdmin}}" hint-placeholder-val="{{false}}"><button style="min-height:38px;padding:0 12px;border-radius:9px;border:1px solid #72BEB1;background:transparent;color:#8FD0C4;font:inherit;font-weight:600;cursor:pointer">Invite member</button></sc-if>
+        </div>
+        <div style="overflow-x:auto;border:1px solid #26434D;border-radius:10px">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap">
+            <thead><tr style="background:#183C45;color:#B7CBC6;text-align:left"><th style="padding:8px 10px;font-weight:600">Member</th><th style="padding:8px 10px;font-weight:600">Role</th><th style="padding:8px 10px;font-weight:600">MFA</th><th style="padding:8px 10px;font-weight:600">Last access</th><th style="padding:8px 10px;font-weight:600">Status</th><th style="padding:8px 10px;font-weight:600"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Actions</span></th></tr></thead>
+            <tbody>
+              <sc-for list="{{members}}" as="m" hint-placeholder-count="5">
+                <tr style="border-top:1px solid #26434D">
+                  <td style="padding:8px 10px"><div style="font-weight:600;color:#F5F4EF">{{m.name}}</div><div style="font-size:11px;color:#9DB3AE">{{m.org}}</div></td>
+                  <td style="padding:8px 10px">
+                    <sc-if value="{{m.editable}}" hint-placeholder-val="{{false}}"><select value="{{m.role}}" onChange="{{m.setRole}}" aria-label="Role" style="min-height:34px;border-radius:7px;border:1px solid #26434D;background:#0B1820;color:#E6EEEB;font:inherit;font-size:13px"><option>Project Administrator</option><option>Project Engineer</option><option>Researcher</option><option>Monitoring Operator</option><option>Read-only Viewer</option></select></sc-if>
+                    <sc-if value="{{m.readonly}}" hint-placeholder-val="{{true}}"><span>{{m.role}}</span></sc-if>
+                  </td>
+                  <td style="padding:8px 10px;color:{{m.mfaColor}}">{{m.mfa}}</td>
+                  <td style="padding:8px 10px;font-family:'IBM Plex Mono',monospace;color:#B7CBC6">{{m.last}}</td>
+                  <td style="padding:8px 10px;color:{{m.stColor}}">{{m.status}}</td>
+                  <td style="padding:8px 10px"><sc-if value="{{m.canRevoke}}" hint-placeholder-val="{{false}}"><button onClick="{{m.revoke}}" style="min-height:32px;padding:0 10px;border-radius:7px;border:1px solid #B03A3A;background:transparent;color:#E39A9A;font:inherit;font-size:12px;cursor:pointer">Revoke</button></sc-if></td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+        <div style="font-size:12px;color:#9DB3AE">{{memberNote}}</div>
+      </section>
+
+      <section style="display:flex;flex-direction:column;gap:14px;min-width:0">
+        <div style="background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;min-width:0">
+          <h2 style="margin:0 0 8px;font-family:Manrope,sans-serif;font-size:15px;color:#F5F4EF">Role permissions</h2>
+          <div style="overflow-x:auto">
+            <table style="width:100%;border-collapse:collapse;font-size:12px;white-space:nowrap">
+              <thead><tr style="color:#9DB3AE;text-align:center"><th style="text-align:left;padding:5px 6px;font-weight:600">Capability</th><th style="padding:5px 6px" title="Project Administrator">Admin</th><th style="padding:5px 6px" title="Project Engineer">Eng.</th><th style="padding:5px 6px">Res.</th><th style="padding:5px 6px" title="Monitoring Operator">Oper.</th><th style="padding:5px 6px">View</th></tr></thead>
+              <tbody style="text-align:center">
+                <tr style="border-top:1px solid #26434D"><td style="text-align:left;padding:6px">View data &amp; 3D model</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                <tr style="border-top:1px solid #26434D"><td style="text-align:left;padding:6px">Export data</td><td>✓</td><td>✓</td><td>✓</td><td>–</td><td>–</td></tr>
+                <tr style="border-top:1px solid #26434D"><td style="text-align:left;padding:6px">Acknowledge / close alerts</td><td>✓</td><td>✓</td><td>–</td><td>✓</td><td>–</td></tr>
+                <tr style="border-top:1px solid #26434D"><td style="text-align:left;padding:6px">Register sensors &amp; gateways</td><td>✓</td><td>✓</td><td>–</td><td>–</td><td>–</td></tr>
+                <tr style="border-top:1px solid #26434D"><td style="text-align:left;padding:6px">Edit condition criteria</td><td>✓</td><td>✓*</td><td>–</td><td>–</td><td>–</td></tr>
+                <tr style="border-top:1px solid #26434D"><td style="text-align:left;padding:6px">Manage members</td><td>✓</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="font-size:11px;color:#9DB3AE;margin-top:6px">* change requires a second reviewer. Enforced by the API and database row-level security, not by hiding buttons.</div>
+        </div>
+        <div style="background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px">
+          <h2 style="margin:0 0 4px;font-family:Manrope,sans-serif;font-size:15px;color:#F5F4EF">Access audit trail</h2>
+          <sc-for list="{{audit}}" as="a" hint-placeholder-count="5">
+            <div style="display:grid;grid-template-columns:118px minmax(0,1fr);gap:8px;font-size:12px;border-top:1px solid #1A3440;padding-top:6px"><span style="font-family:'IBM Plex Mono',monospace;color:#9DB3AE">{{a.t}}</span><span>{{a.e}}</span></div>
+          </sc-for>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1120}}'>
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.state = { viewAs: 'engineer', invite: 'pending', request: 'none', showReq: false,
+      members: [
+        { id: 1, name: '[Project administrator]', org: 'Owner organisation', role: 'Project Administrator', mfa: 'enabled', last: '2026-11-04 09:58', status: 'Active' },
+        { id: 2, name: 'You', org: 'Owner organisation', role: 'Project Engineer', mfa: 'enabled', last: 'now', status: 'Active' },
+        { id: 3, name: '[Research partner]', org: 'University partner', role: 'Researcher', mfa: 'enabled', last: '2026-11-02 14:21', status: 'Active' },
+        { id: 4, name: '[Control room operator]', org: 'Operator', role: 'Monitoring Operator', mfa: 'enabled', last: '2026-11-04 06:02', status: 'Active' },
+        { id: 5, name: '[External reviewer]', org: 'Consultant', role: 'Read-only Viewer', mfa: 'not set', last: '2026-09-18 11:40', status: 'Active' }
+      ],
+      audit: [
+        { t: '11-04 10:41:52', e: 'You opened Project D · IP 10.x.x.x · MFA ok' },
+        { t: '11-04 10:12:09', e: 'Export denied: Read-only Viewer attempted CSV export' },
+        { t: '11-04 09:58:30', e: 'Project admin changed criteria DC-07 (rev B → C), pending second review' },
+        { t: '11-03 17:20:44', e: 'Blocked: request for Project B sensors without membership (HTTP 403)' }
+      ] };
+  }
+  log(e) { var a = this.state.audit.slice(); a.unshift({ t: '11-04 10:42:' + String(10 + a.length).padStart(2, '0'), e: e }); return a; }
+  renderVals() {
+    var self = this, st = this.state, admin = st.viewAs === 'admin';
+    var btn = function (kind) { return 'min-height:40px;border-radius:9px;font:inherit;font-weight:600;cursor:pointer;' + (kind === 'open' ? 'border:0;background:#72BEB1;color:#0B1820' : kind === 'muted' ? 'border:1px solid #26434D;background:transparent;color:#7F9893;cursor:not-allowed' : 'border:1px solid #72BEB1;background:transparent;color:#8FD0C4'); };
+    var invAccepted = st.invite === 'accepted';
+    var P = [
+      { code: 'PRJ-A', name: 'Instrumentation monitoring', desc: 'Sensor network commissioning and data-quality review.', role: 'Your role: Monitoring Operator', state: 'ACCESS GRANTED', stColor: '#5FB592', btn: 'Open project', kind: 'open', border: '#26434D', act: function () {} },
+      { code: 'PRJ-B', name: 'Dam health assessment', desc: 'Dam Health Index and periodic assessment reports.', role: 'You are not a member', state: st.request === 'sent' ? 'REQUEST PENDING' : 'NO ACCESS', stColor: st.request === 'sent' ? '#E0AE52' : '#8E9AA2', btn: st.request === 'sent' ? 'Awaiting approval' : 'Request access', kind: st.request === 'sent' ? 'muted' : 'req', border: '#26434D', disabled: st.request === 'sent', act: function () { self.setState({ showReq: true }); } },
+      { code: 'PRJ-C', name: 'Seismic performance', desc: 'Ground motions, IDA results and fragility analysis.', role: invAccepted ? 'Your role: Researcher' : 'Invitation waiting', state: invAccepted ? 'ACCESS GRANTED' : st.invite === 'declined' ? 'DECLINED' : 'INVITED', stColor: invAccepted ? '#5FB592' : '#8FD0C4', btn: invAccepted ? 'Open project' : 'See invitation above', kind: invAccepted ? 'open' : 'muted', disabled: !invAccepted, border: '#26434D', act: function () {} },
+      { code: 'PRJ-D', name: 'Demonstration gravity dam', desc: 'Digital twin development on an illustrative structure.', role: 'Your role: ' + (admin ? 'Project Administrator (prototype view)' : 'Project Engineer'), state: 'ACCESS GRANTED', stColor: '#5FB592', btn: 'Open dashboard', kind: 'open', border: '#72BEB1', act: function () {} }
+    ].map(function (p) { p.btnStyle = btn(p.kind); p.disabled = !!p.disabled; return p; });
+    var members = st.members.map(function (m) {
+      var self2 = m.name === 'You', revoked = m.status === 'Revoked';
+      return { name: m.name, org: m.org, role: m.role, mfa: m.mfa, mfaColor: m.mfa === 'enabled' ? '#5FB592' : '#E0AE52', last: m.last, status: m.status, stColor: revoked ? '#E39A9A' : '#B7CBC6',
+        editable: admin && !self2 && !revoked, readonly: !(admin && !self2 && !revoked), canRevoke: admin && !self2 && !revoked,
+        setRole: function (e) { var v = e.target.value; self.setState({ members: st.members.map(function (x) { return x.id === m.id ? Object.assign({}, x, { role: v }) : x; }), audit: self.log('Role of ' + m.name + ' changed to ' + v + ' (re-authentication required)') }); },
+        revoke: function () { self.setState({ members: st.members.map(function (x) { return x.id === m.id ? Object.assign({}, x, { status: 'Revoked' }) : x; }), audit: self.log('Access revoked for ' + m.name + '; active sessions terminated') }); } };
+    });
+    return {
+      viewAs: st.viewAs, setViewAs: function (e) { self.setState({ viewAs: e.target.value }); }, isAdmin: admin,
+      showInvite: st.invite === 'pending',
+      acceptInvite: function () { self.setState({ invite: 'accepted', audit: self.log('You accepted invitation to Project C (MFA confirmed)') }); },
+      declineInvite: function () { self.setState({ invite: 'declined', audit: self.log('You declined invitation to Project C') }); },
+      projects: P, showRequest: st.showReq,
+      sendRequest: function (e) { e.preventDefault(); self.setState({ showReq: false, request: 'sent', audit: self.log('Access request sent to Project B administrator') }); },
+      cancelRequest: function () { self.setState({ showReq: false }); },
+      members: members, audit: st.audit.slice(0, 7),
+      memberNote: admin ? 'Role changes and revocations take effect immediately, end the member’s sessions and are written to the audit trail.' : 'You can see members of projects you belong to. Only project administrators can change roles.'
+    };
+  }
+}
+</script>
+</body>
+</html>

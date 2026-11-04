@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Digital Reservoir — brand system</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2C6B61}a:hover{color:#183C45}
+.dr-brand{container-type:inline-size}
+.dr-brand .cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.dr-brand .cols6{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+@container (max-width:900px){.dr-brand .cols3{grid-template-columns:1fr}.dr-brand .cols6{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</helmet>
+<div class="dr-brand" style="background:#F5F4EF;color:#10232D;font-family:Inter,system-ui,sans-serif;min-height:1240px;box-sizing:border-box;padding:56px clamp(16px,4vw,64px);display:flex;flex-direction:column;gap:44px">
+
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px">
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:760px">
+      <div style="font-size:12px;font-weight:700;letter-spacing:.18em;color:#2C6B61">STAGE 1 · BRAND &amp; DESIGN SYSTEM</div>
+      <h1 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(34px,4vw,52px);line-height:1.08;letter-spacing:-.02em">Digital Reservoir — one identity, three applications</h1>
+      <p style="margin:0;color:#4C5C62;font-size:17px;line-height:1.6">A restrained engineering identity: reservoir navy and petroleum teal for authority, warm ivory and mist sage for long-form reading, muted bronze and soft aqua as measured accents. The mark is a gravity-dam section holding a reservoir, crossed by a monitoring signal that ends on the structure.</p>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="PublicHome.dc.html" style="display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:10px;background:#183C45;color:#F5F4EF;font-weight:600;text-decoration:none">View public website</a>
+      <a href="TwinDashboard.dc.html" style="display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:10px;border:1px solid #C9CCC2;color:#10232D;font-weight:600;text-decoration:none">View Digital Twin</a>
+    </div>
+  </div>
+
+  <div class="cols3">
+    <div style="background:#FFFFFF;border:1px solid #D9DBD2;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:22px">
+      <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#4C5C62">LOGO · LIGHT SURFACES</div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <svg width="56" height="56" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#10232D"></rect><path d="M7 21h20v17H7z" fill="#72BEB1" opacity=".28"></path><path d="M7 21c2.2-1.8 4.4-1.8 6.6 0s4.4 1.8 6.6 0 4.4-1.8 6.8 0" fill="none" stroke="#72BEB1" stroke-width="1.8" stroke-linecap="round"></path><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><path d="M5 38h38" stroke="#DCE9E4" stroke-width="1.6" stroke-linecap="round" opacity=".55"></path><polyline points="7,31 13,31 16,26.5 19.5,34 23,29 30.5,29 34,23" fill="none" stroke="#9B8461" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"></polyline><circle cx="34" cy="23" r="2.6" fill="#9B8461" stroke="#10232D" stroke-width="1.2"></circle></svg>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="font-family:Manrope,sans-serif;font-weight:800;letter-spacing:.08em;font-size:20px">DIGITAL RESERVOIR</div>
+          <div style="font-size:10px;font-weight:600;letter-spacing:.24em;color:#6E5A3A">INTELLIGENCE FOR INFRASTRUCTURE</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:18px;padding-top:6px;border-top:1px solid #ECEDE6">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:14px"><svg width="40" height="40" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#10232D"></rect><path d="M7 21h20v17H7z" fill="#72BEB1" opacity=".28"></path><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><polyline points="7,31 13,31 16,26.5 19.5,34 23,29 30.5,29 34,23" fill="none" stroke="#9B8461" stroke-width="2.2" stroke-linejoin="round"></polyline><circle cx="34" cy="23" r="2.8" fill="#9B8461"></circle></svg><span style="font-size:11px;color:#4C5C62;font-family:'IBM Plex Mono',monospace">40 px</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><svg width="24" height="24" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#10232D"></rect><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><polyline points="7,31 16,26.5 19.5,34 23,29 34,23" fill="none" stroke="#9B8461" stroke-width="3" stroke-linejoin="round"></polyline></svg><span style="font-size:11px;color:#4C5C62;font-family:'IBM Plex Mono',monospace">24 px</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#10232D"></rect><path d="M25 8h7L43 40H25z" fill="#DCE9E4"></path><polyline points="6,32 18,26 24,32 36,22" fill="none" stroke="#9B8461" stroke-width="4" stroke-linejoin="round"></polyline></svg><span style="font-size:11px;color:#4C5C62;font-family:'IBM Plex Mono',monospace">16 px</span></div>
+        <div style="font-size:12px;color:#4C5C62;line-height:1.5;flex:1;min-width:0">Small sizes drop the wave and baseline so the dam and signal stay legible.</div>
+      </div>
+    </div>
+
+    <div style="background:#10232D;border:1px solid #10232D;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:22px;color:#F5F4EF">
+      <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#9DB3AE">LOGO · DARK SURFACES</div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <svg width="56" height="56" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#183C45"></rect><path d="M7 21h20v17H7z" fill="#72BEB1" opacity=".28"></path><path d="M7 21c2.2-1.8 4.4-1.8 6.6 0s4.4 1.8 6.6 0 4.4-1.8 6.8 0" fill="none" stroke="#72BEB1" stroke-width="1.8" stroke-linecap="round"></path><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><path d="M5 38h38" stroke="#DCE9E4" stroke-width="1.6" stroke-linecap="round" opacity=".55"></path><polyline points="7,31 13,31 16,26.5 19.5,34 23,29 30.5,29 34,23" fill="none" stroke="#9B8461" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"></polyline><circle cx="34" cy="23" r="2.6" fill="#9B8461" stroke="#183C45" stroke-width="1.2"></circle></svg>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="font-family:Manrope,sans-serif;font-weight:800;letter-spacing:.08em;font-size:20px">DIGITAL RESERVOIR</div>
+          <div style="font-size:10px;font-weight:600;letter-spacing:.24em;color:#C9B591">INTELLIGENCE FOR INFRASTRUCTURE</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;padding-top:16px;border-top:1px solid #26434D">
+        <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:15px">Product lock-ups</div>
+        <div style="font-family:Manrope,sans-serif;font-weight:800;letter-spacing:.08em;font-size:14px">DIGITAL RESERVOIR <span style="font-weight:600;letter-spacing:0;color:#9DB3AE">| Engineering Lab</span></div>
+        <div style="font-family:Manrope,sans-serif;font-weight:800;letter-spacing:.08em;font-size:14px">DIGITAL RESERVOIR <span style="font-weight:600;letter-spacing:0;color:#9DB3AE">| Digital Twin</span></div>
+      </div>
+    </div>
+
+    <div style="background:#FFFFFF;border:1px solid #D9DBD2;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+      <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#4C5C62">TYPOGRAPHY</div>
+      <div style="font-family:Manrope,sans-serif;font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-.02em">Manrope — headings</div>
+      <div style="font-size:16px;line-height:1.6;color:#10232D">Inter for interface and body text. Comfortable at length for engineering articles, with clear figures and labels.</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:15px;background:#EBE9E0;border-radius:8px;padding:10px 12px">δ = 3.812 mm · 2026-11-04 10:42:07 UTC</div>
+      <div style="font-size:13px;color:#4C5C62">IBM Plex Mono for measured values, timestamps, equations and code. Fluid sizes via clamp() from 15 px (phone) to 17 px (desktop) body.</div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:22px">Colour palette</div>
+    <div class="cols6">
+      <div style="display:flex;flex-direction:column;gap:8px"><div style="height:96px;border-radius:12px;background:#10232D"></div><div style="font-weight:600">Deep Reservoir Navy</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#4C5C62">#10232D · text, Twin ground</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><div style="height:96px;border-radius:12px;background:#183C45"></div><div style="font-weight:600">Petroleum Teal</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#4C5C62">#183C45 · primary actions</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><div style="height:96px;border-radius:12px;background:#DCE9E4;border:1px solid #C6D9D1"></div><div style="font-weight:600">Mist Sage</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#4C5C62">#DCE9E4 · quiet panels</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><div style="height:96px;border-radius:12px;background:#F5F4EF;border:1px solid #D9DBD2"></div><div style="font-weight:600">Warm Ivory</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#4C5C62">#F5F4EF · public ground</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><div style="height:96px;border-radius:12px;background:#9B8461"></div><div style="font-weight:600">Muted Bronze</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#4C5C62">#9B8461 · signal, demo tag</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><div style="height:96px;border-radius:12px;background:#72BEB1"></div><div style="font-weight:600">Soft Aqua</div><div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#4C5C62">#72BEB1 · data on dark</div></div>
+    </div>
+    <div style="font-size:13px;color:#4C5C62">Accessibility tunings for small text on light surfaces: aqua-ink #2C6B61 and bronze-ink #6E5A3A (both ≥ 4.5:1 on ivory). Aqua and bronze at full strength are used for text only on navy/teal.</div>
+  </div>
+
+  <div class="cols3">
+    <div style="border-radius:16px;overflow:hidden;border:1px solid #D9DBD2;display:flex;flex-direction:column">
+      <div style="background:#F5F4EF;padding:22px;display:flex;flex-direction:column;gap:10px;min-height:150px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.16em;color:#2C6B61">APP 01 · PUBLIC WEBSITE</div>
+        <div style="font-family:Manrope,sans-serif;font-weight:800;font-size:22px;line-height:1.15">Ivory reading surfaces, navy &amp; teal sections</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="background:#183C45;color:#F5F4EF;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:600">Primary</span><span style="border:1px solid #C9CCC2;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:600">Secondary</span></div>
+      </div>
+      <div style="background:#183C45;height:12px"></div>
+    </div>
+    <div style="border-radius:16px;overflow:hidden;border:1px solid #D5DDD8;display:flex">
+      <div style="background:#10232D;width:56px"></div>
+      <div style="background:#F1F3F0;padding:22px;display:flex;flex-direction:column;gap:10px;flex:1;min-height:150px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.16em;color:#2C6B61">APP 02 · ENGINEERING LAB</div>
+        <div style="font-family:Manrope,sans-serif;font-weight:800;font-size:22px;line-height:1.15">Light analytical workspace, teal accents</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;background:#FFFFFF;border:1px solid #D5DDD8;border-radius:8px;padding:8px 10px">R² (validation) = 0.912</div>
+      </div>
+    </div>
+    <div style="border-radius:16px;overflow:hidden;border:1px solid #26434D;background:#0B1820;color:#E6EEEB;padding:22px;display:flex;flex-direction:column;gap:10px;min-height:150px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.16em;color:#72BEB1">APP 03 · DIGITAL TWIN</div>
+      <div style="font-family:Manrope,sans-serif;font-weight:800;font-size:22px;line-height:1.15">Dark technical environment, controlled contrast</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;background:#10232D;border:1px solid #26434D;border-radius:8px;padding:6px 10px">PZ-03 · 41.27 m</span><span style="border:1px solid #9B8461;color:#D8C49E;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:700;letter-spacing:.08em">DEMONSTRATION DATA</span></div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:28px">
+    <div style="display:flex;flex-direction:column;gap:12px;flex:1 1 420px">
+      <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px">Data provenance labels — mandatory on every dataset and value</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span style="border:1px solid #3E8E6F;color:#2F7059;border-radius:999px;padding:4px 11px;font-size:11px;font-weight:700;letter-spacing:.08em">LIVE MEASURED</span>
+        <span style="border:1px solid #2C6B61;color:#2C6B61;border-radius:999px;padding:4px 11px;font-size:11px;font-weight:700;letter-spacing:.08em">HISTORICAL MEASURED</span>
+        <span style="border:1px solid #9B8461;background:#EFE7D8;color:#6E5A3A;border-radius:999px;padding:4px 11px;font-size:11px;font-weight:700;letter-spacing:.08em">DEMONSTRATION DATA</span>
+        <span style="border:1px solid #9B8461;background:#EFE7D8;color:#6E5A3A;border-radius:999px;padding:4px 11px;font-size:11px;font-weight:700;letter-spacing:.08em">SYNTHETIC EXAMPLE</span>
+        <span style="border:1px solid #C6D9D1;background:#DCE9E4;color:#183C45;border-radius:999px;padding:4px 11px;font-size:11px;font-weight:700;letter-spacing:.08em">IMPORTED THIRD-PARTY</span>
+        <span style="border:1px solid #D9DBD2;background:#EBE9E0;color:#10232D;border-radius:999px;padding:4px 11px;font-size:11px;font-weight:700;letter-spacing:.08em">MODEL OUTPUT</span>
+        <span style="border:1px dashed #8E989A;color:#4C5C62;border-radius:999px;padding:4px 11px;font-size:11px;font-weight:700;letter-spacing:.08em">USER ASSUMPTION</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;flex:1 1 420px">
+      <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:18px">Condition states — shape + label, never colour alone</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:13px;font-weight:600">
+        <span style="border:1px solid #3E8E6F;color:#2F7059;border-radius:999px;padding:4px 11px">● Normal</span>
+        <span style="border:1px solid #B8862F;color:#8A6520;border-radius:999px;padding:4px 11px">▲ Attention</span>
+        <span style="border:1px solid #C0612B;color:#A34F20;border-radius:999px;padding:4px 11px">◆ Warning</span>
+        <span style="border:1px solid #B03A3A;color:#9C2F2F;border-radius:999px;padding:4px 11px">■ Critical</span>
+        <span style="border:1px solid #7B8790;color:#59646B;border-radius:999px;padding:4px 11px">○ Data unavailable</span>
+      </div>
+      <div style="font-size:13px;color:#4C5C62">States are only assigned from documented, project-specific criteria; each chip links to its criteria reference and review status.</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

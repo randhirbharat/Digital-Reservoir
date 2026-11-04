@@ -1,0 +1,15 @@
+{
+  "name": "digital-reservoir",
+  "private": true,
+  "description": "Digital Reservoir — integrated engineering intelligence platform (public website, Engineering Lab, Digital Twin).",
+  "packageManager": "pnpm@10.28.0",
+  "engines": { "node": ">=20.9" },
+  "scripts": {
+    "dev:public": "pnpm --filter @dr/public-website dev",
+    "dev:lab": "pnpm --filter @dr/engineering-lab dev",
+    "dev:twin": "pnpm --filter @dr/digital-twin dev",
+    "build": "pnpm -r --filter './apps/*' build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test"
+  }
+}

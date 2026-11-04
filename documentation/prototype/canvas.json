@@ -1,0 +1,51 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-11-04T10:00:00Z" },
+  "title": "Digital Reservoir Prototype",
+  "launch": { "view": "canvas", "page": "brand" },
+  "pages": [
+    { "id": "brand", "name": "Brand system" },
+    { "id": "public", "name": "Public website" },
+    { "id": "lab", "name": "Engineering Lab" },
+    { "id": "twin", "name": "Digital Twin" },
+    { "id": "access", "name": "Access & security" }
+  ],
+  "boards": {
+    "Main.dc.html": { "x": 0, "y": 0, "w": 1440, "h": 1240, "title": "Brand system — logo, palette, type, themes", "page": "brand", "expand": "fill" },
+
+    "PublicHome.dc.html": { "x": 0, "y": 0, "w": 1440, "h": 3300, "title": "1 · Public homepage — desktop", "page": "public", "expand": "fill", "is_interactive": true },
+    "PublicHomeTablet.dc.html": { "x": 1520, "y": 0, "w": 834, "h": 4300, "title": "1 · Public homepage — tablet", "page": "public", "is_interactive": true },
+    "PublicHomeMobile.dc.html": { "x": 2434, "y": 0, "w": 390, "h": 6400, "title": "1 · Public homepage — mobile", "page": "public", "is_interactive": true },
+    "Technologies.dc.html": { "x": 0, "y": 6520, "w": 1440, "h": 2500, "title": "2 · Technologies — desktop", "page": "public", "expand": "fill", "is_interactive": true },
+    "TechnologiesMobile.dc.html": { "x": 1520, "y": 6520, "w": 390, "h": 5600, "title": "2 · Technologies — mobile", "page": "public", "is_interactive": true },
+
+    "LabDashboard.dc.html": { "x": 0, "y": 0, "w": 1440, "h": 1080, "title": "3 · Engineering Lab dashboard — desktop", "page": "lab", "expand": "fill" },
+    "LabDashboardMobile.dc.html": { "x": 1520, "y": 0, "w": 390, "h": 2700, "title": "3 · Engineering Lab dashboard — mobile", "page": "lab" },
+    "LabDataProcessing.dc.html": { "x": 0, "y": 2820, "w": 1440, "h": 1200, "title": "4 · Data processing & signal tools — desktop", "page": "lab", "expand": "fill", "is_interactive": true },
+    "LabDataProcessingTablet.dc.html": { "x": 1520, "y": 2820, "w": 834, "h": 2000, "title": "4 · Data processing — tablet", "page": "lab", "is_interactive": true },
+    "LabModelComparison.dc.html": { "x": 0, "y": 4940, "w": 1440, "h": 1240, "title": "5 · AI/ML model comparison — desktop", "page": "lab", "expand": "fill", "is_interactive": true },
+    "LabModelComparisonMobile.dc.html": { "x": 1520, "y": 4940, "w": 390, "h": 3100, "title": "5 · AI/ML model comparison — mobile", "page": "lab", "is_interactive": true },
+
+    "TwinDashboard.dc.html": { "x": 0, "y": 0, "w": 1440, "h": 1100, "title": "6 · Digital Twin dashboard — desktop", "page": "twin", "expand": "fill", "is_interactive": true },
+    "TwinDashboardTablet.dc.html": { "x": 1520, "y": 0, "w": 834, "h": 2000, "title": "6 · Digital Twin dashboard — tablet", "page": "twin", "is_interactive": true },
+    "TwinDashboardMobile.dc.html": { "x": 2434, "y": 0, "w": 390, "h": 3200, "title": "6 · Digital Twin dashboard — mobile", "page": "twin", "is_interactive": true },
+    "TwinDam3D.dc.html": { "x": 0, "y": 3320, "w": 1440, "h": 940, "title": "7 · Interactive 3D dam & sensor locations — desktop", "page": "twin", "expand": "fill", "is_interactive": true },
+    "TwinDam3DTablet.dc.html": { "x": 1520, "y": 3320, "w": 834, "h": 1500, "title": "7 · Interactive 3D dam — tablet", "page": "twin", "is_interactive": true },
+    "TwinMonitoring.dc.html": { "x": 0, "y": 4940, "w": 1440, "h": 1200, "title": "8 · Real-time instrumentation monitoring — desktop", "page": "twin", "expand": "fill", "is_interactive": true },
+    "TwinMonitoringMobile.dc.html": { "x": 1520, "y": 4940, "w": 390, "h": 3000, "title": "8 · Real-time monitoring — mobile", "page": "twin", "is_interactive": true },
+
+    "AuthLogin.dc.html": { "x": 0, "y": 0, "w": 1440, "h": 920, "title": "9 · Registration & login — desktop", "page": "access", "expand": "fill", "is_interactive": true },
+    "AuthLoginMobile.dc.html": { "x": 1520, "y": 0, "w": 390, "h": 1300, "title": "9 · Registration & login — mobile", "page": "access", "is_interactive": true },
+    "ProjectAccess.dc.html": { "x": 0, "y": 1420, "w": 1440, "h": 1120, "title": "10 · Project-level secure access — desktop", "page": "access", "expand": "fill", "is_interactive": true },
+    "ProjectAccessMobile.dc.html": { "x": 1520, "y": 1420, "w": 390, "h": 2700, "title": "10 · Project-level secure access — mobile", "page": "access", "is_interactive": true }
+  },
+  "order": [
+    "Main.dc.html",
+    "PublicHome.dc.html", "PublicHomeTablet.dc.html", "PublicHomeMobile.dc.html", "Technologies.dc.html", "TechnologiesMobile.dc.html",
+    "LabDashboard.dc.html", "LabDashboardMobile.dc.html", "LabDataProcessing.dc.html", "LabDataProcessingTablet.dc.html", "LabModelComparison.dc.html", "LabModelComparisonMobile.dc.html",
+    "TwinDashboard.dc.html", "TwinDashboardTablet.dc.html", "TwinDashboardMobile.dc.html", "TwinDam3D.dc.html", "TwinDam3DTablet.dc.html", "TwinMonitoring.dc.html", "TwinMonitoringMobile.dc.html",
+    "AuthLogin.dc.html", "AuthLoginMobile.dc.html", "ProjectAccess.dc.html", "ProjectAccessMobile.dc.html"
+  ],
+  "notes": {},
+  "designSystems": []
+}

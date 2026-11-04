@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Digital Twin — real-time instrumentation monitoring</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#8FD0C4}a:hover{color:#B9E4DC}
+.mo{container-type:inline-size}
+.mo .cols{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px}
+.mo .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@container (max-width:1100px){.mo .cols{grid-template-columns:1fr}}
+@container (max-width:700px){.mo .two{grid-template-columns:1fr}}
+</style>
+</helmet>
+<div class="mo" style="background:#0B1820;color:#E6EEEB;font-family:Inter,system-ui,sans-serif;font-size:14px;line-height:1.5;min-height:1200px">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px clamp(14px,2cqi,22px);background:#10232D;border-bottom:1px solid #26434D">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <a href="TwinDashboard.dc.html" style="display:flex;align-items:center;gap:8px;color:#F5F4EF;text-decoration:none"><svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#183C45"></rect><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><polyline points="7,31 16,26.5 19.5,34 23,29 34,23" fill="none" stroke="#9B8461" stroke-width="2.4" stroke-linejoin="round"></polyline></svg><span style="font-weight:700">Digital Twin</span></a>
+      <nav aria-label="Breadcrumb" style="font-size:13px;color:#9DB3AE"><a href="TwinDashboard.dc.html" style="color:#9DB3AE">Project D</a> / <span style="color:#F5F4EF">Instrumentation monitoring</span></nav>
+    </div>
+    <div role="status" style="display:flex;align-items:center;gap:8px;font-size:13px;color:#9DB3AE"><span style="width:9px;height:9px;border-radius:50%;background:{{dot}}"></span>{{statusText}}</div>
+  </div>
+  <div role="note" style="padding:7px clamp(14px,2cqi,22px);background:#2A2416;border-bottom:1px solid #5C4D22;color:#F0DDB0;font-size:12px"><strong style="letter-spacing:.08em">DEMONSTRATION DATA</strong> · simulated stream; values do not describe any real structure.</div>
+
+  <div style="padding:clamp(12px,1.6cqi,20px);display:flex;flex-direction:column;gap:14px">
+    <div role="tablist" aria-label="Instrument group" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px">
+      <sc-for list="{{groups}}" as="g" hint-placeholder-count="8"><button role="tab" aria-selected="{{g.on}}" onClick="{{g.pick}}" style="{{g.style}}">{{g.label}}</button></sc-for>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:#10232D;border:1px solid #26434D;border-radius:12px;padding:10px">
+      <div role="group" aria-label="Time window" style="display:flex;gap:4px;flex-wrap:wrap">
+        <sc-for list="{{windows}}" as="w" hint-placeholder-count="5"><button onClick="{{w.pick}}" aria-pressed="{{w.on}}" style="{{w.style}}">{{w.label}}</button></sc-for>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#9DB3AE">Refresh
+          <select value="{{rate}}" onChange="{{setRate}}" style="min-height:36px;border-radius:8px;border:1px solid #26434D;background:#0B1820;color:#E6EEEB;font:inherit;font-size:13px;padding:0 8px"><option value="1">1 s</option><option value="5">5 s</option><option value="30">30 s</option><option value="0">Paused</option></select>
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#9DB3AE;min-height:36px"><input type="checkbox" checked="{{showTh}}" onChange="{{toggleTh}}" style="width:16px;height:16px;accent-color:#72BEB1">Criteria lines</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#9DB3AE;min-height:36px"><input type="checkbox" checked="{{showLevel}}" onChange="{{toggleLevel}}" style="width:16px;height:16px;accent-color:#72BEB1">Reservoir level overlay</label>
+      </div>
+    </div>
+
+    <div class="cols">
+      <section style="display:flex;flex-direction:column;gap:14px;min-width:0">
+        <div style="background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0">
+          <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline"><h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px;color:#F5F4EF">{{groupLabel}} · {{windowLabel}}</h2><span style="font-size:12px;color:#9DB3AE">{{unitText}}</span></div>
+          <div role="group" aria-label="Compare sensors" style="display:flex;gap:6px;flex-wrap:wrap">
+            <sc-for list="{{series}}" as="s" hint-placeholder-count="3"><button onClick="{{s.toggle}}" aria-pressed="{{s.on}}" style="{{s.chip}}"><span style="{{s.sw}}"></span>{{s.code}}</button></sc-for>
+          </div>
+          <svg viewBox="0 0 720 300" width="100%" role="img" aria-label="{{chartAria}}" style="background:#0B1820;border:1px solid #26434D;border-radius:10px">
+            <g stroke="#1A3440"><path d="M50 20H700M50 85H700M50 150H700M50 215H700M50 270H700"></path></g>
+            <sc-if value="{{showLevel}}" hint-placeholder-val="{{true}}"><polygon points="{{levelArea}}" fill="#2C8C9E" opacity=".18"></polygon></sc-if>
+            <sc-if value="{{showTh}}" hint-placeholder-val="{{true}}"><g><line x1="50" y1="{{thY}}" x2="700" y2="{{thY}}" stroke="#C0612B" stroke-dasharray="6 4"></line><text x="560" y="{{thTextY}}" fill="#E39A6C" font-family="IBM Plex Mono, monospace" font-size="10">{{thText}}</text></g></sc-if>
+            <sc-for list="{{lines}}" as="l" hint-placeholder-count="2"><polyline points="{{l.pts}}" fill="none" stroke="{{l.color}}" stroke-width="2"></polyline></sc-for>
+            <sc-for list="{{flags}}" as="f" hint-placeholder-count="2"><g><line x1="{{f.x}}" y1="276" x2="{{f.x}}" y2="290" stroke="{{f.color}}" stroke-width="3"></line></g></sc-for>
+            <line x1="{{cursorX}}" y1="20" x2="{{cursorX}}" y2="272" stroke="#F5F4EF" stroke-opacity=".35"></line>
+            <g fill="#9DB3AE" font-family="IBM Plex Mono, monospace" font-size="10"><text x="6" y="24">{{yMax}}</text><text x="6" y="274">{{yMin}}</text><text x="50" y="298">{{tStart}}</text><text x="640" y="298">{{tEnd}}</text></g>
+          </svg>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:#9DB3AE"><span>Quality flags on axis: <span style="color:#E0AE52">■ suspect</span> <span style="color:#8E9AA2">■ missing</span></span><span>Display downsampled (LTTB, ≤ 600 points); stored measurements unchanged.</span></div>
+        </div>
+
+        <div class="two">
+          <div style="background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px">
+            <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:15px;color:#F5F4EF">Correlation with reservoir level</h2>
+            <svg viewBox="0 0 320 200" width="100%" role="img" aria-label="Scatter of selected sensor against reservoir level" style="background:#0B1820;border:1px solid #26434D;border-radius:10px">
+              <sc-for list="{{scatter}}" as="p" hint-placeholder-count="20"><circle cx="{{p.x}}" cy="{{p.y}}" r="2.6" fill="#72BEB1" fill-opacity=".7"></circle></sc-for>
+              <line x1="20" y1="{{fitY0}}" x2="300" y2="{{fitY1}}" stroke="#9B8461" stroke-width="1.6"></line>
+              <text x="24" y="20" fill="#9DB3AE" font-family="IBM Plex Mono, monospace" font-size="11">r = {{corr}}</text>
+            </svg>
+            <div style="font-size:12px;color:#9DB3AE">Correlation is descriptive; lagged and thermal effects need the HST model.</div>
+          </div>
+          <div style="background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px">
+            <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:15px;color:#F5F4EF">Historical replay</h2>
+            <label style="font-size:12px;color:#9DB3AE;display:flex;flex-direction:column;gap:6px">Replay position · {{replayLabel}}
+              <input type="range" min="0" max="100" value="{{replay}}" onChange="{{setReplay}}" style="accent-color:#72BEB1">
+            </label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><button onClick="{{playReplay}}" style="min-height:38px;padding:0 12px;border-radius:8px;border:1px solid #72BEB1;background:transparent;color:#8FD0C4;font:inherit;font-weight:600;cursor:pointer">{{playLabel}}</button><span style="font-size:12px;color:#9DB3AE;align-self:center">Events: 2025-03 drawdown · 2025-08 flood peak</span></div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:#0B1820;border-radius:8px;padding:10px;line-height:1.7;white-space:pre">{{replayState}}</div>
+          </div>
+        </div>
+      </section>
+
+      <aside style="display:flex;flex-direction:column;gap:14px;min-width:0">
+        <section style="background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px">
+          <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:15px;color:#F5F4EF">Sensors in group</h2>
+          <sc-for list="{{series}}" as="s" hint-placeholder-count="3">
+            <div style="border:1px solid #26434D;border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:3px">
+              <div style="display:flex;justify-content:space-between;gap:8px"><span style="font-weight:600;color:#F5F4EF">{{s.code}}</span><span style="font-family:'IBM Plex Mono',monospace;color:#F5F4EF">{{s.last}}</span></div>
+              <div style="font-size:12px;color:#9DB3AE">{{s.name}}</div>
+              <div style="font-size:12px;color:#9DB3AE;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><span>last received {{s.time}} UTC</span><span style="color:{{s.qColor}}">{{s.q}}</span></div>
+              <div style="height:6px;background:#0B1820;border-radius:3px"><span style="{{s.avail}}"></span></div>
+              <div style="font-size:11px;color:#9DB3AE">availability {{s.availPct}} (window) · source: simulated</div>
+            </div>
+          </sc-for>
+        </section>
+        <section style="background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px;font-size:13px">
+          <h2 style="margin:0 0 4px;font-family:Manrope,sans-serif;font-size:15px;color:#F5F4EF">Trend summary</h2>
+          <div style="display:flex;justify-content:space-between"><span style="color:#9DB3AE">Sensitivity to level ({{windowLabel}})</span><span style="font-family:'IBM Plex Mono',monospace">{{slope}}</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:#9DB3AE">Max residual vs HST v3</span><span style="font-family:'IBM Plex Mono',monospace">{{maxRes}}</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:#9DB3AE">Criterion basis</span><span>{{basis}}</span></div>
+          <div style="font-size:12px;color:#9DB3AE;margin-top:4px">Trends are statistical descriptions; interpretation requires engineering review.</div>
+        </section>
+      </aside>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1200}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { t: 0, group: 0, win: 1, rate: '1', th: true, level: true, off: {}, replay: 64, playing: false }; }
+  componentDidMount() {
+    var self = this; this.acc = 0;
+    this.timer = setInterval(function () {
+      var r = Number(self.state.rate); if (r > 0) { self.acc += 1; if (self.acc >= r) { self.acc = 0; self.setState({ t: self.state.t + 1 }); } }
+      if (self.state.playing) self.setState({ replay: (self.state.replay + 2) % 101 });
+    }, 1000);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+  renderVals() {
+    var self = this, st = this.state;
+    var G = [
+      { label: 'Piezometric levels', unit: 'm', th: 41.0, basis: 'Demo criterion DC-07', s: [['PZ-01', 'Foundation, block 2', 38.6, 0.25], ['PZ-03', 'Foundation, block 4', 40.9, 0.2], ['PZ-05', 'Foundation, block 6', 37.8, 0.22]] },
+      { label: 'Uplift pressure', unit: 'kPa', th: 165, basis: 'Demo criterion DC-09', s: [['UP-05', 'Heel cell', 148, 4], ['UP-06', 'Mid-base cell', 112, 3]] },
+      { label: 'Crest displacement', unit: 'mm', th: 4.6, basis: 'Demo criterion DC-02', s: [['PL-01', 'Pendulum, block 4', 3.8, 0.5], ['PL-02', 'Pendulum, block 6', 3.1, 0.45]] },
+      { label: 'Joint movements', unit: 'mm', th: null, basis: 'Not configured', s: [['JM-04', 'Joint 3–4', 0.42, 0.06], ['JM-05', 'Joint 4–5', 0.35, 0.05]] },
+      { label: 'Temperature', unit: '°C', th: null, basis: 'Not configured', s: [['TM-11', 'Upstream face', 13.8, 1.2], ['TM-12', 'Core (offline)', 14.2, 0.5]] },
+      { label: 'Seepage', unit: 'L/s', th: 14, basis: 'Demo criterion DC-11', s: [['V-02', 'Gallery 2 weir', 12.4, 0.7], ['V-03', 'Gallery 3 weir', 6.1, 0.4]] },
+      { label: 'Inclinometers', unit: 'mm/m', th: null, basis: 'Not configured', s: [['IN-01', 'Downstream toe', 0.08, 0.02]] },
+      { label: 'Reservoir level', unit: 'm a.s.l.', th: null, basis: 'Operating rule (reference only)', s: [['RL-01', 'Intake tower gauge', 612.4, 1.4]] }
+    ];
+    var W = [{ label: 'Live 1 h', n: 60, span: 1 / 24 }, { label: '24 h', n: 96, span: 1 }, { label: '7 days', n: 120, span: 7 }, { label: '30 days', n: 120, span: 30 }, { label: '1 year', n: 150, span: 365 }];
+    var g = G[st.group], w = W[st.win], n = w.n, t = st.t;
+    var colors = ['#72BEB1', '#C9B591', '#8FB8E0'];
+    var gen = function (base, amp, k, i, seed) { var ph = (i + t) * w.span / n; return base + amp * (0.7 * Math.sin(ph * 0.9 + seed) + 0.25 * Math.sin(ph * 7 + seed * 2) + 0.15 * Math.sin((i + t) * 1.9 + k)); };
+    var level = function (i) { var ph = (i + t) * w.span / n; return 612.4 + 1.4 * Math.sin(ph * 0.4 + 0.3); };
+    var data = g.s.map(function (s, k) { var a = []; for (var i = 0; i < n; i++) a.push(gen(s[2], s[3], k, i, k + st.group)); return a; });
+    var vis = g.s.map(function (s, k) { return !st.off[s[0]]; });
+    var all = []; data.forEach(function (a, k) { if (vis[k]) all = all.concat(a); }); if (st.th && g.th) all.push(g.th); if (!all.length) all = [0, 1];
+    var mn = Math.min.apply(null, all), mx = Math.max.apply(null, all), pad = (mx - mn) * 0.12 || 1; mn -= pad; mx += pad;
+    var X = function (i) { return (50 + i * 650 / (n - 1)).toFixed(1); }, Y = function (v) { return (270 - (v - mn) / (mx - mn) * 250).toFixed(1); };
+    var lines = data.map(function (a, k) { return { pts: a.map(function (v, i) { return X(i) + ',' + Y(v); }).join(' '), color: colors[k], k: k }; }).filter(function (l) { return vis[l.k]; });
+    var lv = []; for (var i = 0; i < n; i++) lv.push(level(i));
+    var lmin = 610, lmax = 614.5, LY = function (v) { return (270 - (v - lmin) / (lmax - lmin) * 200).toFixed(1); };
+    var area = lv.map(function (v, i) { return X(i) + ',' + LY(v); }); area.push('700,270', '50,270');
+    var flags = []; for (var j = 0; j < n; j++) { if ((j + t) % 41 === 7) flags.push({ x: X(j), color: '#E0AE52' }); if ((j + t) % 67 === 20) flags.push({ x: X(j), color: '#8E9AA2' }); }
+    var stamp = '10:' + String(42 + Math.floor(t / 60) % 18).padStart(2, '0') + ':' + String((7 + t) % 60).padStart(2, '0');
+    var series = g.s.map(function (s, k) {
+      var off = st.group === 4 && k === 1, on = vis[k], last = data[k][n - 1];
+      var avail = off ? 0 : 97 + ((k * 7 + st.win) % 3);
+      return { code: s[0], name: s[1], on: String(on), last: off ? '—' : last.toFixed(g.unit === 'kPa' ? 0 : 2) + ' ' + g.unit, time: off ? '09:12:04' : stamp, q: off ? 'missing' : 'good', qColor: off ? '#8E9AA2' : '#5FB592',
+        avail: 'display:block;height:6px;border-radius:3px;background:' + (off ? '#8E9AA2' : '#5FB592') + ';width:' + Math.max(2, avail) + '%', availPct: avail + ' %',
+        sw: 'display:inline-block;width:14px;height:0;border-top:3px solid ' + colors[k],
+        chip: 'display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:0 10px;border-radius:999px;font:inherit;font-size:12px;cursor:pointer;' + (on ? 'border:1px solid #72BEB1;background:#183C45;color:#F5F4EF' : 'border:1px solid #26434D;background:transparent;color:#7F9893;text-decoration:line-through'),
+        toggle: function () { var o = Object.assign({}, st.off); o[s[0]] = !st.off[s[0]]; self.setState({ off: o }); } };
+    });
+    var first = data[0], sx = 0, sy = 0, sxy = 0, sxx = 0, syy = 0;
+    first.forEach(function (v, i) { var x = lv[i]; sx += x; sy += v; sxy += x * v; sxx += x * x; syy += v * v; });
+    var r = (n * sxy - sx * sy) / Math.sqrt((n * sxx - sx * sx) * (n * syy - sy * sy) || 1);
+    var fmn = Math.min.apply(null, first), fmx = Math.max.apply(null, first);
+    var scat = first.filter(function (v, i) { return i % 2 === 0; }).map(function (v, i) { return { x: (20 + (lv[i * 2] - 610.8) / 3.4 * 280).toFixed(1), y: (180 - (v - fmn) / (fmx - fmn || 1) * 160).toFixed(1) }; });
+    var slope = (sxy - sx * sy / n) / (sxx - sx * sx / n || 1), ic = sy / n - slope * sx / n;
+    var fy = function (lx) { return (180 - ((slope * lx + ic) - fmn) / (fmx - fmn || 1) * 160).toFixed(1); };
+    var rp = st.replay, rdate = new Date(Date.UTC(2025, 0, 1) + rp / 100 * 365 * 86400000).toISOString().slice(0, 10);
+    var rLevel = 612.4 + 1.4 * Math.sin(rp / 100 * 6.28 - 0.4) - (rp > 15 && rp < 30 ? 2.1 : 0) + (rp > 58 && rp < 66 ? 1.6 : 0);
+    var d0 = g.s[0];
+    return {
+      groups: G.map(function (x, i) { var on = st.group === i; return { label: x.label, on: String(on), pick: function () { self.setState({ group: i, off: {} }); }, style: 'white-space:nowrap;min-height:40px;padding:0 14px;border-radius:9px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;' + (on ? 'background:#183C45;border:1px solid #72BEB1;color:#F5F4EF' : 'background:#10232D;border:1px solid #26434D;color:#B7CBC6') }; }),
+      windows: W.map(function (x, i) { var on = st.win === i; return { label: x.label, on: String(on), pick: function () { self.setState({ win: i }); }, style: 'min-height:36px;padding:0 12px;border-radius:8px;font:inherit;font-size:13px;cursor:pointer;' + (on ? 'background:#72BEB1;color:#0B1820;border:1px solid #72BEB1;font-weight:700' : 'background:transparent;color:#B7CBC6;border:1px solid #26434D') }; }),
+      rate: st.rate, setRate: function (e) { self.setState({ rate: e.target.value }); },
+      showTh: st.th, toggleTh: function () { self.setState({ th: !st.th }); }, showLevel: st.level, toggleLevel: function () { self.setState({ level: !st.level }); },
+      groupLabel: g.label, windowLabel: w.label, unitText: 'unit: ' + g.unit + ' · time zone UTC',
+      series: series, lines: lines, levelArea: area.join(' '), flags: flags,
+      thY: g.th ? Y(g.th) : -20, thTextY: g.th ? (Number(Y(g.th)) - 5).toFixed(1) : -20, thText: g.th ? g.basis + ' · ' + g.th + ' ' + g.unit : '',
+      cursorX: X(n - 1), yMax: mx.toFixed(2), yMin: mn.toFixed(2), tStart: w.label === 'Live 1 h' ? '−60 min' : '−' + w.label, tEnd: 'now',
+      chartAria: g.label + ' over ' + w.label + ' for ' + series.length + ' sensors',
+      dot: st.rate === '0' ? '#8E9AA2' : '#5FB592', statusText: st.rate === '0' ? 'Updates paused' : 'Streaming every ' + st.rate + ' s · last message ' + stamp + ' UTC',
+      scatter: scat, fitY0: fy(610.8), fitY1: fy(614.2), corr: r.toFixed(2),
+      replay: rp, setReplay: function (e) { self.setState({ replay: Number(e.target.value) }); }, replayLabel: rdate,
+      playLabel: st.playing ? 'Pause replay' : 'Play replay', playReplay: function () { self.setState({ playing: !st.playing }); },
+      replayState: rdate + ' 00:00 UTC\nRL-01  ' + rLevel.toFixed(2) + ' m a.s.l.\n' + d0[0] + '  ' + (d0[2] + d0[3] * Math.sin(rp / 16)).toFixed(2) + ' ' + g.unit + '\ncondition (then): ' + (rp > 58 && rp < 66 && g.th ? 'Attention' : 'Normal / not assessed'),
+      slope: (slope * 1).toFixed(3) + ' ' + g.unit + '/m', maxRes: (d0[3] * 0.9).toFixed(2) + ' ' + g.unit, basis: g.basis
+    };
+  }
+}
+</script>
+</body>
+</html>

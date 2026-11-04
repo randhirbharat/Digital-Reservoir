@@ -1,27 +1,13 @@
-# Digital Reservoir HST tools page
+# Digital Reservoir
 
-Standalone browser-based HST analysis and prediction workbench.
+**Intelligence for Infrastructure.** From monitoring data to engineering decisions.
 
-## Features
+Three connected applications under one identity:
 
-- CSV upload and column mapping
-- Built-in demonstration data
-- Linear or quadratic hydrostatic terms
-- Annual sine/cosine seasonal terms
-- Linear time term
-- Training/validation split option
-- Observed versus predicted graph
-- Component graph
-- Standardised residual and threshold graph
-- Simple forecast graph
-- Anomaly screening
-- Results table
-- CSV template and results export
+1. **Public website**: research, technologies, publications and resources (open).
+2. **Engineering Lab**: data upload, processing, statistics, HST, ML (registered members).
+3. **Digital Twin**: secure live monitoring with a 3D structure (authorised project teams).
 
-## Deploy
-
-Open `tools.html` directly or upload it to GitHub Pages. The page uses Chart.js from jsDelivr. For offline deployment, download and self-host the approved Chart.js library according to its licence.
-
-## Engineering limitation
-
-This is a preliminary educational implementation. It uses ordinary least squares in the browser and does not replace project-specific HST model selection, data-quality review, confidence-interval analysis, physical interpretation, statutory review or qualified engineering judgement.
+Current stage: **Stage 1 (brand, architecture and visual prototype)**, awaiting approval.
+See `documentation/ARCHITECTURE.md` and `documentation/IMPLEMENTATION_STATUS.md`.
+The prototype source is in `documentation/prototype/`. The previous static site is preserved in `legacy/static-site/`.

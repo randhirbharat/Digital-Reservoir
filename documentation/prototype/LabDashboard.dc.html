@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Engineering Lab — dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2C6B61}a:hover{color:#183C45}
+.lab{container-type:inline-size}
+.lab .shell{display:flex;min-height:1080px}
+.lab .side{width:248px;flex:none;display:flex;flex-direction:column}
+.lab .sidenav{display:flex;flex-direction:column;gap:2px}
+.lab .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.lab .cols{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px}
+.lab .tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.lab .hide-sm{display:inline}
+@container (max-width:1100px){.lab .cols{grid-template-columns:1fr}.lab .tools{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@container (max-width:760px){.lab .shell{flex-direction:column}.lab .side{width:auto}.lab .sidenav{flex-direction:row;overflow-x:auto;padding-bottom:6px}.lab .sidegroup{display:none}.lab .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.lab .tools{grid-template-columns:repeat(2,minmax(0,1fr))}.lab .hide-sm{display:none}}
+</style>
+</helmet>
+<div class="lab" style="background:#F1F3F0;color:#10232D;font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.55">
+<div class="shell">
+  <aside class="side" style="background:#10232D;color:#DCE9E4;padding:18px 14px;gap:18px">
+    <a href="LabDashboard.dc.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#F5F4EF;padding:4px 6px">
+      <svg width="34" height="34" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#183C45"></rect><path d="M7 21h20v17H7z" fill="#72BEB1" opacity=".28"></path><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><polyline points="7,31 13,31 16,26.5 19.5,34 23,29 30.5,29 34,23" fill="none" stroke="#9B8461" stroke-width="1.9" stroke-linejoin="round"></polyline><circle cx="34" cy="23" r="2.6" fill="#9B8461"></circle></svg>
+      <span style="display:flex;flex-direction:column;line-height:1.1"><span style="font-family:Manrope,sans-serif;font-weight:800;letter-spacing:.08em;font-size:13px">DIGITAL RESERVOIR</span><span style="font-size:12px;color:#9DB3AE;font-weight:600">Engineering Lab</span></span>
+    </a>
+    <nav class="sidenav" aria-label="Lab modules" style="font-size:14px">
+      <a href="LabDashboard.dc.html" aria-current="page" style="display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:8px;background:#183C45;color:#F5F4EF;text-decoration:none;white-space:nowrap;font-weight:600"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>Dashboard</a>
+      <a href="LabDashboard.dc.html" style="display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:8px;color:#DCE9E4;text-decoration:none;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 7h6l2 2h10v10H3z"></path></svg>Projects</a>
+      <a href="LabDataProcessing.dc.html" style="display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:8px;color:#DCE9E4;text-decoration:none;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"></ellipse><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"></path></svg>Datasets &amp; processing</a>
+      <div class="sidegroup" style="font-size:11px;letter-spacing:.14em;color:#7F9893;font-weight:700;padding:14px 10px 4px">ANALYSIS</div>
+      <a href="LabDataProcessing.dc.html" style="display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:8px;color:#DCE9E4;text-decoration:none;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12h4l2-6 4 12 3-9 2 3h5"></path></svg>Signal processing</a>
+      <a href="LabDashboard.dc.html" style="display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:8px;color:#DCE9E4;text-decoration:none;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="7" cy="16" r="1.5"></circle><circle cx="12" cy="11" r="1.5"></circle><circle cx="17" cy="7" r="1.5"></circle><path d="M4 20L20 4"></path></svg>Statistics &amp; PCA</a>
+      <a href="LabDashboard.dc.html" style="display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:8px;color:#DCE9E4;text-decoration:none;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 18c3-8 5-12 8-12s5 4 8 12"></path></svg>HST analysis</a>
+      <a href="LabModelComparison.dc.html" style="display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:8px;color:#DCE9E4;text-decoration:none;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="6" cy="6" r="2"></circle><circle cx="18" cy="6" r="2"></circle><circle cx="12" cy="18" r="2"></circle><path d="M7.5 7.5l3.5 9M16.5 7.5l-3.5 9"></path></svg>AI / ML laboratory</a>
+      <a href="LabDashboard.dc.html" style="display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:8px;color:#DCE9E4;text-decoration:none;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l9 16H3z"></path><path d="M12 10v4M12 17v.5"></path></svg>Damage detection</a>
+      <a href="LabDashboard.dc.html" style="display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:8px;color:#DCE9E4;text-decoration:none;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"></path></svg>Dam Health Index</a>
+      <a href="LabDashboard.dc.html" style="display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:8px;color:#DCE9E4;text-decoration:none;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 21l6-14 4 8 3-5 5 11z"></path></svg>Numerical results</a>
+      <a href="LabDashboard.dc.html" style="display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:8px;color:#DCE9E4;text-decoration:none;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 20C8 20 9 4 12 4s4 16 9 16"></path></svg>Modal &amp; fragility</a>
+      <div class="sidegroup" style="font-size:11px;letter-spacing:.14em;color:#7F9893;font-weight:700;padding:14px 10px 4px">OUTPUTS</div>
+      <a href="LabDashboard.dc.html" style="display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:8px;color:#DCE9E4;text-decoration:none;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 12h7M9 16h7"></path></svg>Reports &amp; figures</a>
+      <a href="LabDashboard.dc.html" style="display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:8px;color:#DCE9E4;text-decoration:none;white-space:nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 9.5a2.5 2.5 0 1 1 3 2.4c-.6.2-.5.6-.5 1.6M12 17v.5"></path></svg>Documentation</a>
+    </nav>
+  </aside>
+
+  <main style="flex:1;min-width:0;display:flex;flex-direction:column">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:12px clamp(16px,2.5cqi,28px);border-bottom:1px solid #D5DDD8;background:#FFFFFF">
+      <nav aria-label="Applications" style="display:flex;gap:4px;font-size:13px;font-weight:600">
+        <a href="PublicHome.dc.html" style="padding:6px 10px;border-radius:7px;color:#4C5C62;text-decoration:none">Website</a>
+        <a href="LabDashboard.dc.html" aria-current="page" style="padding:6px 10px;border-radius:7px;background:#E7ECE8;color:#10232D;text-decoration:none">Engineering Lab</a>
+        <a href="ProjectAccess.dc.html" style="padding:6px 10px;border-radius:7px;color:#4C5C62;text-decoration:none">Digital Twin</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label style="display:flex;align-items:center;gap:8px;min-height:40px;border:1px solid #D5DDD8;border-radius:9px;padding:0 10px;background:#F1F3F0" class="hide-sm"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4C5C62" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg><input type="search" placeholder="Search projects, datasets, runs" aria-label="Search" style="border:0;background:transparent;font:inherit;font-size:14px;outline:0;width:220px"></label>
+        <button aria-label="Notifications (3 unread)" style="position:relative;width:40px;height:40px;border-radius:9px;border:1px solid #D5DDD8;background:#FFFFFF;cursor:pointer;display:inline-flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10232D" stroke-width="2" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><span style="position:absolute;top:6px;right:7px;width:8px;height:8px;border-radius:50%;background:#9B8461"></span></button>
+        <div style="display:flex;align-items:center;gap:8px"><span style="width:36px;height:36px;border-radius:50%;background:#183C45;color:#F5F4EF;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">RB</span><span class="hide-sm" style="display:flex;flex-direction:column;line-height:1.15"><span style="font-weight:600;font-size:14px">[Member name]</span><span style="font-size:12px;color:#4C5C62">Researcher · MFA on</span></span></div>
+      </div>
+    </div>
+
+    <div style="padding:clamp(16px,2.5cqi,28px);display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px">
+        <div>
+          <h1 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(24px,2.6cqi,30px)">Welcome back</h1>
+          <p style="margin:4px 0 0;color:#4C5C62">Continue an analysis or start a new workflow. Original uploads are never modified.</p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <button style="min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #C7D1CC;background:#FFFFFF;font:inherit;font-weight:600;cursor:pointer">New project</button>
+          <button style="min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #C7D1CC;background:#FFFFFF;font:inherit;font-weight:600;cursor:pointer">Upload CSV / Excel</button>
+          <a href="LabDataProcessing.dc.html" style="display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:10px;background:#183C45;color:#F5F4EF;font-weight:600;text-decoration:none">Run HST analysis</a>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:12px;padding:16px"><div style="font-size:13px;color:#4C5C62">Projects</div><div style="font-family:'IBM Plex Mono',monospace;font-size:26px">4</div><div style="font-size:12px;color:#4C5C62">1 shared with you</div></div>
+        <div style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:12px;padding:16px"><div style="font-size:13px;color:#4C5C62">Datasets</div><div style="font-family:'IBM Plex Mono',monospace;font-size:26px">9 <span style="font-size:14px;color:#4C5C62">· 14 versions</span></div><div style="font-size:12px;color:#4C5C62">originals preserved</div></div>
+        <div style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:12px;padding:16px"><div style="font-size:13px;color:#4C5C62">Analysis runs</div><div style="font-family:'IBM Plex Mono',monospace;font-size:26px">27</div><div style="font-size:12px;color:#4C5C62">all reproducible</div></div>
+        <div style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:12px;padding:16px"><div style="font-size:13px;color:#4C5C62">Compute this month</div><div style="font-family:'IBM Plex Mono',monospace;font-size:26px">3.2 <span style="font-size:14px;color:#4C5C62">/ 20 CPU-h</span></div><div style="height:6px;border-radius:3px;background:#E7ECE8;margin-top:6px"><div style="width:16%;height:6px;border-radius:3px;background:#2C6B61"></div></div></div>
+      </div>
+
+      <div class="cols">
+        <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+          <section style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:18px;min-width:0">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px"><h2 style="margin:0;font-family:Manrope,sans-serif;font-size:17px">Recent analysis runs</h2><a href="LabModelComparison.dc.html" style="font-size:14px;font-weight:600">All runs</a></div>
+            <div style="overflow-x:auto;border:1px solid #E1E7E3;border-radius:10px">
+              <table style="width:100%;border-collapse:collapse;font-size:14px;white-space:nowrap">
+                <thead><tr style="background:#F1F3F0;color:#4C5C62;text-align:left"><th style="padding:9px 12px;font-weight:600">Run</th><th style="padding:9px 12px;font-weight:600">Dataset</th><th style="padding:9px 12px;font-weight:600">Key result</th><th style="padding:9px 12px;font-weight:600">When</th></tr></thead>
+                <tbody>
+                  <tr style="border-top:1px solid #E1E7E3"><td style="padding:10px 12px"><a href="LabDataProcessing.dc.html" style="font-weight:600">HST · PL-01 crest</a></td><td style="padding:10px 12px">demo_gravity_dam v2</td><td style="padding:10px 12px;font-family:'IBM Plex Mono',monospace">RMSE val 0.41 mm</td><td style="padding:10px 12px;color:#4C5C62">12 min ago</td></tr>
+                  <tr style="border-top:1px solid #E1E7E3"><td style="padding:10px 12px"><a href="LabModelComparison.dc.html" style="font-weight:600">ML comparison · 5 models</a></td><td style="padding:10px 12px">demo_gravity_dam v2</td><td style="padding:10px 12px;font-family:'IBM Plex Mono',monospace">best: GBR, MAE 0.29</td><td style="padding:10px 12px;color:#4C5C62">1 h ago</td></tr>
+                  <tr style="border-top:1px solid #E1E7E3"><td style="padding:10px 12px"><a href="LabDashboard.dc.html" style="font-weight:600">PCA · 8 piezometers</a></td><td style="padding:10px 12px">piezometers_2019-24</td><td style="padding:10px 12px;font-family:'IBM Plex Mono',monospace">PC1–2: 81.6 % var.</td><td style="padding:10px 12px;color:#4C5C62">yesterday</td></tr>
+                  <tr style="border-top:1px solid #E1E7E3"><td style="padding:10px 12px"><a href="LabDataProcessing.dc.html" style="font-weight:600">Butterworth low-pass</a></td><td style="padding:10px 12px">accel_block7 v1</td><td style="padding:10px 12px;font-family:'IBM Plex Mono',monospace">fc 5 Hz, order 4</td><td style="padding:10px 12px;color:#4C5C62">2 d ago</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="font-size:12px;color:#4C5C62;margin-top:8px">Values shown are from the prototype's synthetic example datasets.</div>
+          </section>
+
+          <section style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:18px">
+            <h2 style="margin:0 0 12px;font-family:Manrope,sans-serif;font-size:17px">Available tools</h2>
+            <div class="tools">
+              <a href="LabDataProcessing.dc.html" style="display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:10px;background:#F1F3F0;color:#10232D;text-decoration:none"><span style="font-weight:600">Data quality</span><span style="font-size:12px;color:#4C5C62">gaps · duplicates · outliers</span></a>
+              <a href="LabDataProcessing.dc.html" style="display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:10px;background:#F1F3F0;color:#10232D;text-decoration:none"><span style="font-weight:600">Signal processing</span><span style="font-size:12px;color:#4C5C62">filters · FFT · PSD · wavelets</span></a>
+              <a href="LabDashboard.dc.html" style="display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:10px;background:#F1F3F0;color:#10232D;text-decoration:none"><span style="font-weight:600">Regression &amp; PCA</span><span style="font-size:12px;color:#4C5C62">diagnostics · intervals</span></a>
+              <a href="LabDashboard.dc.html" style="display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:10px;background:#F1F3F0;color:#10232D;text-decoration:none"><span style="font-weight:600">HST model</span><span style="font-size:12px;color:#4C5C62">calibrate · validate · predict</span></a>
+              <a href="LabModelComparison.dc.html" style="display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:10px;background:#F1F3F0;color:#10232D;text-decoration:none"><span style="font-weight:600">ML laboratory</span><span style="font-size:12px;color:#4C5C62">train · compare · explain</span></a>
+              <a href="LabDashboard.dc.html" style="display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:10px;background:#F1F3F0;color:#10232D;text-decoration:none"><span style="font-weight:600">Anomaly detection</span><span style="font-size:12px;color:#4C5C62">residual · CUSUM · isolation</span></a>
+              <a href="LabDashboard.dc.html" style="display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:10px;background:#F1F3F0;color:#10232D;text-decoration:none"><span style="font-weight:600">Dam Health Index</span><span style="font-size:12px;color:#4C5C62">AHP · sensitivity</span></a>
+              <a href="LabDashboard.dc.html" style="display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:10px;background:#F1F3F0;color:#10232D;text-decoration:none"><span style="font-weight:600">Fragility</span><span style="font-size:12px;color:#4C5C62">IDA · lognormal fit</span></a>
+            </div>
+          </section>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+          <section style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:18px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h2 style="margin:0;font-family:Manrope,sans-serif;font-size:17px">Projects</h2><a href="LabDashboard.dc.html" style="font-size:14px;font-weight:600">Manage</a></div>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <a href="LabDataProcessing.dc.html" style="display:flex;justify-content:space-between;gap:10px;padding:10px;border-radius:9px;color:#10232D;text-decoration:none;background:#F1F3F0"><span style="font-weight:600">Gravity dam behaviour study</span><span style="font-size:13px;color:#4C5C62">5 datasets</span></a>
+              <a href="LabDataProcessing.dc.html" style="display:flex;justify-content:space-between;gap:10px;padding:10px;border-radius:9px;color:#10232D;text-decoration:none"><span style="font-weight:600">Piezometer PCA</span><span style="font-size:13px;color:#4C5C62">2 datasets</span></a>
+              <a href="LabDataProcessing.dc.html" style="display:flex;justify-content:space-between;gap:10px;padding:10px;border-radius:9px;color:#10232D;text-decoration:none"><span style="font-weight:600">Ambient vibration — Block 7</span><span style="font-size:13px;color:#4C5C62">1 dataset</span></a>
+              <a href="LabDataProcessing.dc.html" style="display:flex;justify-content:space-between;gap:10px;padding:10px;border-radius:9px;color:#10232D;text-decoration:none"><span style="font-weight:600">Fragility tutorial</span><span style="font-size:13px;color:#4C5C62">1 dataset</span></a>
+            </div>
+          </section>
+          <section style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:18px">
+            <h2 style="margin:0 0 10px;font-family:Manrope,sans-serif;font-size:17px">Uploaded datasets</h2>
+            <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+              <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><span style="font-family:'IBM Plex Mono',monospace">demo_gravity_dam.csv</span><span style="border:1px solid #9B8461;background:#EFE7D8;color:#6E5A3A;border-radius:999px;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.08em">SYNTHETIC EXAMPLE</span></div>
+              <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><span style="font-family:'IBM Plex Mono',monospace">piezometers_2019-24.xlsx</span><span style="border:1px solid #2C6B61;color:#2C6B61;border-radius:999px;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.08em">HISTORICAL MEASURED</span></div>
+              <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap"><span style="font-family:'IBM Plex Mono',monospace">accel_block7.csv</span><span style="border:1px solid #C6D9D1;background:#DCE9E4;color:#183C45;border-radius:999px;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.08em">IMPORTED THIRD-PARTY</span></div>
+            </div>
+          </section>
+          <section style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:18px">
+            <h2 style="margin:0 0 10px;font-family:Manrope,sans-serif;font-size:17px">Notifications</h2>
+            <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:14px">
+              <li style="display:flex;gap:10px"><span style="width:8px;height:8px;border-radius:50%;background:#9B8461;margin-top:7px;flex:none"></span><span>ML comparison finished — 5 models, chronological holdout.</span></li>
+              <li style="display:flex;gap:10px"><span style="width:8px;height:8px;border-radius:50%;background:#9B8461;margin-top:7px;flex:none"></span><span>Report “HST PL-01” is ready to download (PDF, CSV).</span></li>
+              <li style="display:flex;gap:10px"><span style="width:8px;height:8px;border-radius:50%;background:#C7D1CC;margin-top:7px;flex:none"></span><span>Upload check: 12 duplicate timestamps flagged in accel_block7 — original kept.</span></li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

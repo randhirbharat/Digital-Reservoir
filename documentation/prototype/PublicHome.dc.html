@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Digital Reservoir — public homepage</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2C6B61}a:hover{color:#183C45}
+.ph{container-type:inline-size}
+.ph .wrap{max-width:1240px;margin:0 auto;padding:0 clamp(16px,4vw,32px);box-sizing:border-box}
+.ph .navlinks{display:flex}
+.ph .burger{display:none}
+.ph .access{display:flex}
+.ph .hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:48px;align-items:center}
+.ph .g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.ph .g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.ph .g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;align-items:center}
+.ph .flow{display:flex;flex-wrap:wrap;gap:8px 6px;align-items:center}
+.ph .mobilemenu{display:none}
+.ph h1{font-size:clamp(34px,5.2cqi,60px)}
+@container (max-width:1180px){.ph .navlinks{display:none}.ph .burger{display:inline-flex}.ph .mobilemenu.open{display:flex}}
+@container (max-width:900px){.ph .hero,.ph .g2{grid-template-columns:1fr;gap:32px}.ph .g3{grid-template-columns:repeat(2,minmax(0,1fr))}.ph .g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@container (max-width:600px){.ph .g3,.ph .g4{grid-template-columns:1fr}.ph .access{display:none}.ph h1{font-size:34px}}
+</style>
+</helmet>
+<div class="ph" style="background:#F5F4EF;color:#10232D;font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.6">
+
+  <header style="position:sticky;top:0;z-index:5;background:#F5F4EFF2;border-bottom:1px solid #D9DBD2">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:72px">
+      <a href="PublicHome.dc.html" style="display:flex;align-items:center;gap:11px;text-decoration:none;color:#10232D">
+        <svg width="38" height="38" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#10232D"></rect><path d="M7 21h20v17H7z" fill="#72BEB1" opacity=".28"></path><path d="M7 21c2.2-1.8 4.4-1.8 6.6 0s4.4 1.8 6.6 0 4.4-1.8 6.8 0" fill="none" stroke="#72BEB1" stroke-width="1.8" stroke-linecap="round"></path><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><polyline points="7,31 13,31 16,26.5 19.5,34 23,29 30.5,29 34,23" fill="none" stroke="#9B8461" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"></polyline><circle cx="34" cy="23" r="2.6" fill="#9B8461" stroke="#10232D" stroke-width="1.2"></circle></svg>
+        <span style="display:flex;flex-direction:column;line-height:1"><span style="font-family:Manrope,sans-serif;font-weight:800;letter-spacing:.08em;font-size:15px">DIGITAL RESERVOIR</span><span style="font-size:9px;font-weight:600;letter-spacing:.22em;color:#6E5A3A;margin-top:4px">INTELLIGENCE FOR INFRASTRUCTURE</span></span>
+      </a>
+      <nav class="navlinks" aria-label="Main" style="gap:2px;font-size:14px;font-weight:500">
+        <a href="PublicHome.dc.html" aria-current="page" style="padding:8px 9px;border-radius:8px;color:#10232D;text-decoration:none;background:#EBE9E0">Home</a>
+        <a href="Technologies.dc.html" style="padding:8px 9px;color:#10232D;text-decoration:none">Technologies</a>
+        <a href="#applications" style="padding:8px 9px;color:#10232D;text-decoration:none">Applications</a>
+        <a href="#research" style="padding:8px 9px;color:#10232D;text-decoration:none">Research</a>
+        <a href="#research" style="padding:8px 9px;color:#10232D;text-decoration:none">Publications</a>
+        <a href="#resources" style="padding:8px 9px;color:#10232D;text-decoration:none">Resources</a>
+        <a href="#lab" style="padding:8px 9px;color:#10232D;text-decoration:none">Engineering Lab</a>
+        <a href="#twin" style="padding:8px 9px;color:#10232D;text-decoration:none">Digital Twin</a>
+        <a href="#about" style="padding:8px 9px;color:#10232D;text-decoration:none">About</a>
+        <a href="#contact" style="padding:8px 9px;color:#10232D;text-decoration:none">Contact</a>
+      </nav>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="access" style="gap:8px">
+          <a href="AuthLogin.dc.html" style="display:inline-flex;align-items:center;gap:7px;min-height:42px;padding:0 14px;border-radius:10px;background:#183C45;color:#F5F4EF;font-size:14px;font-weight:600;text-decoration:none">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 3h10v18H9"></path><path d="M3 12h11"></path><path d="M10 8l4 4-4 4"></path></svg>Lab login / register</a>
+          <a href="ProjectAccess.dc.html" style="display:inline-flex;align-items:center;gap:7px;min-height:42px;padding:0 14px;border-radius:10px;border:1px solid #10232D;color:#10232D;font-size:14px;font-weight:600;text-decoration:none">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Digital Twin login</a>
+        </div>
+        <button class="burger" onClick="{{toggleMenu}}" aria-label="Open menu" aria-expanded="{{menuOpenStr}}" style="align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;border:1px solid #C9CCC2;background:#FFFFFF;color:#10232D;cursor:pointer">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div class="{{menuClass}}" style="flex-direction:column;gap:2px;padding:8px 16px 18px;border-top:1px solid #D9DBD2;background:#F5F4EF">
+      <a href="PublicHome.dc.html" style="padding:12px 8px;color:#10232D;text-decoration:none;font-weight:600">Home</a>
+      <a href="Technologies.dc.html" style="padding:12px 8px;color:#10232D;text-decoration:none">Technologies</a>
+      <a href="#applications" style="padding:12px 8px;color:#10232D;text-decoration:none">Applications</a>
+      <a href="#research" style="padding:12px 8px;color:#10232D;text-decoration:none">Research &amp; Insights · Publications</a>
+      <a href="#resources" style="padding:12px 8px;color:#10232D;text-decoration:none">Resources</a>
+      <a href="#about" style="padding:12px 8px;color:#10232D;text-decoration:none">About · Contact</a>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+        <a href="AuthLogin.dc.html" style="display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:10px;background:#183C45;color:#F5F4EF;font-weight:600;text-decoration:none">Engineering Lab — login / register</a>
+        <a href="ProjectAccess.dc.html" style="display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:10px;border:1px solid #10232D;color:#10232D;font-weight:600;text-decoration:none">Digital Twin — authorised login</a>
+      </div>
+    </div>
+  </header>
+
+  <section style="padding:clamp(48px,7cqi,96px) 0 clamp(40px,6cqi,80px)">
+    <div class="wrap hero">
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.18em;color:#2C6B61">ENGINEERING INTELLIGENCE FOR DAMS &amp; CRITICAL INFRASTRUCTURE</div>
+        <h1 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;line-height:1.04;letter-spacing:-.025em">Understanding Infrastructure Through Data, Physics and Intelligence.</h1>
+        <p style="margin:0;font-size:clamp(16px,1.5cqi,19px);color:#4C5C62;max-width:56ch">Integrating instrumentation, scientific computing, artificial intelligence and structural assessment for safer and smarter infrastructure.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <a href="Technologies.dc.html" style="display:inline-flex;align-items:center;min-height:50px;padding:0 20px;border-radius:10px;background:#183C45;color:#F5F4EF;font-weight:600;text-decoration:none">Explore Engineering Technologies</a>
+          <a href="LabDashboard.dc.html" style="display:inline-flex;align-items:center;min-height:50px;padding:0 20px;border-radius:10px;border:1px solid #10232D;color:#10232D;font-weight:600;text-decoration:none">Enter Engineering Lab</a>
+          <a href="TwinDashboard.dc.html" style="display:inline-flex;align-items:center;min-height:50px;padding:0 20px;border-radius:10px;color:#10232D;font-weight:600;text-decoration:underline;text-underline-offset:4px">Explore Digital Twin</a>
+        </div>
+      </div>
+      <figure style="margin:0;display:flex;flex-direction:column;gap:10px">
+        <div style="position:relative;aspect-ratio:16/10;border-radius:18px;overflow:hidden;background:#10232D">
+          <svg viewBox="0 0 640 400" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of a concrete gravity dam holding a reservoir, with monitoring sensors and data links">
+            <rect width="640" height="400" fill="#10232D"></rect>
+            <path d="M0 150 L120 96 L230 132 L330 84 L460 128 L640 70 L640 400 L0 400Z" fill="#163040"></path>
+            <path d="M0 196 L140 150 L260 176 L380 142 L520 170 L640 130 L640 400 L0 400Z" fill="#183C45"></path>
+            <rect x="0" y="214" width="372" height="186" fill="#72BEB1" opacity=".22"></rect>
+            <path d="M0 214 q18 -6 36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t12 0" fill="none" stroke="#72BEB1" stroke-width="2"></path>
+            <path d="M0 236 q18 -5 36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0 t36 0" fill="none" stroke="#72BEB1" stroke-width="1" opacity=".5"></path>
+            <path d="M372 150 L410 150 L520 372 L372 372Z" fill="#DCE9E4"></path>
+            <path d="M372 150 L410 150 L520 372 L372 372Z" fill="none" stroke="#F5F4EF" stroke-width="1.5"></path>
+            <rect x="388" y="300" width="18" height="12" rx="3" fill="#10232D" opacity=".75"></rect>
+            <rect x="388" y="230" width="18" height="12" rx="3" fill="#10232D" opacity=".75"></rect>
+            <path d="M330 372 L640 372 L640 400 L330 400Z" fill="#0A161D"></path>
+            <path d="M520 372 q30 -6 60 4 t60 0" fill="none" stroke="#72BEB1" stroke-width="1.5" opacity=".6"></path>
+            <g fill="none" stroke="#9B8461" stroke-width="1.4" stroke-dasharray="3 4" opacity=".85"><path d="M391 158 L470 70"></path><path d="M397 306 L560 236"></path><path d="M455 260 L560 190"></path></g>
+            <g><circle cx="391" cy="158" r="6" fill="#9B8461"></circle><circle cx="391" cy="158" r="12" fill="none" stroke="#9B8461" opacity=".45"></circle></g>
+            <circle cx="397" cy="306" r="6" fill="#72BEB1"></circle>
+            <circle cx="455" cy="260" r="6" fill="#72BEB1"></circle>
+            <circle cx="430" cy="372" r="5" fill="#F5F4EF"></circle>
+            <rect x="470" y="46" width="146" height="48" rx="9" fill="#0A161D" stroke="#26434D"></rect>
+            <text x="482" y="66" fill="#9DB3AE" font-family="IBM Plex Mono, monospace" font-size="11">PL-01 crest</text>
+            <text x="482" y="84" fill="#F5F4EF" font-family="IBM Plex Mono, monospace" font-size="13">δ 3.81 mm</text>
+            <polyline points="560,84 570,80 578,82 586,74 596,78 606,70" fill="none" stroke="#9B8461" stroke-width="1.6"></polyline>
+            <rect x="560" y="176" width="70" height="48" rx="9" fill="#0A161D" stroke="#26434D"></rect>
+            <text x="570" y="196" fill="#9DB3AE" font-family="IBM Plex Mono, monospace" font-size="11">PZ-03</text>
+            <text x="570" y="214" fill="#F5F4EF" font-family="IBM Plex Mono, monospace" font-size="13">41.3 m</text>
+            <text x="24" y="384" fill="#DCE9E4" font-family="Inter, sans-serif" font-size="12" opacity=".85">Reservoir</text>
+          </svg>
+          <span style="position:absolute;left:14px;top:14px;border:1px solid #9B8461;background:#10232DE6;color:#D8C49E;border-radius:999px;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:.1em">ILLUSTRATIVE · NOT AN EXISTING DAM</span>
+        </div>
+        <figcaption style="font-size:13px;color:#4C5C62">Hero media slot (16:9 adaptive). Replace with licensed dam photography; the illustration remains the fallback and is labelled as illustrative.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section style="background:#10232D;color:#E6EEEB;padding:28px 0">
+    <div class="wrap flow" style="font-size:14px;font-weight:600">
+      <span style="color:#72BEB1">Physical infrastructure</span><span aria-hidden="true" style="color:#9B8461">→</span>
+      <span>Instrumentation</span><span aria-hidden="true" style="color:#9B8461">→</span>
+      <span>Data acquisition</span><span aria-hidden="true" style="color:#9B8461">→</span>
+      <span>Data processing</span><span aria-hidden="true" style="color:#9B8461">→</span>
+      <span>Statistical analysis</span><span aria-hidden="true" style="color:#9B8461">→</span>
+      <span>AI/ML</span><span aria-hidden="true" style="color:#9B8461">→</span>
+      <span>Hybrid modelling</span><span aria-hidden="true" style="color:#9B8461">→</span>
+      <span>Structural health assessment</span><span aria-hidden="true" style="color:#9B8461">→</span>
+      <span>Digital twin</span><span aria-hidden="true" style="color:#9B8461">→</span>
+      <span style="color:#72BEB1">Engineering decisions</span>
+    </div>
+  </section>
+
+  <section style="padding:clamp(56px,7cqi,96px) 0">
+    <div class="wrap" style="display:flex;flex-direction:column;gap:32px">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
+        <div style="max-width:680px;display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.18em;color:#2C6B61">FEATURED TECHNOLOGIES</div>
+          <h2 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(28px,3.4cqi,40px);line-height:1.1">From sensor signal to engineering evidence</h2>
+          <p style="margin:0;color:#4C5C62">Eighteen technology pages, each with theory, governing equations, workflow, data requirements and a link to the matching Engineering Lab module.</p>
+        </div>
+        <a href="Technologies.dc.html" style="font-weight:600">All 18 technologies →</a>
+      </div>
+      <div class="g3">
+        <a href="Technologies.dc.html" style="display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:14px;background:#FFFFFF;border:1px solid #D9DBD2;color:#10232D;text-decoration:none">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#183C45" stroke-width="1.7" aria-hidden="true"><path d="M3 17l5-6 4 3 4-7 5 5"></path><path d="M3 21h18"></path></svg>
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:19px">HST modelling</div>
+          <div style="color:#4C5C62;font-size:15px">Separate hydrostatic, seasonal and time-dependent response; calibrate, validate chronologically, report prediction intervals.</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2C6B61">δ(h,s,t) = Σaᵢhⁱ + Σbⱼsin/cos + c·f(t)</div>
+        </a>
+        <a href="Technologies.dc.html" style="display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:14px;background:#FFFFFF;border:1px solid #D9DBD2;color:#10232D;text-decoration:none">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#183C45" stroke-width="1.7" aria-hidden="true"><circle cx="6" cy="6" r="2.5"></circle><circle cx="18" cy="6" r="2.5"></circle><circle cx="12" cy="18" r="2.5"></circle><path d="M8 7l3 9M16 7l-3 9M8.5 6h7"></path></svg>
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:19px">Physics-informed &amp; hybrid ML</div>
+          <div style="color:#4C5C62;font-size:15px">Couple physical laws with learned residuals so predictions stay plausible outside the training envelope.</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2C6B61">L = L_data + λ·L_physics</div>
+        </a>
+        <a href="Technologies.dc.html" style="display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:14px;background:#FFFFFF;border:1px solid #D9DBD2;color:#10232D;text-decoration:none">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#183C45" stroke-width="1.7" aria-hidden="true"><path d="M12 3v18M5 8h14M7 13h10M9 18h6"></path></svg>
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:19px">Quantitative Dam Health Index</div>
+          <div style="color:#4C5C62;font-size:15px">Transparent indicator selection, normalisation and AHP weighting — every weight traceable to its justification.</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2C6B61">DHI = Σ wᵢ · Iᵢ ,  CR &lt; 0.10</div>
+        </a>
+        <a href="Technologies.dc.html" style="display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:14px;background:#FFFFFF;border:1px solid #D9DBD2;color:#10232D;text-decoration:none">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#183C45" stroke-width="1.7" aria-hidden="true"><path d="M2 12h3l2-6 3 12 3-9 2 5 2-2h5"></path></svg>
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:19px">Operational modal analysis</div>
+          <div style="color:#4C5C62;font-size:15px">Natural frequencies, damping and mode shapes from ambient vibration — tracked over time as health indicators.</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2C6B61">G_yy(ω) = H(ω) G_xx(ω) Hᴴ(ω)</div>
+        </a>
+        <a href="Technologies.dc.html" style="display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:14px;background:#FFFFFF;border:1px solid #D9DBD2;color:#10232D;text-decoration:none">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#183C45" stroke-width="1.7" aria-hidden="true"><path d="M3 20C8 20 9 4 12 4s4 16 9 16"></path></svg>
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:19px">Seismic fragility</div>
+          <div style="color:#4C5C62;font-size:15px">IDA post-processing, lognormal fragility fitting, confidence bands and record-to-record variability.</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2C6B61">P(DS ≥ dsᵢ | IM) = Φ(ln(IM/θ)/β)</div>
+        </a>
+        <a href="Technologies.dc.html" style="display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:14px;background:#FFFFFF;border:1px solid #D9DBD2;color:#10232D;text-decoration:none">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#183C45" stroke-width="1.7" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M7 15l3-4 2 2 2-3 3 5"></path></svg>
+          <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:19px">Image-based damage detection</div>
+          <div style="color:#4C5C62;font-size:15px">Crack segmentation and defect mapping with confidence — always separated from engineer-verified findings.</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2C6B61">model output ≠ verified finding</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#FFFFFF;border-top:1px solid #D9DBD2;border-bottom:1px solid #D9DBD2;padding:clamp(56px,7cqi,96px) 0">
+    <div class="wrap g2">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.18em;color:#2C6B61">INTERACTIVE ANALYTICAL DEMONSTRATION</div>
+        <h2 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(28px,3.4cqi,40px);line-height:1.1">Decompose a dam response into its HST components</h2>
+        <p style="margin:0;color:#4C5C62">Toggle each component to see how reservoir level, season and time explain a crest-displacement record. Runs on a clearly labelled synthetic series.</p>
+        <div role="group" aria-label="Components shown" style="display:flex;flex-wrap:wrap;gap:8px">
+          <button onClick="{{toggleH}}" aria-pressed="{{hStr}}" style="{{hBtn}}">Hydrostatic</button>
+          <button onClick="{{toggleS}}" aria-pressed="{{sStr}}" style="{{sBtn}}">Seasonal</button>
+          <button onClick="{{toggleT}}" aria-pressed="{{tStr}}" style="{{tBtn}}">Time / irreversible</button>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;background:#F5F4EF;border:1px solid #D9DBD2;border-radius:10px;padding:12px 14px;line-height:1.7">{{equation}}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+          <div style="font-weight:600">Crest displacement, mm</div>
+          <span style="border:1px solid #9B8461;background:#EFE7D8;color:#6E5A3A;border-radius:999px;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:.08em">SYNTHETIC EXAMPLE</span>
+        </div>
+        <svg viewBox="0 0 600 260" width="100%" role="img" aria-label="Line chart: observed synthetic displacement and the sum of selected HST components" style="background:#F5F4EF;border-radius:12px;border:1px solid #D9DBD2">
+          <g stroke="#D9DBD2" stroke-width="1"><path d="M40 30H590M40 80H590M40 130H590M40 180H590M40 230H590"></path></g>
+          <g fill="#4C5C62" font-family="IBM Plex Mono, monospace" font-size="10"><text x="8" y="34">+4</text><text x="8" y="134">0</text><text x="8" y="234">−4</text><text x="40" y="252">2024</text><text x="300" y="252">2025</text><text x="560" y="252">2026</text></g>
+          <polyline points="{{obsPts}}" fill="none" stroke="#9B8461" stroke-width="1.4" opacity=".9"></polyline>
+          <polyline points="{{fitPts}}" fill="none" stroke="#183C45" stroke-width="2.4"></polyline>
+        </svg>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:#4C5C62">
+          <span style="display:inline-flex;align-items:center;gap:6px"><span style="width:18px;height:2px;background:#9B8461;display:inline-block"></span>Observed (synthetic)</span>
+          <span style="display:inline-flex;align-items:center;gap:6px"><span style="width:18px;height:3px;background:#183C45;display:inline-block"></span>Selected components</span>
+          <span class="tabular" style="font-family:'IBM Plex Mono',monospace">RMSE {{rmse}} mm</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="applications" style="padding:clamp(56px,7cqi,96px) 0">
+    <div class="wrap g2">
+      <figure style="margin:0;display:flex;flex-direction:column;gap:10px">
+        <svg viewBox="0 0 480 360" width="100%" role="img" aria-label="Illustrative stress contour on a gravity dam cross-section" style="background:#10232D;border-radius:16px">
+          <defs><linearGradient id="st" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#72BEB1"></stop><stop offset=".45" stop-color="#DCE9E4"></stop><stop offset=".75" stop-color="#C9B591"></stop><stop offset="1" stop-color="#9B8461"></stop></linearGradient></defs>
+          <path d="M150 40 L200 40 L340 310 L150 310Z" fill="url(#st)"></path>
+          <g stroke="#10232D" stroke-width=".6" opacity=".35"><path d="M150 80 L222 80M150 120 L243 120M150 160 L264 160M150 200 L284 200M150 240 L305 240M150 280 L325 280"></path><path d="M175 40 L175 310M200 40 L200 310M225 90 L225 310M250 140 L250 310M275 190 L275 310M300 230 L300 310"></path></g>
+          <path d="M120 310 L380 310 L380 330 L120 330Z" fill="#163040"></path>
+          <rect x="390" y="60" width="14" height="200" rx="3" fill="url(#st)"></rect>
+          <text x="410" y="70" fill="#DCE9E4" font-family="IBM Plex Mono, monospace" font-size="10">σ₁ high</text>
+          <text x="410" y="262" fill="#DCE9E4" font-family="IBM Plex Mono, monospace" font-size="10">low</text>
+          <text x="24" y="340" fill="#D8C49E" font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="1">ILLUSTRATIVE GRAPHIC · NO SOLVER RESULT</text>
+        </svg>
+        <figcaption style="font-size:13px;color:#4C5C62">Numerical modelling showcase. Real results are imported from external FE software (e.g. MIDAS FEA NX exports) and visualised; Digital Reservoir does not claim to run a nonlinear FE solve.</figcaption>
+      </figure>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.18em;color:#2C6B61">NUMERICAL MODELLING &amp; APPLICATIONS</div>
+        <h2 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(28px,3.4cqi,40px);line-height:1.1">Physics where it matters, data where it helps</h2>
+        <p style="margin:0;color:#4C5C62">Visualise mesh, stress, displacement and damage from finite-element studies alongside the monitoring record of the same structure.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span style="border:1px solid #C9CCC2;border-radius:999px;padding:6px 12px;font-size:14px">Concrete gravity dams</span><span style="border:1px solid #C9CCC2;border-radius:999px;padding:6px 12px;font-size:14px">Embankment dams</span><span style="border:1px solid #C9CCC2;border-radius:999px;padding:6px 12px;font-size:14px">Spillways</span><span style="border:1px solid #C9CCC2;border-radius:999px;padding:6px 12px;font-size:14px">Hydropower</span><span style="border:1px solid #C9CCC2;border-radius:999px;padding:6px 12px;font-size:14px">Bridges &amp; flyovers</span><span style="border:1px solid #C9CCC2;border-radius:999px;padding:6px 12px;font-size:14px">Tunnels</span><span style="border:1px solid #C9CCC2;border-radius:999px;padding:6px 12px;font-size:14px">Buildings</span><span style="border:1px solid #C9CCC2;border-radius:999px;padding:6px 12px;font-size:14px">Other critical infrastructure</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="twin" style="background:#10232D;color:#E6EEEB;padding:clamp(56px,7cqi,96px) 0">
+    <div class="wrap g2">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.18em;color:#72BEB1">DIGITAL TWIN</div>
+        <h2 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(28px,3.4cqi,40px);line-height:1.1;color:#F5F4EF">A living view of the structure, its sensors and its models</h2>
+        <p style="margin:0;color:#9DB3AE">Sensor-to-structure mapping in 3D, live and historical instrumentation, model residuals and configurable alerts — restricted to authorised project teams.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <a href="TwinDashboard.dc.html" style="display:inline-flex;align-items:center;min-height:48px;padding:0 18px;border-radius:10px;background:#72BEB1;color:#0B1820;font-weight:700;text-decoration:none">Explore the Digital Twin</a>
+          <a href="ProjectAccess.dc.html" style="display:inline-flex;align-items:center;min-height:48px;padding:0 18px;border-radius:10px;border:1px solid #72BEB1;color:#E6EEEB;font-weight:600;text-decoration:none">Request project access</a>
+        </div>
+      </div>
+      <div style="background:#0B1820;border:1px solid #26434D;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-weight:600">Demonstration gravity dam · Block 7</span><span style="border:1px solid #9B8461;color:#D8C49E;border-radius:999px;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:.08em">DEMONSTRATION DATA</span></div>
+        <div class="g3" style="gap:10px">
+          <div style="background:#10232D;border:1px solid #26434D;border-radius:10px;padding:12px"><div style="font-size:12px;color:#9DB3AE">Reservoir level</div><div style="font-family:'IBM Plex Mono',monospace;font-size:18px">612.40 m</div><div style="font-size:11px;color:#9DB3AE">10:42:05 UTC</div></div>
+          <div style="background:#10232D;border:1px solid #26434D;border-radius:10px;padding:12px"><div style="font-size:12px;color:#9DB3AE">Crest displ. PL-01</div><div style="font-family:'IBM Plex Mono',monospace;font-size:18px">3.81 mm</div><div style="font-size:11px;color:#9DB3AE">10:42:05 UTC</div></div>
+          <div style="background:#10232D;border:1px solid #26434D;border-radius:10px;padding:12px"><div style="font-size:12px;color:#9DB3AE">Seepage V-02</div><div style="font-family:'IBM Plex Mono',monospace;font-size:18px">12.4 L/s</div><div style="font-size:11px;color:#9DB3AE">10:41:55 UTC</div></div>
+        </div>
+        <svg viewBox="0 0 520 110" width="100%" aria-hidden="true"><polyline points="0,70 40,66 80,72 120,60 160,64 200,52 240,58 280,48 320,54 360,44 400,50 440,40 480,46 520,38" fill="none" stroke="#72BEB1" stroke-width="2"></polyline><polyline points="0,80 40,78 80,80 120,74 160,76 200,68 240,72 280,64 320,68 360,60 400,64 440,56 480,60 520,54" fill="none" stroke="#9B8461" stroke-width="1.5" stroke-dasharray="5 4"></polyline></svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="research" style="padding:clamp(56px,7cqi,96px) 0">
+    <div class="wrap" style="display:flex;flex-direction:column;gap:28px">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
+        <div style="display:flex;flex-direction:column;gap:10px;max-width:680px">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.18em;color:#2C6B61">RESEARCH, INSIGHTS &amp; PUBLICATIONS</div>
+          <h2 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(28px,3.4cqi,40px);line-height:1.1">Methods explained, evidence cited</h2>
+        </div>
+        <a href="#research" style="font-weight:600">Search all articles →</a>
+      </div>
+      <div class="g3">
+        <article style="background:#FFFFFF;border:1px solid #D9DBD2;border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="aspect-ratio:3/2;background:#DCE9E4;display:flex;align-items:center;justify-content:center"><svg width="70%" viewBox="0 0 200 100" aria-hidden="true"><polyline points="0,70 30,60 60,66 90,40 120,48 150,28 200,34" fill="none" stroke="#183C45" stroke-width="3"></polyline><path d="M120 0V100" stroke="#9B8461" stroke-dasharray="4 4"></path></svg></div>
+          <div style="padding:20px;display:flex;flex-direction:column;gap:8px"><div style="font-size:12px;font-weight:700;letter-spacing:.12em;color:#6E5A3A">TUTORIAL</div><h3 style="margin:0;font-family:Manrope,sans-serif;font-size:19px;line-height:1.25">Calibration fit is not forecast skill: chronological validation for monitoring models</h3><p style="margin:0;color:#4C5C62;font-size:15px">Why random splits leak information in dam time series, and how rolling-origin evaluation fixes it.</p></div>
+        </article>
+        <article style="background:#FFFFFF;border:1px solid #D9DBD2;border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="aspect-ratio:3/2;background:#183C45;display:flex;align-items:center;justify-content:center"><svg width="60%" viewBox="0 0 200 100" aria-hidden="true"><g fill="none" stroke="#72BEB1" stroke-width="2.5"><path d="M20 80 L60 20 L100 60 L140 30 L180 70"></path></g><g fill="#DCE9E4"><circle cx="20" cy="80" r="5"></circle><circle cx="60" cy="20" r="5"></circle><circle cx="100" cy="60" r="5"></circle><circle cx="140" cy="30" r="5"></circle><circle cx="180" cy="70" r="5"></circle></g></svg></div>
+          <div style="padding:20px;display:flex;flex-direction:column;gap:8px"><div style="font-size:12px;font-weight:700;letter-spacing:.12em;color:#6E5A3A">METHODOLOGY</div><h3 style="margin:0;font-family:Manrope,sans-serif;font-size:19px;line-height:1.25">Building a dam health index you can defend: indicators, AHP weights and uncertainty</h3><p style="margin:0;color:#4C5C62;font-size:15px">A traceable route from instrument readings to an index — and its limits.</p></div>
+        </article>
+        <article style="background:#FFFFFF;border:1px solid #D9DBD2;border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+          <div style="aspect-ratio:3/2;background:#EBE9E0;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box"><div style="text-align:center;color:#4C5C62;font-size:14px;line-height:1.5">[Your publication — title, journal, year, DOI]<br><span style="font-size:12px">Added by the editor from verified bibliographic data</span></div></div>
+          <div style="padding:20px;display:flex;flex-direction:column;gap:8px"><div style="font-size:12px;font-weight:700;letter-spacing:.12em;color:#6E5A3A">PUBLICATION</div><h3 style="margin:0;font-family:Manrope,sans-serif;font-size:19px;line-height:1.25">[Publication title]</h3><p style="margin:0;color:#4C5C62;font-size:15px">Publications are listed only from verified records — no placeholder citations go live.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="background:#DCE9E4;padding:clamp(56px,7cqi,88px) 0">
+    <div class="wrap g2">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.18em;color:#2C6B61">COLLABORATION</div>
+        <h2 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(28px,3.4cqi,40px);line-height:1.1">Research partnerships, pilot projects and data collaborations</h2>
+        <p style="margin:0;color:#3D4D53">Institutions, dam owners and engineering teams can propose a project. We reply with a scoped technical note — never with a safety verdict by email.</p>
+      </div>
+      <form style="background:#FFFFFF;border:1px solid #C6D9D1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:12px">
+        <div class="g2" style="gap:12px">
+          <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#3D4D53">Name<input type="text" style="min-height:44px;border:1px solid #D9DBD2;border-radius:9px;padding:0 12px;font:inherit"></label>
+          <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#3D4D53">Email<input type="email" style="min-height:44px;border:1px solid #D9DBD2;border-radius:9px;padding:0 12px;font:inherit"></label>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#3D4D53">Infrastructure type<select style="min-height:44px;border:1px solid #D9DBD2;border-radius:9px;padding:0 10px;font:inherit;background:#FFFFFF"><option>Concrete gravity dam</option><option>Embankment dam</option><option>Bridge</option><option>Other</option></select></label>
+        <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#3D4D53">Message<textarea rows="3" style="border:1px solid #D9DBD2;border-radius:9px;padding:10px 12px;font:inherit"></textarea></label>
+        <button type="button" style="min-height:48px;border-radius:10px;border:0;background:#183C45;color:#F5F4EF;font-weight:600;font-size:15px;cursor:pointer">Send enquiry</button>
+      </form>
+    </div>
+  </section>
+
+  <footer id="about" style="background:#10232D;color:#9DB3AE;padding:48px 0 28px">
+    <div class="wrap" style="display:flex;flex-direction:column;gap:28px">
+      <div class="g4">
+        <div style="display:flex;flex-direction:column;gap:10px"><div style="font-family:Manrope,sans-serif;font-weight:800;letter-spacing:.08em;color:#F5F4EF">DIGITAL RESERVOIR</div><div style="font-size:14px">Turning infrastructure data into engineering intelligence.</div></div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:14px"><div style="color:#F5F4EF;font-weight:600">Platform</div><a href="Technologies.dc.html" style="color:#9DB3AE">Technologies</a><a href="LabDashboard.dc.html" style="color:#9DB3AE">Engineering Lab</a><a href="TwinDashboard.dc.html" style="color:#9DB3AE">Digital Twin</a></div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:14px"><div style="color:#F5F4EF;font-weight:600">Knowledge</div><a href="#research" style="color:#9DB3AE">Research &amp; Insights</a><a href="#research" style="color:#9DB3AE">Publications</a><a href="#resources" style="color:#9DB3AE">Resources</a></div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:14px"><div style="color:#F5F4EF;font-weight:600">Organisation</div><a href="#about" style="color:#9DB3AE">About</a><a href="#contact" style="color:#9DB3AE">Contact</a><a href="#about" style="color:#9DB3AE">Privacy · Terms</a></div>
+      </div>
+      <div style="border-top:1px solid #26434D;padding-top:18px;font-size:13px">Demonstrations use synthetic or simulated data and are labelled as such. Outputs are decision support, not structural-safety certification.</div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3300}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { menu: false, h: true, s: true, t: true }; }
+  series() {
+    var n = 120, out = [];
+    for (var i = 0; i < n; i++) {
+      var tt = i / n * 2.2;
+      var level = Math.sin(2 * Math.PI * (tt - 0.15)) * 0.8 + Math.sin(2 * Math.PI * tt * 0.5) * 0.2;
+      var H = 2.1 * level + 0.5 * level * level;
+      var S = -1.1 * Math.cos(2 * Math.PI * tt);
+      var T = 0.55 * Math.log(1 + 3 * tt);
+      var noise = 0.28 * Math.sin(i * 1.7) + 0.18 * Math.cos(i * 3.1);
+      out.push({ H: H, S: S, T: T, obs: H + S + T - 0.6 + noise });
+    }
+    return out;
+  }
+  renderVals() {
+    var st = this.state, d = this.series();
+    var x = function (i) { return (40 + i * 550 / (d.length - 1)).toFixed(1); };
+    var y = function (v) { return (130 - v * 25).toFixed(1); };
+    var obs = d.map(function (p, i) { return x(i) + ',' + y(p.obs); }).join(' ');
+    var se = 0;
+    var fit = d.map(function (p, i) {
+      var v = (st.h ? p.H : 0) + (st.s ? p.S : 0) + (st.t ? p.T - 0.6 : 0);
+      se += Math.pow(p.obs - v, 2);
+      return x(i) + ',' + y(v);
+    }).join(' ');
+    var on = 'min-height:44px;padding:0 16px;border-radius:999px;border:1px solid #183C45;background:#183C45;color:#F5F4EF;font:inherit;font-weight:600;cursor:pointer';
+    var off = 'min-height:44px;padding:0 16px;border-radius:999px;border:1px solid #C9CCC2;background:#FFFFFF;color:#10232D;font:inherit;font-weight:600;cursor:pointer';
+    var eq = 'δ = a₀' + (st.h ? ' + a₁h + a₂h²' : '') + (st.s ? ' + b₁sin(ωt) + b₂cos(ωt)' : '') + (st.t ? ' + c₁ln(1+t)' : '') + ' + ε';
+    var self = this;
+    return {
+      menuClass: 'mobilemenu' + (st.menu ? ' open' : ''),
+      menuOpenStr: st.menu ? 'true' : 'false',
+      toggleMenu: function () { self.setState({ menu: !st.menu }); },
+      toggleH: function () { self.setState({ h: !st.h }); },
+      toggleS: function () { self.setState({ s: !st.s }); },
+      toggleT: function () { self.setState({ t: !st.t }); },
+      hBtn: st.h ? on : off, sBtn: st.s ? on : off, tBtn: st.t ? on : off,
+      hStr: String(st.h), sStr: String(st.s), tStr: String(st.t),
+      obsPts: obs, fitPts: fit, equation: eq,
+      rmse: Math.sqrt(se / d.length).toFixed(2)
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Digital Twin — dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#8FD0C4}a:hover{color:#B9E4DC}
+.tw{container-type:inline-size}
+.tw .shell{display:flex}
+.tw .rail{width:76px;flex:none;display:flex;flex-direction:column}
+.tw .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tw .cols{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:16px}
+.tw .hide-sm{display:inline}
+@container (max-width:1100px){.tw .cols{grid-template-columns:1fr}}
+@container (max-width:760px){.tw .shell{flex-direction:column}.tw .rail{width:auto;flex-direction:row;overflow-x:auto}.tw .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.tw .hide-sm{display:none}.tw .railtext{display:none}}
+</style>
+</helmet>
+<div class="tw" style="background:#0B1820;color:#E6EEEB;font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.5;min-height:1100px">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px clamp(14px,2cqi,22px);background:#10232D;border-bottom:1px solid #26434D">
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <a href="TwinDashboard.dc.html" style="display:flex;align-items:center;gap:9px;color:#F5F4EF;text-decoration:none"><svg width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#183C45"></rect><path d="M7 21h20v17H7z" fill="#72BEB1" opacity=".28"></path><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><polyline points="7,31 13,31 16,26.5 19.5,34 23,29 30.5,29 34,23" fill="none" stroke="#9B8461" stroke-width="1.9" stroke-linejoin="round"></polyline><circle cx="34" cy="23" r="2.6" fill="#9B8461"></circle></svg><span style="display:flex;flex-direction:column;line-height:1.1"><span style="font-family:Manrope,sans-serif;font-weight:800;letter-spacing:.08em;font-size:12px">DIGITAL RESERVOIR</span><span style="font-size:12px;color:#9DB3AE;font-weight:600">Digital Twin</span></span></a>
+      <label style="display:flex;align-items:center;gap:8px;min-height:40px;border:1px solid #26434D;border-radius:9px;padding:0 10px;background:#0B1820"><span class="hide-sm" style="font-size:12px;color:#9DB3AE">Project</span><select aria-label="Project" style="background:transparent;color:#E6EEEB;border:0;font:inherit;font-weight:600;outline:0"><option>Project D · Demonstration gravity dam</option><option>Project A · Instrumentation monitoring</option></select></label>
+      <span style="border:1px solid #26434D;border-radius:999px;padding:3px 10px;font-size:12px;color:#9DB3AE">Role: Project Engineer</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <nav aria-label="Applications" class="hide-sm" style="font-size:13px;font-weight:600"><a href="PublicHome.dc.html" style="padding:6px 8px;color:#9DB3AE;text-decoration:none">Website</a><a href="LabDashboard.dc.html" style="padding:6px 8px;color:#9DB3AE;text-decoration:none">Lab</a><a href="TwinDashboard.dc.html" aria-current="page" style="padding:6px 10px;border-radius:7px;background:#183C45;color:#F5F4EF;text-decoration:none">Digital Twin</a></nav>
+      <span style="width:34px;height:34px;border-radius:50%;background:#72BEB1;color:#0B1820;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:13px" aria-label="Signed in user">PE</span>
+    </div>
+  </div>
+  <div role="status" style="display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:8px clamp(14px,2cqi,22px);background:#2A2416;border-bottom:1px solid #5C4D22;color:#F0DDB0;font-size:13px">
+    <strong style="letter-spacing:.08em">DEMONSTRATION DATA</strong><span>Simulated data stream for an illustrative structure. These are not measurements of any real dam. Hardware connectors are configured but inactive.</span>
+  </div>
+
+  <div class="shell">
+    <nav class="rail" aria-label="Twin sections" style="background:#10232D;border-right:1px solid #26434D;padding:10px 8px;gap:4px">
+      <a href="TwinDashboard.dc.html" aria-current="page" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:9px;background:#183C45;color:#E6EEEB;text-decoration:none;font-size:11px;min-width:56px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg><span class="railtext">Overview</span></a>
+      <a href="TwinDam3D.dc.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:9px;color:#9DB3AE;text-decoration:none;font-size:11px;min-width:56px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 2l9 5v10l-9 5-9-5V7z"></path><path d="M12 22V12M21 7l-9 5-9-5"></path></svg><span class="railtext">3D model</span></a>
+      <a href="TwinMonitoring.dc.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:9px;color:#9DB3AE;text-decoration:none;font-size:11px;min-width:56px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12h4l2-6 4 12 3-9 2 3h5"></path></svg><span class="railtext">Monitoring</span></a>
+      <a href="TwinDashboard.dc.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:9px;color:#9DB3AE;text-decoration:none;font-size:11px;min-width:56px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14"></path></svg><span class="railtext">Sensors</span></a>
+      <a href="TwinDashboard.dc.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:9px;color:#9DB3AE;text-decoration:none;font-size:11px;min-width:56px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"></path></svg><span class="railtext">Alerts</span></a>
+      <a href="TwinDashboard.dc.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:9px;color:#9DB3AE;text-decoration:none;font-size:11px;min-width:56px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 18c3-8 5-12 8-12s5 4 8 12"></path></svg><span class="railtext">Analytics</span></a>
+      <a href="TwinMonitoring.dc.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:9px;color:#9DB3AE;text-decoration:none;font-size:11px;min-width:56px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><span class="railtext">Replay</span></a>
+      <a href="ProjectAccess.dc.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:9px;color:#9DB3AE;text-decoration:none;font-size:11px;min-width:56px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg><span class="railtext">Access</span></a>
+    </nav>
+
+    <main style="flex:1;min-width:0;padding:clamp(14px,2cqi,22px);display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px">
+        <div><h1 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(22px,2.4cqi,28px);color:#F5F4EF">Demonstration gravity dam — overview</h1><div style="font-size:13px;color:#9DB3AE">Structure DGD-01 · 7 monoliths · 24 registered sensors</div></div>
+        <div role="status" style="display:flex;align-items:center;gap:8px;font-size:13px;color:#9DB3AE"><span style="width:9px;height:9px;border-radius:50%;background:{{dot}}"></span>{{streamText}}<button onClick="{{togglePause}}" style="min-height:36px;padding:0 12px;border-radius:8px;border:1px solid #26434D;background:#10232D;color:#E6EEEB;font:inherit;font-size:13px;cursor:pointer">{{pauseLabel}}</button></div>
+      </div>
+
+      <div class="kpis">
+        <div style="background:#10232D;border:1px solid #26434D;border-radius:12px;padding:14px"><div style="font-size:12px;color:#9DB3AE">Sensors reporting</div><div style="font-family:'IBM Plex Mono',monospace;font-size:24px;color:#F5F4EF">22 / 24</div><div style="font-size:12px;color:#9DB3AE">1 offline · 1 maintenance</div></div>
+        <div style="background:#10232D;border:1px solid #26434D;border-radius:12px;padding:14px"><div style="font-size:12px;color:#9DB3AE">Data availability, 24 h</div><div style="font-family:'IBM Plex Mono',monospace;font-size:24px;color:#F5F4EF">98.6 %</div><div style="font-size:12px;color:#9DB3AE">expected vs received</div></div>
+        <div style="background:#10232D;border:1px solid #26434D;border-radius:12px;padding:14px"><div style="font-size:12px;color:#9DB3AE">Open alerts</div><div style="font-family:'IBM Plex Mono',monospace;font-size:24px;color:#F5F4EF">{{openAlerts}}</div><div style="font-size:12px;color:#9DB3AE">automated · awaiting review</div></div>
+        <div style="background:#10232D;border:1px solid #26434D;border-radius:12px;padding:14px"><div style="font-size:12px;color:#9DB3AE">Behaviour model</div><div style="font-family:'IBM Plex Mono',monospace;font-size:18px;color:#F5F4EF;margin-top:4px">HST v3</div><div style="font-size:12px;color:#9DB3AE">cal. 2023–24 · val. 2025 H1</div></div>
+      </div>
+
+      <div class="cols">
+        <section style="background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;min-width:0;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px;color:#F5F4EF">Latest readings</h2><a href="TwinMonitoring.dc.html" style="font-size:13px;font-weight:600">Open monitoring →</a></div>
+          <div style="overflow-x:auto;border:1px solid #26434D;border-radius:10px">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap">
+              <thead><tr style="background:#183C45;color:#B7CBC6;text-align:left"><th style="padding:8px 10px;font-weight:600">Sensor</th><th style="padding:8px 10px;font-weight:600">Value</th><th style="padding:8px 10px;font-weight:600">Timestamp (UTC)</th><th style="padding:8px 10px;font-weight:600">Source</th><th style="padding:8px 10px;font-weight:600">Quality</th><th style="padding:8px 10px;font-weight:600">Condition</th></tr></thead>
+              <tbody>
+                <sc-for list="{{sensors}}" as="s" hint-placeholder-count="6">
+                  <tr style="border-top:1px solid #26434D;{{s.bg}}">
+                    <td style="padding:8px 10px"><button onClick="{{s.pick}}" aria-pressed="{{s.sel}}" style="border:0;background:none;color:#8FD0C4;font:inherit;font-weight:600;cursor:pointer;padding:0;text-align:left">{{s.code}}</button><div style="font-size:11px;color:#9DB3AE">{{s.name}}</div></td>
+                    <td style="padding:8px 10px;font-family:'IBM Plex Mono',monospace;color:#F5F4EF">{{s.value}}</td>
+                    <td style="padding:8px 10px;font-family:'IBM Plex Mono',monospace;color:#B7CBC6">{{s.time}}</td>
+                    <td style="padding:8px 10px"><span style="border:1px solid #9B8461;color:#D8C49E;border-radius:999px;padding:1px 8px;font-size:10px;font-weight:700;letter-spacing:.06em">SIMULATED</span></td>
+                    <td style="padding:8px 10px;color:{{s.qColor}}">{{s.q}}</td>
+                    <td style="padding:8px 10px"><span title="{{s.basis}}" style="border:1px solid {{s.cColor}};color:{{s.cColor}};border-radius:999px;padding:2px 9px;font-size:12px;font-weight:600">{{s.cond}}</span></td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+          <div style="font-size:12px;color:#9DB3AE">Condition shown only where a documented project criterion exists; hover a chip for its basis. Others read “Not assessed”.</div>
+        </section>
+
+        <section style="display:flex;flex-direction:column;gap:16px;min-width:0">
+          <div style="background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px;color:#F5F4EF">{{selCode}} · live trend</h2><span style="font-size:12px;color:#9DB3AE">last 60 samples · {{selUnit}}</span></div>
+            <svg viewBox="0 0 420 170" width="100%" role="img" aria-label="Live trend of the selected sensor with model prediction" style="background:#0B1820;border-radius:10px;border:1px solid #26434D">
+              <g stroke="#1A3440"><path d="M30 20H410M30 65H410M30 110H410M30 150H410"></path></g>
+              <line x1="30" y1="{{thY}}" x2="410" y2="{{thY}}" stroke="#C0612B" stroke-dasharray="5 4"></line>
+              <polyline points="{{predPts}}" fill="none" stroke="#9B8461" stroke-width="1.5" stroke-dasharray="4 3"></polyline>
+              <polyline points="{{livePts}}" fill="none" stroke="#72BEB1" stroke-width="2"></polyline>
+              <circle cx="410" cy="{{lastY}}" r="4" fill="#72BEB1"></circle>
+              <g fill="#9DB3AE" font-family="IBM Plex Mono, monospace" font-size="10"><text x="2" y="24">{{yMax}}</text><text x="2" y="154">{{yMin}}</text></g>
+            </svg>
+            <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:#9DB3AE"><span style="display:inline-flex;gap:6px;align-items:center"><span style="width:16px;border-top:2px solid #72BEB1"></span>observed (simulated)</span><span style="display:inline-flex;gap:6px;align-items:center"><span style="width:16px;border-top:2px dashed #9B8461"></span>HST v3 prediction</span><span style="display:inline-flex;gap:6px;align-items:center"><span style="width:16px;border-top:2px dashed #C0612B"></span>{{thLabel}}</span></div>
+          </div>
+          <div style="background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px">
+            <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px;color:#F5F4EF">Alerts</h2>
+            <sc-for list="{{alerts}}" as="a" hint-placeholder-count="2">
+              <div style="border:1px solid #26434D;border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px">
+                <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><span style="font-weight:600;color:#F5F4EF">{{a.title}}</span><span style="font-size:12px;color:{{a.color}};font-weight:600">{{a.status}}</span></div>
+                <div style="font-size:12px;color:#9DB3AE">{{a.detail}}</div>
+                <sc-if value="{{a.canAck}}" hint-placeholder-val="{{true}}"><button onClick="{{a.ack}}" style="align-self:flex-start;min-height:36px;padding:0 12px;border-radius:8px;border:1px solid #72BEB1;background:transparent;color:#8FD0C4;font:inherit;font-size:13px;font-weight:600;cursor:pointer">Acknowledge</button></sc-if>
+              </div>
+            </sc-for>
+            <div style="font-size:12px;color:#9DB3AE">Automated alerts are prompts for review — not engineering safety determinations.</div>
+          </div>
+        </section>
+      </div>
+
+      <div class="cols">
+        <a href="TwinDam3D.dc.html" style="display:flex;gap:16px;align-items:center;background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;color:#E6EEEB;text-decoration:none;flex-wrap:wrap">
+          <svg viewBox="0 0 220 110" width="220" aria-hidden="true"><path d="M20 90 L60 40 L160 40 L200 90Z" fill="#183C45"></path><path d="M60 40 L80 20 L140 20 L160 40Z" fill="#DCE9E4" opacity=".85"></path><path d="M20 90 L200 90" stroke="#72BEB1"></path><circle cx="95" cy="30" r="4" fill="#9B8461"></circle><circle cx="120" cy="60" r="4" fill="#72BEB1"></circle><circle cx="70" cy="75" r="4" fill="#72BEB1"></circle></svg>
+          <span style="display:flex;flex-direction:column;gap:4px;min-width:200px;flex:1"><span style="font-family:Manrope,sans-serif;font-weight:700;font-size:16px">Open 3D structure</span><span style="font-size:13px;color:#9DB3AE">Select sensors on the model, inspect components and monitoring zones.</span></span>
+        </a>
+        <div style="background:#10232D;border:1px solid #26434D;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px;font-size:13px">
+          <h2 style="margin:0 0 4px;font-family:Manrope,sans-serif;font-size:16px;color:#F5F4EF">Model updates &amp; reports</h2>
+          <div style="display:flex;justify-content:space-between;gap:8px"><span>HST v3 published from Lab run #24</span><span style="color:#9DB3AE">2026-10-28</span></div>
+          <div style="display:flex;justify-content:space-between;gap:8px"><span>Quarterly behaviour report Q3 (draft, unreviewed)</span><span style="color:#9DB3AE">2026-10-05</span></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { t: 0, sel: 2, paused: false, acked: {} }; }
+  componentDidMount() { var self = this; this.timer = setInterval(function () { if (!self.state.paused) self.setState({ t: self.state.t + 1 }); }, 2000); }
+  componentWillUnmount() { clearInterval(this.timer); }
+  val(k, i) {
+    var S = [
+      function (i) { return 612.4 + 0.02 * Math.sin(i / 9); },
+      function (i) { return 3.81 + 0.08 * Math.sin(i / 6) + 0.03 * Math.sin(i * 1.7); },
+      function (i) { return 40.92 + 0.12 * Math.sin(i / 7) + 0.05 * Math.sin(i * 2.3) + (i % 37 > 30 ? 0.12 : 0); },
+      function (i) { return 12.4 + 0.3 * Math.sin(i / 5) + 0.12 * Math.cos(i * 1.3); },
+      function (i) { return 148 + 1.5 * Math.sin(i / 8) + 0.6 * Math.sin(i * 2.1); },
+      function (i) { return 14.2 + 0.4 * Math.sin(i / 11); }
+    ];
+    return S[k](i);
+  }
+  renderVals() {
+    var self = this, st = this.state, now = st.t;
+    var meta = [
+      { code: 'RL-01', name: 'Reservoir level', unit: 'm a.s.l.', d: 2, th: null, cond: 'Not assessed', basis: 'No project criterion configured' },
+      { code: 'PL-01', name: 'Crest displacement (pendulum)', unit: 'mm', d: 2, th: 4.2, cond: 'Normal', basis: 'Demo criterion DC-02: |residual| < 2σ of HST v3 validation' },
+      { code: 'PZ-03', name: 'Foundation piezometer, block 4', unit: 'm', d: 2, th: 41.0, cond: 'Attention', basis: 'Demo criterion DC-07: head > 41.0 m (attention level)' },
+      { code: 'V-02', name: 'Seepage weir, gallery 2', unit: 'L/s', d: 1, th: 14.0, cond: 'Normal', basis: 'Demo criterion DC-11: flow < 14 L/s' },
+      { code: 'UP-05', name: 'Uplift cell, heel', unit: 'kPa', d: 0, th: null, cond: 'Not assessed', basis: 'No project criterion configured' },
+      { code: 'TM-12', name: 'Concrete temperature', unit: '°C', d: 1, th: null, cond: 'Data unavailable', basis: 'Sensor offline since 09:12 UTC' }
+    ];
+    var colors = { 'Normal': '#5FB592', 'Attention': '#E0AE52', 'Not assessed': '#9DB3AE', 'Data unavailable': '#8E9AA2' };
+    var stamp = function (back) { var s = 7 + (now * 2) - back * 2; var m = 42 + Math.floor(s / 60); return '2026-11-04 10:' + String(m).padStart(2, '0') + ':' + String(((s % 60) + 60) % 60).padStart(2, '0'); };
+    var sensors = meta.map(function (m, k) {
+      var off = k === 5, v = self.val(k, now + 60);
+      return { code: m.code, name: m.name, value: off ? '— ' + m.unit : v.toFixed(m.d) + ' ' + m.unit, time: off ? '2026-11-04 09:12:04' : stamp(0),
+        q: off ? 'missing' : (k === 2 && (now + 60) % 37 > 30 ? 'suspect' : 'good'), qColor: off ? '#8E9AA2' : (k === 2 && (now + 60) % 37 > 30 ? '#E0AE52' : '#5FB592'),
+        cond: m.cond, cColor: colors[m.cond], basis: m.basis, sel: String(st.sel === k), bg: st.sel === k ? 'background:#183C45' : '', pick: function () { self.setState({ sel: k }); } };
+    });
+    var m = meta[st.sel], pts = [], pred = [], vals = [];
+    for (var i = 0; i < 60; i++) vals.push(st.sel === 5 ? 14.2 : self.val(st.sel, now + i + 1));
+    var all = vals.slice(); if (m.th) all.push(m.th);
+    var mn = Math.min.apply(null, all), mx = Math.max.apply(null, all); var pad = (mx - mn) * 0.15 || 1; mn -= pad; mx += pad;
+    var Y = function (v) { return (150 - (v - mn) / (mx - mn) * 130).toFixed(1); };
+    vals.forEach(function (v, i) { var x = (30 + i * 380 / 59).toFixed(1); pts.push(x + ',' + Y(v)); pred.push(x + ',' + Y(v - 0.6 * (v - (mn + mx) / 2) * 0.15 - 0.02 * Math.sin(i * 1.7) * (mx - mn))); });
+    var alerts = [
+      { id: 'a1', title: 'PZ-03 above attention level', detail: 'Rule DC-07 · 41.03 m at 10:38:12 UTC · source: simulated stream', sev: 'Attention' },
+      { id: 'a2', title: 'TM-12 communication lost', detail: 'No data for 90 min · last 09:12:04 UTC · check logger', sev: 'Data unavailable' }
+    ].map(function (a) { var acked = !!st.acked[a.id]; return { title: a.title, detail: a.detail, status: acked ? 'Acknowledged by you' : 'Open · ' + a.sev, color: acked ? '#9DB3AE' : colors[a.sev], canAck: !acked, ack: function () { var x = Object.assign({}, st.acked); x[a.id] = true; self.setState({ acked: x }); } }; });
+    return {
+      sensors: sensors, alerts: alerts, openAlerts: alerts.filter(function (a) { return a.canAck; }).length,
+      selCode: m.code, selUnit: m.unit, livePts: pts.join(' '), predPts: pred.join(' '), lastY: Y(vals[59]),
+      thY: m.th ? Y(m.th) : -10, thLabel: m.th ? 'criterion ' + m.th + ' ' + m.unit : 'no criterion configured',
+      yMax: mx.toFixed(m.d), yMin: mn.toFixed(m.d),
+      dot: st.paused ? '#8E9AA2' : '#5FB592', streamText: st.paused ? 'Stream paused by you' : 'Stream connected · last message ' + stamp(0) + ' UTC',
+      pauseLabel: st.paused ? 'Resume' : 'Pause', togglePause: function () { self.setState({ paused: !st.paused }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

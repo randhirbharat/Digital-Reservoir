@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Digital Reservoir — sign in and register</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2C6B61}a:hover{color:#183C45}
+.au{container-type:inline-size}
+.au .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:920px}
+.au .brandside{display:flex}
+@container (max-width:900px){.au .split{grid-template-columns:1fr}.au .brandside{display:none}.au .mobilebrand{display:flex}}
+.au .mobilebrand{display:none}
+.au input:focus,.au select:focus{outline:2px solid #2C6B61;outline-offset:1px}
+</style>
+</helmet>
+<div class="au" style="background:#F5F4EF;color:#10232D;font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.55">
+<div class="split">
+  <section class="brandside" style="background:#10232D;color:#E6EEEB;flex-direction:column;justify-content:space-between;padding:clamp(28px,4cqi,56px);gap:32px">
+    <a href="PublicHome.dc.html" style="display:flex;align-items:center;gap:12px;color:#F5F4EF;text-decoration:none">
+      <svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#183C45"></rect><path d="M7 21h20v17H7z" fill="#72BEB1" opacity=".28"></path><path d="M7 21c2.2-1.8 4.4-1.8 6.6 0s4.4 1.8 6.6 0 4.4-1.8 6.8 0" fill="none" stroke="#72BEB1" stroke-width="1.8" stroke-linecap="round"></path><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><polyline points="7,31 13,31 16,26.5 19.5,34 23,29 30.5,29 34,23" fill="none" stroke="#9B8461" stroke-width="1.9" stroke-linejoin="round"></polyline><circle cx="34" cy="23" r="2.6" fill="#9B8461"></circle></svg>
+      <span style="display:flex;flex-direction:column;line-height:1"><span style="font-family:Manrope,sans-serif;font-weight:800;letter-spacing:.08em;font-size:17px">DIGITAL RESERVOIR</span><span style="font-size:10px;font-weight:600;letter-spacing:.22em;color:#C9B591;margin-top:5px">INTELLIGENCE FOR INFRASTRUCTURE</span></span>
+    </a>
+    <div style="display:flex;flex-direction:column;gap:18px;max-width:480px">
+      <h1 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(28px,3cqi,40px);line-height:1.1;color:#F5F4EF">One identity. Three levels of access.</h1>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;gap:14px;align-items:flex-start"><span style="width:34px;height:34px;flex:none;border-radius:9px;background:#183C45;display:inline-flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#72BEB1" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"></path></svg></span><span><strong style="color:#F5F4EF">Website</strong><br><span style="color:#9DB3AE;font-size:14px">Open to everyone — no account needed.</span></span></div>
+        <div style="display:flex;gap:14px;align-items:flex-start"><span style="width:34px;height:34px;flex:none;border-radius:9px;background:#183C45;display:inline-flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#72BEB1" stroke-width="2" aria-hidden="true"><path d="M9 3v6L4 19a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2L15 9V3"></path><path d="M8 3h8"></path></svg></span><span><strong style="color:#F5F4EF">Engineering Lab</strong><br><span style="color:#9DB3AE;font-size:14px">Register and verify your email. Permissions follow your membership category.</span></span></div>
+        <div style="display:flex;gap:14px;align-items:flex-start"><span style="width:34px;height:34px;flex:none;border-radius:9px;background:#183C45;display:inline-flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#72BEB1" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg></span><span><strong style="color:#F5F4EF">Digital Twin</strong><br><span style="color:#9DB3AE;font-size:14px">Invitation or administrator approval per project. Multi-factor authentication required.</span></span></div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:#7F9893">Sessions expire after inactivity. Sign-ins are logged for your security; you can review active sessions in your profile.</div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(20px,4cqi,56px) clamp(16px,4cqi,56px)">
+    <div class="mobilebrand" style="width:100%;max-width:440px;align-items:center;gap:10px;margin-bottom:22px">
+      <svg width="36" height="36" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#10232D"></rect><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><polyline points="7,31 13,31 16,26.5 19.5,34 23,29 30.5,29 34,23" fill="none" stroke="#9B8461" stroke-width="1.9" stroke-linejoin="round"></polyline><circle cx="34" cy="23" r="2.6" fill="#9B8461"></circle></svg>
+      <span style="font-family:Manrope,sans-serif;font-weight:800;letter-spacing:.08em;font-size:15px">DIGITAL RESERVOIR</span>
+    </div>
+    <div style="width:100%;max-width:440px;background:#FFFFFF;border:1px solid #D9DBD2;border-radius:18px;padding:clamp(20px,3cqi,32px);display:flex;flex-direction:column;gap:16px;box-sizing:border-box">
+      <sc-if value="{{showTabs}}" hint-placeholder-val="{{true}}">
+        <div role="tablist" aria-label="Account" style="display:grid;grid-template-columns:1fr 1fr;background:#EBE9E0;border-radius:10px;padding:4px;gap:4px">
+          <button role="tab" aria-selected="{{loginSel}}" onClick="{{toLogin}}" style="{{loginTab}}">Sign in</button>
+          <button role="tab" aria-selected="{{regSel}}" onClick="{{toRegister}}" style="{{regTab}}">Register</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{isLogin}}" hint-placeholder-val="{{true}}">
+        <form onSubmit="{{submitLogin}}" style="display:flex;flex-direction:column;gap:12px">
+          <div><h2 style="margin:0;font-family:Manrope,sans-serif;font-size:22px">Welcome back</h2><p style="margin:2px 0 0;color:#4C5C62;font-size:14px">Use the same account for the Engineering Lab and the Digital Twin.</p></div>
+          <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#3D4D53">Email<input type="email" autocomplete="email" value="{{email}}" onChange="{{setEmail}}" style="min-height:46px;border:1px solid {{emailBorder}};border-radius:10px;padding:0 12px;font:inherit;font-weight:400"></label>
+          <sc-if value="{{emailErr}}" hint-placeholder-val="{{false}}"><div role="alert" style="font-size:13px;color:#9C2F2F">Enter a valid email address, e.g. name@organisation.org</div></sc-if>
+          <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#3D4D53">Password<input type="password" autocomplete="current-password" style="min-height:46px;border:1px solid #D9DBD2;border-radius:10px;padding:0 12px;font:inherit;font-weight:400"></label>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px"><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" style="width:18px;height:18px">Keep me signed in on this device</label><a href="AuthLogin.dc.html">Forgot password?</a></div>
+          <button type="submit" style="min-height:48px;border-radius:10px;border:0;background:#183C45;color:#F5F4EF;font:inherit;font-weight:700;cursor:pointer">Sign in</button>
+        </form>
+      </sc-if>
+
+      <sc-if value="{{isMfa}}" hint-placeholder-val="{{false}}">
+        <form onSubmit="{{submitMfa}}" style="display:flex;flex-direction:column;gap:12px">
+          <div><h2 style="margin:0;font-family:Manrope,sans-serif;font-size:22px">Two-step verification</h2><p style="margin:2px 0 0;color:#4C5C62;font-size:14px">Enter the 6-digit code from your authenticator app. Required for Digital Twin and administrator accounts.</p></div>
+          <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#3D4D53">Authentication code<input inputmode="numeric" autocomplete="one-time-code" maxlength="6" value="{{code}}" onChange="{{setCode}}" style="min-height:52px;border:1px solid #D9DBD2;border-radius:10px;padding:0 12px;font-family:'IBM Plex Mono',monospace;font-size:24px;letter-spacing:.4em"></label>
+          <button type="submit" style="min-height:48px;border-radius:10px;border:0;background:#183C45;color:#F5F4EF;font:inherit;font-weight:700;cursor:pointer">Verify and continue</button>
+          <button type="button" onClick="{{toLogin}}" style="min-height:44px;border-radius:10px;border:1px solid #D9DBD2;background:#FFFFFF;font:inherit;cursor:pointer">Back</button>
+        </form>
+      </sc-if>
+
+      <sc-if value="{{isDone}}" hint-placeholder-val="{{false}}">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:22px">Signed in</h2>
+          <p style="margin:0;color:#4C5C62;font-size:14px">Choose where to continue. Only applications and projects you are authorised for are shown.</p>
+          <a href="LabDashboard.dc.html" style="display:flex;justify-content:space-between;align-items:center;min-height:52px;padding:0 16px;border-radius:10px;background:#183C45;color:#F5F4EF;font-weight:600;text-decoration:none">Engineering Lab <span>→</span></a>
+          <a href="ProjectAccess.dc.html" style="display:flex;justify-content:space-between;align-items:center;min-height:52px;padding:0 16px;border-radius:10px;border:1px solid #10232D;color:#10232D;font-weight:600;text-decoration:none">Digital Twin · 2 projects <span>→</span></a>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{isRegister}}" hint-placeholder-val="{{false}}">
+        <form onSubmit="{{submitRegister}}" style="display:flex;flex-direction:column;gap:11px">
+          <div><h2 style="margin:0;font-family:Manrope,sans-serif;font-size:22px">Create a Lab account</h2><p style="margin:2px 0 0;color:#4C5C62;font-size:14px">Digital Twin access is granted separately by invitation or approval.</p></div>
+          <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#3D4D53">Full name<input autocomplete="name" style="min-height:46px;border:1px solid #D9DBD2;border-radius:10px;padding:0 12px;font:inherit;font-weight:400"></label>
+          <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#3D4D53">Email<input type="email" autocomplete="email" style="min-height:46px;border:1px solid #D9DBD2;border-radius:10px;padding:0 12px;font:inherit;font-weight:400"></label>
+          <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#3D4D53">Organisation (optional)<input autocomplete="organization" style="min-height:46px;border:1px solid #D9DBD2;border-radius:10px;padding:0 12px;font:inherit;font-weight:400"></label>
+          <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#3D4D53">Membership category
+            <select style="min-height:46px;border:1px solid #D9DBD2;border-radius:10px;padding:0 10px;font:inherit;font-weight:400;background:#FFFFFF"><option>General member</option><option>Student</option><option>Researcher</option><option>Professional member</option></select>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:#3D4D53">Password<input type="password" autocomplete="new-password" value="{{pw}}" onChange="{{setPw}}" aria-describedby="pwrules" style="min-height:46px;border:1px solid #D9DBD2;border-radius:10px;padding:0 12px;font:inherit;font-weight:400"></label>
+          <ul id="pwrules" style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;font-size:12px">
+            <sc-for list="{{rules}}" as="r" hint-placeholder-count="4"><li style="color:{{r.color}}">{{r.mark}} {{r.label}}</li></sc-for>
+          </ul>
+          <label style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#3D4D53"><input type="checkbox" style="width:18px;height:18px;margin-top:2px">I accept the terms of use and understand that Lab outputs are not engineering certification.</label>
+          <button type="submit" style="min-height:48px;border-radius:10px;border:0;background:#183C45;color:#F5F4EF;font:inherit;font-weight:700;cursor:pointer">Create account</button>
+        </form>
+      </sc-if>
+
+      <sc-if value="{{isVerify}}" hint-placeholder-val="{{false}}">
+        <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+          <span style="width:52px;height:52px;border-radius:14px;background:#DCE9E4;display:inline-flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#183C45" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>
+          <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:22px">Verify your email</h2>
+          <p style="margin:0;color:#4C5C62;font-size:14px">We sent a verification link valid for 24 hours. Analytical modules unlock after verification.</p>
+          <button onClick="{{toLogin}}" style="min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #D9DBD2;background:#FFFFFF;font:inherit;font-weight:600;cursor:pointer">Back to sign in</button>
+          <a href="AuthLogin.dc.html" style="font-size:14px">Resend link</a>
+        </div>
+      </sc-if>
+    </div>
+    <div style="max-width:440px;width:100%;margin-top:14px;font-size:12px;color:#4C5C62;text-align:center">Protected by rate limiting and audit logging. <a href="PublicHome.dc.html">Return to website</a></div>
+  </section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":920}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { step: 'login', email: 'engineer@example.org', pw: '', code: '', tried: false }; }
+  renderVals() {
+    var self = this, st = this.state;
+    var valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(st.email);
+    var tab = function (on) { return 'min-height:42px;border-radius:7px;border:0;font:inherit;font-weight:600;cursor:pointer;' + (on ? 'background:#FFFFFF;color:#10232D;box-shadow:0 1px 2px #10232D22' : 'background:transparent;color:#4C5C62'); };
+    var pw = st.pw;
+    var rules = [
+      ['12+ characters', pw.length >= 12], ['upper and lower case', /[a-z]/.test(pw) && /[A-Z]/.test(pw)],
+      ['a number', /\d/.test(pw)], ['not a common password', pw.length > 0 && !/^(password|123456|qwerty)/i.test(pw)]
+    ].map(function (r) { return { label: r[0], mark: r[1] ? '✓' : '○', color: r[1] ? '#2F7059' : '#59646B' }; });
+    var isAuth = st.step === 'login' || st.step === 'register';
+    return {
+      showTabs: isAuth, isLogin: st.step === 'login', isMfa: st.step === 'mfa', isDone: st.step === 'done', isRegister: st.step === 'register', isVerify: st.step === 'verify',
+      loginSel: String(st.step === 'login'), regSel: String(st.step === 'register'), loginTab: tab(st.step === 'login'), regTab: tab(st.step === 'register'),
+      toLogin: function () { self.setState({ step: 'login' }); }, toRegister: function () { self.setState({ step: 'register' }); },
+      email: st.email, setEmail: function (e) { self.setState({ email: e.target.value }); },
+      emailErr: st.tried && !valid, emailBorder: st.tried && !valid ? '#B03A3A' : '#D9DBD2',
+      submitLogin: function (e) { e.preventDefault(); if (!valid) { self.setState({ tried: true }); return; } self.setState({ step: 'mfa', tried: false }); },
+      code: st.code, setCode: function (e) { self.setState({ code: e.target.value.replace(/\D/g, '').slice(0, 6) }); },
+      submitMfa: function (e) { e.preventDefault(); self.setState({ step: 'done' }); },
+      pw: pw, setPw: function (e) { self.setState({ pw: e.target.value }); }, rules: rules,
+      submitRegister: function (e) { e.preventDefault(); self.setState({ step: 'verify' }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

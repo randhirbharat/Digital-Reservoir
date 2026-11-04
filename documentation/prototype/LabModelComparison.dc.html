@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Engineering Lab — ML model comparison</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2C6B61}a:hover{color:#183C45}
+.ml{container-type:inline-size}
+.ml .body{display:grid;grid-template-columns:300px minmax(0,1fr);gap:16px}
+.ml .charts{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px}
+@container (max-width:1100px){.ml .charts{grid-template-columns:1fr}}
+@container (max-width:860px){.ml .body{grid-template-columns:1fr}}
+</style>
+</helmet>
+<div class="ml" style="background:#F1F3F0;color:#10232D;font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.55;min-height:1240px">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px clamp(14px,2cqi,24px);background:#10232D;color:#DCE9E4">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <a href="LabDashboard.dc.html" style="display:flex;align-items:center;gap:8px;color:#F5F4EF;text-decoration:none"><svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#183C45"></rect><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><polyline points="7,31 16,26.5 19.5,34 23,29 34,23" fill="none" stroke="#9B8461" stroke-width="2.4" stroke-linejoin="round"></polyline></svg><span style="font-weight:700;font-size:14px">Engineering Lab</span></a>
+      <nav aria-label="Breadcrumb" style="font-size:13px;color:#9DB3AE"><a href="LabDashboard.dc.html" style="color:#9DB3AE">AI / ML laboratory</a> / <span style="color:#F5F4EF">Model comparison #27</span></nav>
+    </div>
+    <nav aria-label="Applications" style="display:flex;gap:4px;font-size:13px;font-weight:600"><a href="PublicHome.dc.html" style="padding:6px 10px;color:#9DB3AE;text-decoration:none">Website</a><a href="LabDashboard.dc.html" aria-current="page" style="padding:6px 10px;border-radius:7px;background:#183C45;color:#F5F4EF;text-decoration:none">Lab</a><a href="ProjectAccess.dc.html" style="padding:6px 10px;color:#9DB3AE;text-decoration:none">Digital Twin</a></nav>
+  </div>
+
+  <div style="padding:clamp(14px,2cqi,24px);display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px">
+      <div><h1 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(22px,2.4cqi,28px)">Model comparison · PL01 crest displacement</h1><p style="margin:2px 0 0;color:#4C5C62;font-size:14px">Ranked on <strong>validation</strong> performance. Calibration fit is shown separately and never used to rank.</p></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button style="min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #C7D1CC;background:#FFFFFF;font:inherit;font-weight:600;cursor:pointer">Export results</button><button style="min-height:44px;padding:0 16px;border-radius:10px;border:0;background:#183C45;color:#F5F4EF;font:inherit;font-weight:600;cursor:pointer">Re-run comparison</button></div>
+    </div>
+    <div style="border:1px solid #D9C9A8;background:#F6F0E3;border-radius:10px;padding:10px 14px;font-size:13px;color:#4A3D27">Prototype screen: metric values below are illustrative layout content, not results from a trained model.</div>
+
+    <div class="body">
+      <aside style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <section style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px">
+          <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px">1 · Variables</h2>
+          <div style="font-size:13px;color:#4C5C62">Target</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;background:#DCE9E4;border-radius:8px;padding:8px 10px">PL01_disp [mm]</div>
+          <div style="font-size:13px;color:#4C5C62">Inputs</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:12px"><span style="border:1px solid #D5DDD8;border-radius:6px;padding:3px 8px">res_level</span><span style="border:1px solid #D5DDD8;border-radius:6px;padding:3px 8px">air_temp (lag 0–30 d)</span><span style="border:1px solid #D5DDD8;border-radius:6px;padding:3px 8px">sin/cos doy</span><span style="border:1px solid #D5DDD8;border-radius:6px;padding:3px 8px">t (years)</span></div>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px">
+          <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px">2 · Validation scheme</h2>
+          <sc-for list="{{schemes}}" as="s" hint-placeholder-count="3">
+            <label style="display:flex;gap:10px;align-items:flex-start;padding:8px;border-radius:9px;cursor:pointer;{{s.box}}"><input type="radio" name="scheme" checked="{{s.on}}" onChange="{{s.pick}}" style="margin-top:4px;width:18px;height:18px"><span><span style="display:block;font-weight:600;font-size:14px">{{s.label}}</span><span style="display:block;font-size:12px;color:#4C5C62">{{s.note}}</span></span></label>
+          </sc-for>
+          <svg viewBox="0 0 260 {{schemeH}}" width="100%" role="img" aria-label="{{schemeAria}}">
+            <sc-for list="{{folds}}" as="f" hint-placeholder-count="1">
+              <rect x="0" y="{{f.y}}" width="{{f.tw}}" height="12" rx="3" fill="#183C45"></rect>
+              <rect x="{{f.vx}}" y="{{f.y}}" width="{{f.vw}}" height="12" rx="3" fill="#9B8461"></rect>
+            </sc-for>
+          </svg>
+          <div style="display:flex;gap:14px;font-size:12px;color:#4C5C62"><span style="display:inline-flex;gap:6px;align-items:center"><span style="width:12px;height:8px;background:#183C45;border-radius:2px"></span>calibration</span><span style="display:inline-flex;gap:6px;align-items:center"><span style="width:12px;height:8px;background:#9B8461;border-radius:2px"></span>validation</span><span>time →</span></div>
+          <div style="font-size:12px;color:#3D4D53;background:#F1F3F0;border-radius:8px;padding:8px">Leakage guard: scalers and lag features are fitted on calibration data only; no shuffling.</div>
+        </section>
+      </aside>
+
+      <section style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <div style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:16px;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px"><h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px">3 · Results ({{schemeName}})</h2><span style="font-size:12px;color:#4C5C62">Select a row to inspect · sort by column</span></div>
+          <div style="overflow-x:auto;border:1px solid #E1E7E3;border-radius:10px">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap">
+              <thead>
+                <tr style="background:#F1F3F0;color:#4C5C62;text-align:left">
+                  <th style="padding:8px 10px;font-weight:600">Model</th>
+                  <th style="padding:8px 10px;font-weight:600"><button onClick="{{sortMae}}" style="border:0;background:none;font:inherit;font-weight:600;color:inherit;cursor:pointer;padding:0">Val MAE {{arMae}}</button></th>
+                  <th style="padding:8px 10px;font-weight:600"><button onClick="{{sortRmse}}" style="border:0;background:none;font:inherit;font-weight:600;color:inherit;cursor:pointer;padding:0">Val RMSE {{arRmse}}</button></th>
+                  <th style="padding:8px 10px;font-weight:600"><button onClick="{{sortR2}}" style="border:0;background:none;font:inherit;font-weight:600;color:inherit;cursor:pointer;padding:0">Val R² {{arR2}}</button></th>
+                  <th style="padding:8px 10px;font-weight:600">MAPE</th>
+                  <th style="padding:8px 10px;font-weight:600">90 % PI coverage</th>
+                  <th style="padding:8px 10px;font-weight:600;border-left:1px solid #E1E7E3">Calib. RMSE</th>
+                  <th style="padding:8px 10px;font-weight:600">Fit time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{rows}}" as="r" hint-placeholder-count="7">
+                  <tr style="border-top:1px solid #E1E7E3;{{r.bg}}">
+                    <td style="padding:8px 10px"><button onClick="{{r.pick}}" aria-pressed="{{r.sel}}" style="border:0;background:none;font:inherit;font-weight:600;color:#183C45;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px">{{r.name}}</button> <span style="font-size:11px;color:#6E5A3A">{{r.badge}}</span></td>
+                    <td style="padding:8px 10px;font-family:'IBM Plex Mono',monospace">{{r.mae}}</td>
+                    <td style="padding:8px 10px;font-family:'IBM Plex Mono',monospace">{{r.rmse}}</td>
+                    <td style="padding:8px 10px;font-family:'IBM Plex Mono',monospace">{{r.r2}}</td>
+                    <td style="padding:8px 10px;color:#4C5C62" title="Response crosses zero; MAPE is not mathematically meaningful">n/a</td>
+                    <td style="padding:8px 10px;font-family:'IBM Plex Mono',monospace">{{r.cov}}</td>
+                    <td style="padding:8px 10px;font-family:'IBM Plex Mono',monospace;color:#4C5C62;border-left:1px solid #E1E7E3">{{r.cal}}</td>
+                    <td style="padding:8px 10px;font-family:'IBM Plex Mono',monospace;color:#4C5C62">{{r.time}}</td>
+                  </tr>
+                </sc-for>
+                <tr style="border-top:1px solid #E1E7E3;color:#59646B"><td style="padding:8px 10px">LSTM · GRU · PINN</td><td colspan="7" style="padding:8px 10px;font-size:12px">Available when the PyTorch runtime is enabled (Stage 6). Uses the same splits for a fair comparison.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="font-size:12px;color:#4C5C62;margin-top:8px">MAPE omitted: the displacement series crosses zero, where percentage error is undefined. Interval coverage from split-conformal residuals.</div>
+        </div>
+
+        <div class="charts">
+          <div style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0">
+            <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center"><h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px">{{selName}} · validation period</h2><span style="border:1px solid #D9DBD2;background:#EBE9E0;border-radius:999px;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.08em">MODEL OUTPUT</span></div>
+            <svg viewBox="0 0 600 240" width="100%" role="img" aria-label="Observed values, predictions and 90 percent prediction interval in the validation period" style="background:#FBFCFB;border:1px solid #E1E7E3;border-radius:10px">
+              <g stroke="#E1E7E3"><path d="M40 30H590M40 85H590M40 140H590M40 195H590"></path></g>
+              <polygon points="{{band}}" fill="#72BEB1" opacity=".25"></polygon>
+              <polyline points="{{obs}}" fill="none" stroke="#9B8461" stroke-width="1.5"></polyline>
+              <polyline points="{{pred}}" fill="none" stroke="#183C45" stroke-width="2.2"></polyline>
+              <g fill="#4C5C62" font-family="IBM Plex Mono, monospace" font-size="10"><text x="40" y="232">validation start</text><text x="520" y="232">end</text></g>
+            </svg>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#4C5C62"><span style="display:inline-flex;gap:6px;align-items:center"><span style="width:16px;border-top:2px solid #9B8461"></span>observed</span><span style="display:inline-flex;gap:6px;align-items:center"><span style="width:16px;border-top:3px solid #183C45"></span>predicted</span><span style="display:inline-flex;gap:6px;align-items:center"><span style="width:14px;height:10px;background:#72BEB1;opacity:.5"></span>90 % prediction interval</span></div>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0">
+            <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px">Permutation importance</h2>
+            <sc-for list="{{imp}}" as="i" hint-placeholder-count="5">
+              <div style="display:grid;grid-template-columns:110px minmax(0,1fr) 44px;gap:8px;align-items:center;font-size:13px"><span style="font-family:'IBM Plex Mono',monospace">{{i.name}}</span><span style="height:10px;background:#E7ECE8;border-radius:5px"><span style="{{i.bar}}"></span></span><span style="font-family:'IBM Plex Mono',monospace;text-align:right">{{i.v}}</span></div>
+            </sc-for>
+            <div style="font-size:13px;font-family:'IBM Plex Mono',monospace;background:#F1F3F0;border-radius:9px;padding:10px;white-space:pre-wrap;line-height:1.6">{{config}}</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { sel: 3, sort: 'rmse', dir: 1, scheme: 'holdout' }; }
+  renderVals() {
+    var self = this, st = this.state;
+    var M = [
+      { name: 'Linear regression (HST terms)', mae: 0.38, rmse: 0.49, r2: 0.902, cov: '88 %', cal: 0.44, time: '0.02 s', amp: 0.42, cfg: 'terms: h, h², h³, h⁴, sin s, cos s, t, ln(1+t)\nsolver: QR (OLS)', imp: [0.62, 0.21, 0.11, 0.05, 0.01] },
+      { name: 'Ridge', mae: 0.37, rmse: 0.48, r2: 0.906, cov: '89 %', cal: 0.45, time: '0.03 s', amp: 0.40, cfg: 'alpha: 0.8 (chronological CV)\nstandardised inputs', imp: [0.6, 0.22, 0.12, 0.05, 0.01] },
+      { name: 'Random forest', mae: 0.35, rmse: 0.47, r2: 0.91, cov: '86 %', cal: 0.18, time: '1.4 s', amp: 0.38, cfg: 'n_estimators: 400\nmax_depth: 12, min_samples_leaf: 5', imp: [0.55, 0.27, 0.1, 0.06, 0.02] },
+      { name: 'Gradient boosting', mae: 0.29, rmse: 0.39, r2: 0.937, cov: '90 %', cal: 0.24, time: '2.1 s', amp: 0.30, cfg: 'n_estimators: 600, learning_rate: 0.03\nmax_depth: 3, subsample: 0.8', imp: [0.58, 0.24, 0.12, 0.05, 0.01] },
+      { name: 'XGBoost', mae: 0.30, rmse: 0.40, r2: 0.934, cov: '89 %', cal: 0.21, time: '1.8 s', amp: 0.32, cfg: 'n_estimators: 500, eta: 0.05\nmax_depth: 4, early stopping on fold', imp: [0.57, 0.25, 0.12, 0.05, 0.01] },
+      { name: 'Support vector regression', mae: 0.36, rmse: 0.46, r2: 0.913, cov: '87 %', cal: 0.39, time: '3.6 s', amp: 0.37, cfg: 'kernel: RBF, C: 10, epsilon: 0.05\ngamma: scale', imp: [0.59, 0.22, 0.13, 0.05, 0.01] },
+      { name: 'K-nearest neighbours', mae: 0.47, rmse: 0.62, r2: 0.843, cov: '83 %', cal: 0.31, time: '0.2 s', amp: 0.55, cfg: 'k: 9, weights: distance', imp: [0.52, 0.29, 0.1, 0.07, 0.02] }
+    ];
+    var mult = st.scheme === 'rolling' ? 1.06 : st.scheme === 'frozen' ? 1.1 : 1;
+    var idx = M.map(function (m, i) { return i; });
+    idx.sort(function (a, b) { return (M[a][st.sort] - M[b][st.sort]) * st.dir; });
+    var best = idx[0];
+    var rows = idx.map(function (i) {
+      var m = M[i], on = st.sel === i;
+      return { name: m.name, badge: i === best ? 'best by ' + st.sort.toUpperCase() : '', mae: (m.mae * mult).toFixed(2) + ' mm', rmse: (m.rmse * mult).toFixed(2) + ' mm', r2: (m.r2 - (mult - 1) * 0.3).toFixed(3), cov: m.cov, cal: m.cal.toFixed(2) + ' mm', time: m.time,
+        sel: String(on), bg: on ? 'background:#DCE9E4' : '', pick: function () { self.setState({ sel: i }); } };
+    });
+    var m = M[st.sel], n = 80, X = function (i) { return (40 + i * 550 / (n - 1)).toFixed(1); }, Y = function (v) { return (125 - v * 22).toFixed(1); };
+    var ob = [], pr = [], up = [], lo = [];
+    for (var i = 0; i < n; i++) {
+      var tt = i / n;
+      var truth = 2.2 * Math.sin(2 * Math.PI * (tt * 0.9 + 0.1)) + 0.6 * tt + 0.25 * Math.sin(i * 1.9) + 0.15 * Math.cos(i * 3.7);
+      var p = 2.2 * Math.sin(2 * Math.PI * (tt * 0.9 + 0.1)) + 0.6 * tt + m.amp * 0.6 * Math.sin(i * 0.7 + st.sel);
+      var w = 1.645 * m.rmse * mult * (1 + tt * 0.4);
+      ob.push(X(i) + ',' + Y(truth)); pr.push(X(i) + ',' + Y(p)); up.push(X(i) + ',' + Y(p + w)); lo.unshift(X(i) + ',' + Y(p - w));
+    }
+    var names = ['res_level', 'doy sin/cos', 'air_temp', 't (years)', 'other'];
+    var sortBy = function (k) { return function () { self.setState({ sort: k, dir: st.sort === k ? -st.dir : (k === 'r2' ? -1 : 1) }); }; };
+    var ar = function (k) { return st.sort === k ? (st.dir === 1 ? '▲' : '▼') : ''; };
+    var schemes = [
+      { id: 'holdout', label: 'Chronological holdout', note: 'calibrate on first 80 %, validate on last 20 %' },
+      { id: 'rolling', label: 'Rolling-origin (5 folds)', note: 'expanding window, one-step-ahead blocks' },
+      { id: 'frozen', label: 'Frozen test set', note: 'final 6 months locked until model selection ends' }
+    ];
+    var folds = st.scheme === 'rolling' ? [0, 1, 2, 3, 4].map(function (k) { var tw = 120 + k * 26; return { y: k * 16, tw: tw, vx: tw + 4, vw: 24 }; })
+      : st.scheme === 'frozen' ? [{ y: 0, tw: 170, vx: 174, vw: 40 }] : [{ y: 0, tw: 206, vx: 210, vw: 50 }];
+    return {
+      rows: rows, sortMae: sortBy('mae'), sortRmse: sortBy('rmse'), sortR2: sortBy('r2'), arMae: ar('mae'), arRmse: ar('rmse'), arR2: ar('r2'),
+      selName: m.name, obs: ob.join(' '), pred: pr.join(' '), band: up.concat(lo).join(' '),
+      imp: m.imp.map(function (v, k) { return { name: names[k], v: v.toFixed(2), bar: 'display:block;height:10px;border-radius:5px;background:#2C6B61;width:' + Math.round(v * 100) + '%' }; }),
+      config: m.cfg + '\nrandom_state: 42 · engine v0.1',
+      schemes: schemes.map(function (s) { var on = st.scheme === s.id; return { label: s.label, note: s.note, on: on, pick: function () { self.setState({ scheme: s.id }); }, box: on ? 'background:#DCE9E4' : '' }; }),
+      schemeName: schemes.filter(function (s) { return s.id === st.scheme; })[0].label.toLowerCase(),
+      folds: folds, schemeH: folds.length * 16, schemeAria: 'Diagram of calibration and validation windows over time'
+    };
+  }
+}
+</script>
+</body>
+</html>

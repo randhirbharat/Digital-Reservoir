@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Digital Twin — 3D dam and sensor locations</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#8FD0C4}a:hover{color:#B9E4DC}
+.d3{container-type:inline-size}
+.d3 .body{display:grid;grid-template-columns:220px minmax(0,1fr) 330px;gap:14px}
+@container (max-width:1180px){.d3 .body{grid-template-columns:minmax(0,1fr) 320px}.d3 .layers{grid-column:1 / -1}}
+@container (max-width:820px){.d3 .body{grid-template-columns:1fr}}
+</style>
+</helmet>
+<div class="d3" style="background:#0B1820;color:#E6EEEB;font-family:Inter,system-ui,sans-serif;font-size:14px;line-height:1.5;min-height:940px">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px clamp(14px,2cqi,22px);background:#10232D;border-bottom:1px solid #26434D">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <a href="TwinDashboard.dc.html" style="display:flex;align-items:center;gap:8px;color:#F5F4EF;text-decoration:none"><svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#183C45"></rect><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><polyline points="7,31 16,26.5 19.5,34 23,29 34,23" fill="none" stroke="#9B8461" stroke-width="2.4" stroke-linejoin="round"></polyline></svg><span style="font-weight:700">Digital Twin</span></a>
+      <nav aria-label="Breadcrumb" style="font-size:13px;color:#9DB3AE"><a href="TwinDashboard.dc.html" style="color:#9DB3AE">Project D</a> / <span style="color:#F5F4EF">3D structure</span></nav>
+    </div>
+    <span style="border:1px solid #9B8461;color:#D8C49E;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:700;letter-spacing:.08em">ILLUSTRATIVE DEMONSTRATION MODEL · NOT AN EXISTING DAM</span>
+  </div>
+
+  <div style="padding:clamp(12px,1.6cqi,20px)" class="body">
+    <aside class="layers" style="display:flex;flex-direction:column;gap:12px;min-width:0">
+      <section style="background:#10232D;border:1px solid #26434D;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:4px">
+        <h2 style="margin:0 0 6px;font-family:Manrope,sans-serif;font-size:15px;color:#F5F4EF">Layers</h2>
+        <sc-for list="{{layers}}" as="l" hint-placeholder-count="6">
+          <label style="display:flex;align-items:center;gap:10px;min-height:36px;cursor:pointer"><input type="checkbox" checked="{{l.on}}" onChange="{{l.toggle}}" style="width:18px;height:18px;accent-color:#72BEB1"><span style="width:12px;height:12px;border-radius:3px;{{l.sw}}"></span>{{l.label}}</label>
+        </sc-for>
+      </section>
+      <section style="background:#10232D;border:1px solid #26434D;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px">
+        <h2 style="margin:0 0 4px;font-family:Manrope,sans-serif;font-size:15px;color:#F5F4EF">Components</h2>
+        <sc-for list="{{compList}}" as="c" hint-placeholder-count="8">
+          <button onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="{{c.style}}">{{c.label}}</button>
+        </sc-for>
+      </section>
+    </aside>
+
+    <section style="background:#0E1E27;border:1px solid #26434D;border-radius:14px;display:flex;flex-direction:column;min-width:0;overflow:hidden">
+      <div role="toolbar" aria-label="View controls" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:10px;border-bottom:1px solid #26434D;background:#10232D">
+        <button onClick="{{rotL}}" aria-label="Rotate left" style="width:40px;height:40px;border-radius:9px;border:1px solid #26434D;background:#0B1820;color:#E6EEEB;cursor:pointer;display:inline-flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path></svg></button>
+        <button onClick="{{rotR}}" aria-label="Rotate right" style="width:40px;height:40px;border-radius:9px;border:1px solid #26434D;background:#0B1820;color:#E6EEEB;cursor:pointer;display:inline-flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"></path><path d="M21 4v5h-5"></path></svg></button>
+        <button onClick="{{tiltU}}" aria-label="Tilt up" style="width:40px;height:40px;border-radius:9px;border:1px solid #26434D;background:#0B1820;color:#E6EEEB;cursor:pointer">▲</button>
+        <button onClick="{{tiltD}}" aria-label="Tilt down" style="width:40px;height:40px;border-radius:9px;border:1px solid #26434D;background:#0B1820;color:#E6EEEB;cursor:pointer">▼</button>
+        <button onClick="{{zoomIn}}" aria-label="Zoom in" style="width:40px;height:40px;border-radius:9px;border:1px solid #26434D;background:#0B1820;color:#E6EEEB;cursor:pointer;font-size:18px">+</button>
+        <button onClick="{{zoomOut}}" aria-label="Zoom out" style="width:40px;height:40px;border-radius:9px;border:1px solid #26434D;background:#0B1820;color:#E6EEEB;cursor:pointer;font-size:18px">−</button>
+        <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#9DB3AE;flex:1 1 160px">Azimuth<input type="range" min="-180" max="180" step="5" value="{{yaw}}" onChange="{{setYaw}}" style="flex:1;accent-color:#72BEB1"></label>
+        <button onClick="{{reset}}" style="min-height:40px;padding:0 12px;border-radius:9px;border:1px solid #26434D;background:#0B1820;color:#E6EEEB;font:inherit;cursor:pointer">Reset view</button>
+      </div>
+      <svg viewBox="0 0 760 520" width="100%" role="img" aria-label="{{aria}}" style="display:block;background:radial-gradient(circle at 50% 40%, #13303D, #0B1820)">
+        <sc-for list="{{polys}}" as="p" hint-placeholder-count="12">
+          <polygon points="{{p.pts}}" fill="{{p.fill}}" fill-opacity="{{p.op}}" stroke="{{p.stroke}}" stroke-width="{{p.sw}}" onClick="{{p.pick}}" style="cursor:pointer"></polygon>
+        </sc-for>
+        <sc-for list="{{lines}}" as="ln" hint-placeholder-count="2">
+          <polyline points="{{ln.pts}}" fill="none" stroke="{{ln.color}}" stroke-width="1.6" stroke-dasharray="5 4"></polyline>
+        </sc-for>
+        <sc-for list="{{dots}}" as="d" hint-placeholder-count="7">
+          <g onClick="{{d.pick}}" style="cursor:pointer">
+            <circle cx="{{d.x}}" cy="{{d.y}}" r="{{d.halo}}" fill="none" stroke="{{d.color}}" stroke-opacity=".45" stroke-width="2"></circle>
+            <circle cx="{{d.x}}" cy="{{d.y}}" r="7" fill="{{d.color}}" stroke="#0B1820" stroke-width="2"></circle>
+            <text x="{{d.tx}}" y="{{d.ty}}" fill="#E6EEEB" font-family="IBM Plex Mono, monospace" font-size="11">{{d.code}}</text>
+          </g>
+        </sc-for>
+        <g font-family="IBM Plex Mono, monospace" font-size="10" fill="#9DB3AE"><text x="14" y="506">az {{yaw}}° · el {{pitch}}° · zoom {{zoomPct}} % · orthographic</text></g>
+      </svg>
+      <div style="padding:10px 12px;border-top:1px solid #26434D;font-size:12px;color:#9DB3AE;display:flex;flex-wrap:wrap;gap:6px 16px"><span>Click a sensor or a surface. Selected: <strong style="color:#F5F4EF">{{selectedText}}</strong></span><span>Production viewer: Three.js WebGL with GLB/glTF import; IFC models via conversion.</span></div>
+    </section>
+
+    <aside style="display:flex;flex-direction:column;gap:12px;min-width:0">
+      <section style="background:#10232D;border:1px solid #26434D;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px;color:#F5F4EF">{{s.code}}</h2><span style="border:1px solid {{s.stColor}};color:{{s.stColor}};border-radius:999px;padding:2px 9px;font-size:12px;font-weight:600">{{s.status}}</span></div>
+        <div style="font-size:13px;color:#B7CBC6">{{s.name}}</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:26px;color:#F5F4EF">{{s.value}}</div>
+        <div style="font-size:12px;color:#9DB3AE">{{s.time}} · <span style="color:#D8C49E">simulated</span> · quality {{s.q}}</div>
+        <svg viewBox="0 0 290 70" width="100%" role="img" aria-label="Seven-day trend of the selected sensor" style="background:#0B1820;border-radius:8px;border:1px solid #26434D"><polyline points="{{s.spark}}" fill="none" stroke="#72BEB1" stroke-width="1.8"></polyline></svg>
+        <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:12px">
+          <dt style="color:#9DB3AE">Type</dt><dd style="margin:0">{{s.type}}</dd>
+          <dt style="color:#9DB3AE">Variable · unit</dt><dd style="margin:0">{{s.variable}}</dd>
+          <dt style="color:#9DB3AE">Component</dt><dd style="margin:0">{{s.component}}</dd>
+          <dt style="color:#9DB3AE">Coordinates</dt><dd style="margin:0;font-family:'IBM Plex Mono',monospace">{{s.xyz}}</dd>
+          <dt style="color:#9DB3AE">Frequency</dt><dd style="margin:0">{{s.freq}}</dd>
+          <dt style="color:#9DB3AE">Calibration</dt><dd style="margin:0">{{s.cal}}</dd>
+          <dt style="color:#9DB3AE">Data source</dt><dd style="margin:0">Simulator adapter · gateway GW-01 (inactive)</dd>
+        </dl>
+        <a href="TwinMonitoring.dc.html" style="display:inline-flex;justify-content:center;align-items:center;min-height:42px;border-radius:9px;background:#72BEB1;color:#0B1820;font-weight:700;text-decoration:none">Open full trend</a>
+      </section>
+      <section style="background:#10232D;border:1px solid #26434D;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px">
+        <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:15px;color:#F5F4EF">Compare monitoring periods</h2>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <sc-for list="{{periods}}" as="pd" hint-placeholder-count="3"><button onClick="{{pd.pick}}" aria-pressed="{{pd.on}}" style="{{pd.style}}">{{pd.label}}</button></sc-for>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:#0B1820;border-radius:8px;padding:10px;line-height:1.7;white-space:pre">{{compare}}</div>
+      </section>
+    </aside>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":940}}'>
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.state = { yaw: -35, pitch: 24, zoom: 1, sel: 'PZ-03', comp: null, period: 0,
+      layers: { structure: true, reservoir: true, foundation: true, galleries: true, sensors: true, zones: false } };
+  }
+  renderVals() {
+    var self = this, st = this.state;
+    var yaw = st.yaw * Math.PI / 180, pit = st.pitch * Math.PI / 180, sc = 3.3 * st.zoom;
+    var C = [0, 20, 22];
+    var proj = function (p) {
+      var x = p[0] - C[0], y = p[1] - C[1], z = p[2] - C[2];
+      var x1 = x * Math.cos(yaw) - y * Math.sin(yaw), y1 = x * Math.sin(yaw) + y * Math.cos(yaw);
+      var sy = z * Math.cos(pit) - y1 * Math.sin(pit), depth = y1 * Math.cos(pit) + z * Math.sin(pit);
+      return { x: 380 + x1 * sc, y: 280 - sy * sc, d: depth };
+    };
+    var L = [-1, 0.4, 0.8], ln = Math.sqrt(1 + 0.16 + 0.64); L = L.map(function (v) { return v / ln; });
+    var shade = function (hex, pts3) {
+      var a = pts3[0], b = pts3[1], c = pts3[2];
+      var u = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], v = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
+      var n = [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]];
+      var nl = Math.sqrt(n[0] * n[0] + n[1] * n[1] + n[2] * n[2]) || 1;
+      var k = 0.62 + 0.38 * Math.abs((n[0] * L[0] + n[1] * L[1] + n[2] * L[2]) / nl);
+      var r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), bl = parseInt(hex.slice(5, 7), 16);
+      var h = function (q) { return Math.max(0, Math.min(255, Math.round(q * k))).toString(16).padStart(2, '0'); };
+      return '#' + h(r) + h(g) + h(bl);
+    };
+    var faces = [];
+    var add = function (pts3, color, comp, op, layer) { faces.push({ pts3: pts3, color: color, comp: comp, op: op, layer: layer }); };
+    var prism = function (sec, x0, x1, colors, comps, layer, op) {
+      for (var i = 0; i < sec.length; i++) {
+        var a = sec[i], b = sec[(i + 1) % sec.length];
+        add([[x0, a[0], a[1]], [x1, a[0], a[1]], [x1, b[0], b[1]], [x0, b[0], b[1]]], colors[i], comps[i], op, layer);
+      }
+      add(sec.map(function (q) { return [x0, q[0], q[1]]; }), colors[colors.length - 1], comps[comps.length - 1], op, layer);
+      add(sec.map(function (q) { return [x1, q[0], q[1]]; }).reverse(), colors[colors.length - 1], comps[comps.length - 1], op, layer);
+    };
+    var lay = st.layers;
+    if (lay.foundation) prism([[-22, -12], [78, -12], [78, 0], [-22, 0]], -88, 88, ['#3A4A4F', '#56666B', '#4E5E63', '#56666B', '#46565B'], ['Foundation', 'Foundation', 'Foundation', 'Foundation', 'Foundation'], 'foundation', 1);
+    var dam = [[0, 0], [52, 0], [8, 50], [8, 60], [0, 60]];
+    var dc = ['#B9C9C2', '#DCE9E4', '#C9D8D1', '#E8EFEB', '#C2D2CB', '#AEBFB8'];
+    var dcomp = ['Dam–foundation contact', 'Downstream face', 'Downstream face', 'Crest', 'Upstream face', 'Abutment section'];
+    if (lay.structure) {
+      prism(dam, -70, -14, dc, dcomp, 'structure', 1);
+      prism(dam, 14, 70, dc, dcomp, 'structure', 1);
+      prism([[0, 0], [52, 0], [12, 44], [0, 52]], -14, 14, ['#9FB1AA', '#9B8461', '#B3A07E', '#C2D2CB', '#AEBFB8'], ['Dam–foundation contact', 'Spillway chute', 'Spillway crest', 'Upstream face', 'Spillway pier'], 'structure', 1);
+    }
+    if (lay.reservoir) add([[-70, -1, 55], [70, -1, 55], [70, -42, 55], [-70, -42, 55]], '#2C8C9E', 'Reservoir', 0.42, 'reservoir');
+    var polys = faces.map(function (f) {
+      var pr = f.pts3.map(proj), d = 0; pr.forEach(function (q) { d += q.d; }); d /= pr.length;
+      var on = st.comp && st.comp === f.comp;
+      var zoneHit = lay.zones && f.layer === 'structure' && f.pts3.every(function (q) { return q[0] >= -40 && q[0] <= 0; });
+      return { d: d, pts: pr.map(function (q) { return q.x.toFixed(1) + ',' + q.y.toFixed(1); }).join(' '),
+        fill: on ? '#72BEB1' : zoneHit ? '#C9B591' : shade(f.color, f.pts3), op: f.op, stroke: on ? '#F5F4EF' : '#0B1820', sw: on ? 1.6 : 0.6,
+        pick: function () { self.setState({ comp: f.comp }); } };
+    });
+    polys.sort(function (a, b) { return b.d - a.d; });
+    var lines = [];
+    if (lay.galleries) {
+      var g = [[-70, 6, 9], [70, 6, 9]].map(proj), g2 = [[-70, 26, 8], [70, 26, 8]].map(proj);
+      lines.push({ pts: g.map(function (q) { return q.x.toFixed(1) + ',' + q.y.toFixed(1); }).join(' '), color: '#E0AE52' });
+      lines.push({ pts: g2.map(function (q) { return q.x.toFixed(1) + ',' + q.y.toFixed(1); }).join(' '), color: '#E0AE52' });
+    }
+    var S = [
+      { code: 'PL-01', name: 'Direct pendulum, crest block 4', type: 'Pendulum (coordinometer)', variable: 'Radial displacement · mm', component: 'Crest', p: [-4, 4, 60], v: '3.81 mm', status: 'Online', freq: '1 / 10 min', cal: 'Factor 1.000, offset −0.12 mm (2026-02-11)', base: 3.8, amp: 0.4 },
+      { code: 'PZ-03', name: 'Foundation piezometer, block 4', type: 'Vibrating-wire piezometer', variable: 'Piezometric head · m', component: 'Foundation', p: [-6, 14, -6], v: '41.03 m', status: 'Online', freq: '1 / 10 min', cal: 'Gauge factor 0.0386 kPa/digit (2025-11-03)', base: 40.9, amp: 0.2 },
+      { code: 'UP-05', name: 'Uplift cell, heel', type: 'Pressure cell', variable: 'Uplift pressure · kPa', component: 'Dam–foundation contact', p: [24, 3, 0.5], v: '148 kPa', status: 'Online', freq: '1 / 10 min', cal: 'Zero reading 2.1 kPa (2025-11-03)', base: 148, amp: 3 },
+      { code: 'V-02', name: 'Seepage weir, gallery 2', type: 'V-notch weir + level sensor', variable: 'Flow · L/s', component: 'Drainage gallery', p: [36, 26, 8], v: '12.4 L/s', status: 'Online', freq: '1 / 15 min', cal: 'Weir equation Q = 1.38 h^2.5', base: 12.4, amp: 0.6 },
+      { code: 'TM-12', name: 'Embedded thermometer', type: 'Resistance thermometer', variable: 'Concrete temperature · °C', component: 'Dam body', p: [-48, 22, 30], v: '—', status: 'Offline', freq: '1 / h', cal: 'Pt100 class A', base: 14.2, amp: 0.5 },
+      { code: 'JM-04', name: 'Joint meter, blocks 3–4', type: 'Vibrating-wire jointmeter', variable: 'Joint opening · mm', component: 'Contraction joint', p: [-14, 2, 40], v: '0.42 mm', status: 'Online', freq: '1 / h', cal: 'Gauge factor 0.0021 mm/digit', base: 0.42, amp: 0.05 },
+      { code: 'IN-01', name: 'Inclinometer, downstream toe', type: 'In-place inclinometer', variable: 'Tilt · mm/m', component: 'Toe', p: [10, 48, 4], v: '0.08 mm/m', status: 'Maintenance', freq: '1 / 6 h', cal: 'Re-zeroed 2026-09-30', base: 0.08, amp: 0.02 }
+    ];
+    var stc = { Online: '#5FB592', Offline: '#8E9AA2', Maintenance: '#E0AE52' };
+    var dots = !lay.sensors ? [] : S.map(function (s) {
+      var q = proj(s.p), on = st.sel === s.code;
+      return { code: s.code, x: q.x.toFixed(1), y: q.y.toFixed(1), tx: (q.x + 11).toFixed(1), ty: (q.y - 9).toFixed(1), color: on ? '#F5F4EF' : (s.status === 'Online' ? '#72BEB1' : stc[s.status]), halo: on ? 15 : 10, d: q.d,
+        pick: function () { self.setState({ sel: s.code, comp: s.component }); } };
+    });
+    var s = S.filter(function (x) { return x.code === st.sel; })[0];
+    var sp = []; for (var i = 0; i < 48; i++) sp.push((4 + i * 282 / 47).toFixed(1) + ',' + (35 - 22 * Math.sin(i / 7 + s.base) - 6 * Math.sin(i * 1.3)).toFixed(1));
+    var lt = function (k) { var on = lay[k]; return on; };
+    var mk = function (k, label, sw) { return { label: label, on: lt(k), sw: sw, toggle: function () { var l = Object.assign({}, lay); l[k] = !lay[k]; self.setState({ layers: l }); } }; };
+    var comps = ['Crest', 'Upstream face', 'Downstream face', 'Dam–foundation contact', 'Toe', 'Foundation', 'Drainage gallery', 'Spillway chute'];
+    var periods = ['Last 7 days', 'Same week 2025', 'Since commissioning'];
+    var pv = [[s.base, s.base - s.amp * 0.6], [s.base - s.amp * 0.3, s.base - s.amp], [s.base - s.amp * 1.5, s.base + s.amp * 0.4]][st.period];
+    var unit = s.variable.split('·')[1] ? s.variable.split('·')[1].trim() : '';
+    return {
+      polys: polys, lines: lines, dots: dots,
+      yaw: st.yaw, pitch: st.pitch, zoomPct: Math.round(st.zoom * 100),
+      rotL: function () { self.setState({ yaw: st.yaw - 15 }); }, rotR: function () { self.setState({ yaw: st.yaw + 15 }); },
+      tiltU: function () { self.setState({ pitch: Math.min(80, st.pitch + 8) }); }, tiltD: function () { self.setState({ pitch: Math.max(-10, st.pitch - 8) }); },
+      zoomIn: function () { self.setState({ zoom: Math.min(2.2, st.zoom * 1.15) }); }, zoomOut: function () { self.setState({ zoom: Math.max(0.5, st.zoom / 1.15) }); },
+      setYaw: function (e) { self.setState({ yaw: Number(e.target.value) }); }, reset: function () { self.setState({ yaw: -35, pitch: 24, zoom: 1 }); },
+      layers: [mk('structure', 'Dam structure', 'background:#DCE9E4'), mk('reservoir', 'Reservoir', 'background:#2C8C9E'), mk('foundation', 'Foundation', 'background:#56666B'), mk('galleries', 'Galleries', 'border:2px dashed #E0AE52;box-sizing:border-box'), mk('sensors', 'Sensors', 'background:#72BEB1;border-radius:50%'), mk('zones', 'Monitoring zone MZ-2', 'background:#C9B591')],
+      compList: comps.map(function (c) { var on = st.comp === c; return { label: c, on: String(on), pick: function () { self.setState({ comp: on ? null : c }); }, style: 'text-align:left;min-height:34px;padding:0 10px;border-radius:8px;font:inherit;font-size:13px;cursor:pointer;' + (on ? 'background:#183C45;border:1px solid #72BEB1;color:#F5F4EF' : 'background:transparent;border:1px solid transparent;color:#B7CBC6') }; }),
+      selectedText: (st.comp || 'nothing') + (st.sel ? ' · sensor ' + st.sel : ''),
+      aria: 'Rotatable 3D view of an illustrative gravity dam with ' + S.length + ' sensors; selected ' + st.sel,
+      s: { code: s.code, name: s.name, value: s.v, time: s.status === 'Offline' ? 'last 2026-11-04 09:12:04 UTC' : '2026-11-04 10:42:07 UTC', q: s.status === 'Offline' ? 'missing' : 'good', status: s.status, stColor: stc[s.status],
+        type: s.type, variable: s.variable, component: s.component, xyz: 'x ' + s.p[0] + ' · y ' + s.p[1] + ' · z ' + s.p[2] + ' m', freq: s.freq, cal: s.cal, spark: sp.join(' ') },
+      periods: periods.map(function (p, i) { var on = st.period === i; return { label: p, on: String(on), pick: function () { self.setState({ period: i }); }, style: 'min-height:34px;padding:0 10px;border-radius:999px;font:inherit;font-size:12px;cursor:pointer;' + (on ? 'background:#72BEB1;color:#0B1820;border:1px solid #72BEB1;font-weight:700' : 'background:transparent;color:#B7CBC6;border:1px solid #26434D') }; }),
+      compare: s.code + '  ' + periods[st.period] + '\nmean   ' + pv[0].toFixed(2) + ' ' + unit + '\nmin    ' + pv[1].toFixed(2) + ' ' + unit + '\nΔ vs reference  ' + (pv[0] - s.base >= 0 ? '+' : '') + (pv[0] - s.base).toFixed(2) + ' ' + unit
+    };
+  }
+}
+</script>
+</body>
+</html>

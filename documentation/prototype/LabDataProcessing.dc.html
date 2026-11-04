@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Engineering Lab — data processing</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2C6B61}a:hover{color:#183C45}
+.dp{container-type:inline-size}
+.dp .body{display:grid;grid-template-columns:300px minmax(0,1fr) 300px;gap:16px}
+.dp .q4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@container (max-width:1200px){.dp .body{grid-template-columns:280px minmax(0,1fr)}.dp .right{grid-column:1 / -1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}}
+@container (max-width:860px){.dp .body{grid-template-columns:1fr}.dp .right{grid-template-columns:1fr}.dp .q4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</helmet>
+<div class="dp" style="background:#F1F3F0;color:#10232D;font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.55;min-height:1200px">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px clamp(14px,2cqi,24px);background:#10232D;color:#DCE9E4">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <a href="LabDashboard.dc.html" style="display:flex;align-items:center;gap:8px;color:#F5F4EF;text-decoration:none"><svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="#183C45"></rect><path d="M27 9.5h5.5L41 38H27z" fill="#DCE9E4"></path><polyline points="7,31 16,26.5 19.5,34 23,29 34,23" fill="none" stroke="#9B8461" stroke-width="2.4" stroke-linejoin="round"></polyline></svg><span style="font-weight:700;font-size:14px">Engineering Lab</span></a>
+      <nav aria-label="Breadcrumb" style="font-size:13px;color:#9DB3AE"><a href="LabDashboard.dc.html" style="color:#9DB3AE">Projects</a> / <a href="LabDashboard.dc.html" style="color:#9DB3AE">Gravity dam behaviour study</a> / <span style="color:#F5F4EF">demo_gravity_dam.csv</span></nav>
+    </div>
+    <nav aria-label="Applications" style="display:flex;gap:4px;font-size:13px;font-weight:600"><a href="PublicHome.dc.html" style="padding:6px 10px;color:#9DB3AE;text-decoration:none">Website</a><a href="LabDashboard.dc.html" aria-current="page" style="padding:6px 10px;border-radius:7px;background:#183C45;color:#F5F4EF;text-decoration:none">Lab</a><a href="ProjectAccess.dc.html" style="padding:6px 10px;color:#9DB3AE;text-decoration:none">Digital Twin</a></nav>
+  </div>
+
+  <div style="padding:clamp(14px,2cqi,24px);display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px">
+      <div><h1 style="margin:0;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(22px,2.4cqi,28px)">Data processing &amp; signal tools</h1><p style="margin:2px 0 0;color:#4C5C62;font-size:14px">Every operation creates a new version with its parameters recorded. The uploaded original is read-only.</p></div>
+      <div role="tablist" aria-label="Workspace" style="display:flex;gap:4px;background:#E7ECE8;border-radius:10px;padding:4px">
+        <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3"><button role="tab" aria-selected="{{t.sel}}" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button></sc-for>
+      </div>
+    </div>
+
+    <div class="body">
+      <aside style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <section style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px">Dataset</h2><span style="border:1px solid #9B8461;background:#EFE7D8;color:#6E5A3A;border-radius:999px;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.08em">SYNTHETIC EXAMPLE</span></div>
+          <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px">
+            <dt style="color:#4C5C62">File</dt><dd style="margin:0;font-family:'IBM Plex Mono',monospace">demo_gravity_dam.csv</dd>
+            <dt style="color:#4C5C62">Rows</dt><dd style="margin:0;font-family:'IBM Plex Mono',monospace">8,760</dd>
+            <dt style="color:#4C5C62">Period</dt><dd style="margin:0;font-family:'IBM Plex Mono',monospace">2023-01-01 → 2024-12-31 UTC</dd>
+            <dt style="color:#4C5C62">SHA-256</dt><dd style="margin:0;font-family:'IBM Plex Mono',monospace">9f2c…41ab</dd>
+          </dl>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px">
+          <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px">Versions</h2>
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:8px;border-radius:9px;background:#F1F3F0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4C5C62" stroke-width="2" aria-hidden="true" style="margin-top:3px;flex:none"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg><div><div style="font-weight:600;font-size:14px">v1 · Original upload</div><div style="font-size:12px;color:#4C5C62">read-only · never modified</div></div></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:8px;border-radius:9px;border:1px solid #C6D9D1;background:#DCE9E4"><span style="width:16px;flex:none;text-align:center;color:#183C45">↳</span><div><div style="font-weight:600;font-size:14px">v2 · Cleaned</div><div style="font-size:12px;color:#3D4D53">duplicates removed (12) · resampled 1 h</div></div></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:8px;border-radius:9px;border:1px dashed #9B8461"><span style="width:16px;flex:none;text-align:center;color:#6E5A3A">+</span><div><div style="font-weight:600;font-size:14px">v3 · Draft (this pipeline)</div><div style="font-size:12px;color:#4C5C62">{{pipelineShort}}</div></div></div>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px">
+          <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px">Columns</h2>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+            <div style="display:flex;justify-content:space-between;gap:8px"><span style="font-family:'IBM Plex Mono',monospace">timestamp</span><span style="color:#4C5C62">datetime · UTC</span></div>
+            <div style="display:flex;justify-content:space-between;gap:8px"><span style="font-family:'IBM Plex Mono',monospace">PL01_disp</span><span style="color:#4C5C62">numeric · mm</span></div>
+            <div style="display:flex;justify-content:space-between;gap:8px"><span style="font-family:'IBM Plex Mono',monospace">res_level</span><span style="color:#4C5C62">numeric · m a.s.l.</span></div>
+            <div style="display:flex;justify-content:space-between;gap:8px"><span style="font-family:'IBM Plex Mono',monospace">air_temp</span><span style="color:#4C5C62">numeric · °C</span></div>
+            <div style="display:flex;justify-content:space-between;gap:8px"><span style="font-family:'IBM Plex Mono',monospace">PZ03_head</span><span style="color:#4C5C62">numeric · m</span></div>
+          </div>
+        </section>
+      </aside>
+
+      <section style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <sc-if value="{{showSignal}}" hint-placeholder-val="{{true}}">
+          <div style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0">
+            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:center">
+              <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px">Signal comparison · PL01_disp (mm)</h2>
+              <div role="group" aria-label="Series shown" style="display:flex;flex-wrap:wrap;gap:6px">
+                <sc-for list="{{layers}}" as="l" hint-placeholder-count="4"><button onClick="{{l.toggle}}" aria-pressed="{{l.on}}" style="{{l.style}}"><span style="{{l.swatch}}"></span>{{l.label}}</button></sc-for>
+              </div>
+            </div>
+            <svg viewBox="0 0 720 280" width="100%" role="img" aria-label="Original, baseline-corrected, filtered and processed signals" style="background:#FBFCFB;border:1px solid #E1E7E3;border-radius:10px">
+              <g stroke="#E1E7E3"><path d="M50 30H710M50 90H710M50 150H710M50 210H710M50 260H710"></path></g>
+              <g fill="#4C5C62" font-family="IBM Plex Mono, monospace" font-size="10"><text x="10" y="34">{{yTop}}</text><text x="10" y="154">{{yMid}}</text><text x="10" y="264">{{yBot}}</text><text x="50" y="276">Jan</text><text x="370" y="276">Jul</text><text x="680" y="276">Dec</text></g>
+              <polyline points="{{pOrig}}" fill="none" stroke="#B9C2BE" stroke-width="1.2" opacity="{{oOrig}}"></polyline>
+              <polyline points="{{pBase}}" fill="none" stroke="#9B8461" stroke-width="1.3" opacity="{{oBase}}"></polyline>
+              <polyline points="{{pFilt}}" fill="none" stroke="#2C6B61" stroke-width="2" opacity="{{oFilt}}"></polyline>
+              <polyline points="{{pProc}}" fill="none" stroke="#10232D" stroke-width="2.2" stroke-dasharray="7 4" opacity="{{oProc}}"></polyline>
+            </svg>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="font-size:13px;font-weight:600">Power spectral density (Welch)</div>
+                <svg viewBox="0 0 340 120" width="100%" role="img" aria-label="Spectrum of original and filtered signal" style="background:#FBFCFB;border:1px solid #E1E7E3;border-radius:10px">
+                  <polyline points="{{psdOrig}}" fill="none" stroke="#B9C2BE" stroke-width="1.4"></polyline>
+                  <polyline points="{{psdFilt}}" fill="none" stroke="#2C6B61" stroke-width="2"></polyline>
+                  <line x1="{{cutX}}" y1="8" x2="{{cutX}}" y2="110" stroke="#9B8461" stroke-dasharray="4 3"></line>
+                  <text x="{{cutLabelX}}" y="18" fill="#6E5A3A" font-family="IBM Plex Mono, monospace" font-size="10">fc</text>
+                </svg>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+                <div style="font-weight:600">Effect of this pipeline</div>
+                <div style="font-family:'IBM Plex Mono',monospace;background:#F1F3F0;border-radius:9px;padding:10px;line-height:1.8">σ original  {{sdOrig}} mm<br>σ processed {{sdProc}} mm<br>removed rms   {{noiseCut}} % of σ</div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{showQuality}}" hint-placeholder-val="{{false}}">
+          <div style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px">
+            <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px">Data-quality assessment · v1 original</h2>
+            <div class="q4">
+              <div style="background:#F1F3F0;border-radius:10px;padding:12px"><div style="font-size:12px;color:#4C5C62">Missing values</div><div style="font-family:'IBM Plex Mono',monospace;font-size:20px">41</div><div style="font-size:12px;color:#4C5C62">0.47 % · 3 gaps &gt; 6 h</div></div>
+              <div style="background:#F1F3F0;border-radius:10px;padding:12px"><div style="font-size:12px;color:#4C5C62">Duplicate timestamps</div><div style="font-family:'IBM Plex Mono',monospace;font-size:20px">12</div><div style="font-size:12px;color:#4C5C62">identical values</div></div>
+              <div style="background:#F1F3F0;border-radius:10px;padding:12px"><div style="font-size:12px;color:#4C5C62">Outliers (MAD &gt; 5)</div><div style="font-family:'IBM Plex Mono',monospace;font-size:20px">7</div><div style="font-size:12px;color:#4C5C62">flagged, not removed</div></div>
+              <div style="background:#F1F3F0;border-radius:10px;padding:12px"><div style="font-size:12px;color:#4C5C62">Sampling</div><div style="font-family:'IBM Plex Mono',monospace;font-size:20px">1 h</div><div style="font-size:12px;color:#4C5C62">irregular: 0.3 %</div></div>
+            </div>
+            <div style="font-size:14px;color:#3D4D53">Flags are attached to observations; you decide whether to exclude, interpolate or keep them in a new version.</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{showPreview}}" hint-placeholder-val="{{false}}">
+          <div style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0">
+            <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px">Preview · first rows of v2</h2>
+            <div style="overflow-x:auto;border:1px solid #E1E7E3;border-radius:10px">
+              <table style="width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap;font-family:'IBM Plex Mono',monospace">
+                <thead><tr style="background:#F1F3F0;text-align:left;font-family:Inter,sans-serif;color:#4C5C62"><th style="padding:8px 10px">timestamp (UTC)</th><th style="padding:8px 10px">PL01_disp mm</th><th style="padding:8px 10px">res_level m</th><th style="padding:8px 10px">air_temp °C</th><th style="padding:8px 10px">flag</th></tr></thead>
+                <tbody>
+                  <tr style="border-top:1px solid #E1E7E3"><td style="padding:7px 10px">2023-01-01 00:00</td><td style="padding:7px 10px">2.914</td><td style="padding:7px 10px">604.21</td><td style="padding:7px 10px">4.8</td><td style="padding:7px 10px;color:#2F7059">good</td></tr>
+                  <tr style="border-top:1px solid #E1E7E3"><td style="padding:7px 10px">2023-01-01 01:00</td><td style="padding:7px 10px">2.921</td><td style="padding:7px 10px">604.21</td><td style="padding:7px 10px">4.5</td><td style="padding:7px 10px;color:#2F7059">good</td></tr>
+                  <tr style="border-top:1px solid #E1E7E3"><td style="padding:7px 10px">2023-01-01 02:00</td><td style="padding:7px 10px">—</td><td style="padding:7px 10px">604.20</td><td style="padding:7px 10px">4.1</td><td style="padding:7px 10px;color:#59646B">missing</td></tr>
+                  <tr style="border-top:1px solid #E1E7E3"><td style="padding:7px 10px">2023-01-01 03:00</td><td style="padding:7px 10px">7.402</td><td style="padding:7px 10px">604.20</td><td style="padding:7px 10px">3.9</td><td style="padding:7px 10px;color:#8A6520">suspect</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </sc-if>
+      </section>
+
+      <aside class="right" style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <section style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px">
+          <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px">Pipeline parameters</h2>
+          <label style="display:flex;align-items:center;gap:10px;font-size:14px;min-height:36px"><input type="checkbox" checked="{{baseOn}}" onChange="{{toggleBase}}" style="width:18px;height:18px">Baseline correction <span style="color:#4C5C62;font-size:12px">(mean of first 30 d)</span></label>
+          <label style="display:flex;align-items:center;gap:10px;font-size:14px;min-height:36px"><input type="checkbox" checked="{{detOn}}" onChange="{{toggleDet}}" style="width:18px;height:18px">Linear detrend</label>
+          <label style="display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:#3D4D53">Filter
+            <select value="{{filter}}" onChange="{{setFilter}}" style="min-height:40px;border:1px solid #D5DDD8;border-radius:9px;padding:0 10px;font:inherit;font-weight:400;background:#FFFFFF;color:#10232D">
+              <option value="butter">Butterworth low-pass</option>
+              <option value="ma">Moving average</option>
+              <option value="none">None</option>
+            </select>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:#3D4D53">{{cutLabel}}
+            <input type="range" min="2" max="40" step="1" value="{{cut}}" onChange="{{setCut}}" style="width:100%">
+          </label>
+          <label style="display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:#3D4D53">Order
+            <select value="{{order}}" onChange="{{setOrder}}" style="min-height:40px;border:1px solid #D5DDD8;border-radius:9px;padding:0 10px;font:inherit;font-weight:400;background:#FFFFFF;color:#10232D"><option value="2">2</option><option value="4">4</option><option value="6">6</option></select>
+          </label>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:#F1F3F0;border-radius:9px;padding:10px;white-space:pre-wrap;line-height:1.6">{{paramText}}</div>
+          <button style="min-height:44px;border-radius:10px;border:0;background:#183C45;color:#F5F4EF;font:inherit;font-weight:600;cursor:pointer">Save as new version v3</button>
+          <div style="font-size:12px;color:#4C5C62">Export processed CSV · processing history travels with the file.</div>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #D5DDD8;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px">
+          <h2 style="margin:0;font-family:Manrope,sans-serif;font-size:16px">Processing history</h2>
+          <ol style="margin:0;padding-left:20px;font-size:13px;display:flex;flex-direction:column;gap:6px;color:#3D4D53">
+            <li>v1 uploaded · validated (UTF-8, 5 columns, ISO-8601 timestamps)</li>
+            <li>v2 · drop exact duplicates (12 rows)</li>
+            <li>v2 · resample 1 h, mean, no interpolation</li>
+            <li>v3 draft · {{pipelineShort}}</li>
+          </ol>
+        </section>
+      </aside>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1200}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { tab: 'signal', base: true, det: true, filter: 'butter', cut: 12, order: '4', show: { o: true, b: true, f: true, p: true } }; }
+  raw() {
+    var n = 240, a = [];
+    for (var i = 0; i < n; i++) {
+      var s = 3.0 + 1.4 * Math.sin(2 * Math.PI * i / n - 1.2) + 0.004 * i;
+      var noise = 0.35 * Math.sin(i * 2.9) + 0.22 * Math.cos(i * 5.3) + 0.15 * Math.sin(i * 11.7);
+      if (i === 61 || i === 157) noise += 1.6;
+      a.push(s + noise + 1.1);
+    }
+    return a;
+  }
+  lowpass(x, cut, order, kind) {
+    if (kind === 'none') return x.slice();
+    var w = Math.max(1, Math.round(60 / cut));
+    var passes = kind === 'butter' ? Math.max(1, Math.round(Number(order) / 2)) : 1;
+    var y = x.slice();
+    for (var p = 0; p < passes; p++) {
+      var z = [];
+      for (var i = 0; i < y.length; i++) { var s = 0, c = 0; for (var k = -w; k <= w; k++) { var j = i + k; if (j >= 0 && j < y.length) { s += y[j]; c++; } } z.push(s / c); }
+      y = z;
+    }
+    return y;
+  }
+  sd(x) { var m = 0; x.forEach(function (v) { m += v; }); m /= x.length; var s = 0; x.forEach(function (v) { s += (v - m) * (v - m); }); return Math.sqrt(s / x.length); }
+  spectrum(x) {
+    var n = x.length, out = [];
+    for (var k = 1; k < 60; k++) { var re = 0, im = 0; for (var t = 0; t < n; t++) { re += x[t] * Math.cos(2 * Math.PI * k * t / n); im -= x[t] * Math.sin(2 * Math.PI * k * t / n); } out.push(Math.log10(1e-3 + (re * re + im * im) / n)); }
+    return out;
+  }
+  renderVals() {
+    var self = this, st = this.state;
+    var o = this.raw();
+    var b0 = 0; for (var i = 0; i < 20; i++) b0 += o[i]; b0 /= 20;
+    var base = st.base ? o.map(function (v) { return v - b0; }) : o.slice();
+    var filt = this.lowpass(base, st.cut, st.order, st.filter);
+    var proc = filt.slice();
+    if (st.det) { var n = proc.length, sx = 0, sy = 0, sxy = 0, sxx = 0; proc.forEach(function (v, i) { sx += i; sy += v; sxy += i * v; sxx += i * i; }); var sl = (n * sxy - sx * sy) / (n * sxx - sx * sx), ic = (sy - sl * sx) / n; proc = proc.map(function (v, i) { return v - (sl * i + ic) + sy / n; }); }
+    var all = o.concat(base, filt, proc), mn = Math.min.apply(null, all), mx = Math.max.apply(null, all);
+    var X = function (i) { return (50 + i * 660 / 239).toFixed(1); }, Y = function (v) { return (260 - (v - mn) / (mx - mn) * 230).toFixed(1); };
+    var pts = function (a) { return a.map(function (v, i) { return X(i) + ',' + Y(v); }).join(' '); };
+    var so = this.spectrum(o.map(function (v) { return v - b0; })), sf = this.spectrum(filt);
+    var smin = Math.min.apply(null, so.concat(sf)), smax = Math.max.apply(null, so.concat(sf));
+    var sp = function (a) { return a.map(function (v, i) { return (10 + i * 320 / 58).toFixed(1) + ',' + (110 - (v - smin) / (smax - smin) * 100).toFixed(1); }).join(' '); };
+    var cutX = (10 + Math.min(58, st.cut * 1.4) * 320 / 58).toFixed(1);
+    var resid = 0; o.forEach(function (v, i) { resid += Math.pow((v - (st.base ? b0 : 0)) - filt[i], 2); });
+    var sdo = this.sd(o), sdp = this.sd(proc);
+    var layer = function (key, label, color, dash) {
+      var on = st.show[key];
+      return { label: label, on: String(on), toggle: function () { var s = Object.assign({}, st.show); s[key] = !on; self.setState({ show: s }); },
+        style: 'display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 11px;border-radius:999px;font:inherit;font-size:13px;cursor:pointer;' + (on ? 'border:1px solid #183C45;background:#FFFFFF;color:#10232D;font-weight:600' : 'border:1px solid #D5DDD8;background:#F1F3F0;color:#59646B;text-decoration:line-through'),
+        swatch: 'display:inline-block;width:16px;height:0;border-top:3px ' + (dash ? 'dashed ' : 'solid ') + color };
+    };
+    var tabBtn = function (id, label) { var on = st.tab === id; return { label: label, sel: String(on), pick: function () { self.setState({ tab: id }); }, style: 'min-height:38px;padding:0 14px;border-radius:7px;border:0;font:inherit;font-size:14px;font-weight:600;cursor:pointer;' + (on ? 'background:#FFFFFF;color:#10232D;box-shadow:0 1px 2px #10232D22' : 'background:transparent;color:#4C5C62') }; };
+    var fname = st.filter === 'butter' ? 'butterworth_lowpass' : st.filter === 'ma' ? 'moving_average' : 'none';
+    var steps = [];
+    if (st.base) steps.push('baseline'); steps.push(st.filter === 'none' ? 'no filter' : (st.filter === 'butter' ? 'Butterworth fc=' + (st.cut / 100).toFixed(2) + '/d, n=' + st.order : 'moving avg w=' + (2 * Math.round(60 / st.cut) + 1))); if (st.det) steps.push('detrend');
+    return {
+      tabs: [tabBtn('signal', 'Signal processing'), tabBtn('quality', 'Data quality'), tabBtn('preview', 'Preview')],
+      showSignal: st.tab === 'signal', showQuality: st.tab === 'quality', showPreview: st.tab === 'preview',
+      layers: [layer('o', 'Original', '#B9C2BE'), layer('b', 'Baseline-corrected', '#9B8461'), layer('f', 'Filtered', '#2C6B61'), layer('p', 'Processed output', '#10232D', true)],
+      pOrig: pts(o), pBase: pts(base), pFilt: pts(filt), pProc: pts(proc),
+      oOrig: st.show.o ? 1 : 0, oBase: st.show.b ? 1 : 0, oFilt: st.show.f ? 1 : 0, oProc: st.show.p ? 1 : 0,
+      yTop: mx.toFixed(1), yMid: ((mx + mn) / 2).toFixed(1), yBot: mn.toFixed(1),
+      psdOrig: sp(so), psdFilt: sp(sf), cutX: cutX, cutLabelX: (Number(cutX) + 4).toFixed(1),
+      sdOrig: sdo.toFixed(3), sdProc: sdp.toFixed(3), noiseCut: (100 * Math.sqrt(resid / o.length) / sdo).toFixed(0),
+      baseOn: st.base, detOn: st.det, filter: st.filter, cut: st.cut, order: st.order,
+      toggleBase: function () { self.setState({ base: !st.base }); }, toggleDet: function () { self.setState({ det: !st.det }); },
+      setFilter: function (e) { self.setState({ filter: e.target.value }); }, setCut: function (e) { self.setState({ cut: Number(e.target.value) }); }, setOrder: function (e) { self.setState({ order: e.target.value }); },
+      cutLabel: st.filter === 'ma' ? 'Window: ' + (2 * Math.round(60 / st.cut) + 1) + ' samples' : 'Cut-off frequency: ' + (st.cut / 100).toFixed(2) + ' cycles/day',
+      paramText: 'operation: ' + fname + '\nbaseline: ' + (st.base ? 'mean(first 30 d) = ' + b0.toFixed(3) + ' mm' : 'off') + '\ncutoff: ' + (st.cut / 100).toFixed(2) + ' 1/d   order: ' + st.order + '\nzero-phase: true (filtfilt)\ndetrend: ' + (st.det ? 'linear' : 'off'),
+      pipelineShort: steps.join(' → ')
+    };
+  }
+}
+</script>
+</body>
+</html>
