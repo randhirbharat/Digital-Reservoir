@@ -38,7 +38,7 @@ def new_client() -> TestClient:
     return TestClient(fastapi_app)
 
 
-def last_token(email: str, kind: str = "verify-email") -> str:
+def last_token(email: str, kind: str = "verify-email") -> str:  # kinds: verify-email, reset-password, invite
     with SessionLocal() as db:
         msg = db.query(EmailOutbox).filter(EmailOutbox.to_address == email).order_by(EmailOutbox.created_at.desc()).first()
         return re.search(rf"{kind}\?token=([\w-]+)", msg.body).group(1)

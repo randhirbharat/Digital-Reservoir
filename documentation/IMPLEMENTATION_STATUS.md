@@ -31,6 +31,18 @@ Legend: ✅ complete · 🟡 partial · 🧪 simulated/demonstration · ⏳ pend
 | 3 | Reports (HTML, print to PDF) and CSV export of results | ✅ | server-side PDF rendering not implemented |
 | 3 | Background job queue for long analyses | ⏳ | analyses run synchronously; Redis queue planned |
 | 3 | Alembic migration 0001; tests on SQLite and PostgreSQL 16 | ✅ | 17 API tests, 11 engine tests, 12-step browser E2E |
-| 4 | Digital Twin (dashboard, simulated stream, 3D dam) | ⏳ | |
+| 4 | Twin data model: assets, components, sensor registry (metadata, coordinates, calibration, frequency, source, status), observations, criteria, alerts, gateways, invitations, access requests; migration 0002 | ✅ | TimescaleDB hypertable created automatically when the extension is available (not installed in the test environment — plain PostgreSQL verified) |
+| 4 | Project-level authorisation: 5 roles, superadmin, institutional admin; 404 for non-members; MFA-verified session required per project | ✅ | 7 Twin security tests; enforced in REST and WebSocket |
+| 4 | Invitations (email, single-use, 7-day), access requests with approval, role change/revocation ending sessions, project audit trail | ✅ | |
+| 4 | Gateway ingestion (REST, per-gateway key, rate limit, validation: tz-aware, no future timestamps, unknown sensors rejected) | ✅ | |
+| 4 | MQTT → REST bridge with store-and-forward; CSV replay | 🟡 | unit-tested with simulated messages; not tested against a real broker or hardware |
+| 4 | OPC UA connector | ⏳ | interface documented; needs site details |
+| 4 | Demonstration simulator (source=simulated) + communications watchdog + missing-data alerts | 🧪 | always labelled DEMONSTRATION DATA |
+| 4 | Live WebSocket stream with reconnect; polling fallback; session/membership re-check every 30 s | ✅ | single API process (in-memory bus); Redis pub/sub needed for multiple workers |
+| 4 | Dashboard: KPIs, latest readings with unit/timestamp/source/quality/comms/condition+basis, live trend, alerts | ✅ | |
+| 4 | 3D: Three.js parametric illustrative dam, layers, orbit, sensor selection, component picking, labels, keyboard sensor list, period comparison, 3D↔chart links | ✅ | GLB/glTF upload & IFC conversion pipeline pending |
+| 4 | Monitoring: groups, windows, refresh modes, comparison, criteria lines, quality flags, level overlay, correlation, availability, replay, CSV export | ✅ | LTTB downsampling for display; flagged points always kept |
+| 4 | Conditions from documented criteria only; 'not assessed' without criteria; demonstration criteria labelled | ✅ | |
+| 4 | Twin E2E (browser): MFA enforcement, live stream, 3D, monitoring, alerts, access, URL manipulation, mobile/tablet | ✅ | |
 | 5 | Integration (SSO, shared APIs, RLS) | ⏳ | |
 | 6 | Advanced (hybrid/PINN, fragility, damage detection) | ⏳ | |

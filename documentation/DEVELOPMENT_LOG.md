@@ -26,3 +26,15 @@
   damage detection, DHI, saved runs, account/MFA, documentation; Plotly charts with data-table alternatives.
 - E2E finding: default Butterworth cut-off of 1 Hz is above Nyquist for daily data; the engine rejected it correctly. The UI now
   takes cut-offs in cycles/day or Hz.
+
+## Stage 4 — Digital Twin
+- API: Twin models + migration 0002 (up/down verified), project-scoped authorisation (`app/twin/access.py`), rules/condition
+  engine, event bus, ingestion, WebSocket stream, demonstration simulator with watchdog, `seed-demo` command.
+- Finding: communications status was first computed from ingestion time; imported/backfilled history looked "online".
+  Fixed to use the latest measurement timestamp (ingestion time still reported).
+- Finding: a dropped sensor's seeded history ended only 3 h ago, inside its 6-interval "late" window, so no alert fired;
+  the seed now ends it beyond the offline window.
+- Finding: a fixed-offset demonstration anomaly never crossed the criterion in low-reservoir seasons; anomalies now target a level.
+- Frontend `apps/digital-twin`: project access page, shell with live status, overview, Three.js 3D model, ECharts monitoring,
+  sensor registry/gateways/import, alerts & criteria, members/invitations/requests/audit.
+- Mobile fixes: header status wrapping, unwrapped tables, KPI truncation.

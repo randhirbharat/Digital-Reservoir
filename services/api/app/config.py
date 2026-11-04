@@ -41,6 +41,8 @@ class Settings(BaseSettings):
     simulator_enabled: bool = True
     simulator_interval_seconds: float = 5.0
     login_rate_per_minute: int = 10
+    twin_enforce_mfa: bool = True  # projects with require_mfa demand an MFA-verified session
+    ingest_rate_per_minute: int = 600
     max_failed_logins: int = 8
     lockout_minutes: int = 15
 

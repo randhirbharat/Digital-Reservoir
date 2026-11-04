@@ -14,6 +14,9 @@ export interface CurrentUser {
   is_superadmin: boolean;
   email_verified: boolean;
   mfa_enabled: boolean;
+  session_mfa_passed: boolean;
+  session_expires_at: string;
+  organisation: string;
   lab_access: boolean;
   lab_permissions: string[];
   twin_projects: ProjectMembership[];
