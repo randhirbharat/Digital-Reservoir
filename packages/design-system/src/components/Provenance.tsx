@@ -4,8 +4,8 @@ import { PROVENANCE_LABEL, CONDITION_LABEL } from "@dr/shared-utilities";
 const provStyle: Record<DataProvenance, string> = {
   live: "bg-cond-normal/15 text-cond-normal border-cond-normal/40",
   historical: "bg-accent/10 text-accent-ink border-accent-ink/40",
-  simulated: "bg-bronze/20 text-bronze-ink border-bronze/60",
-  synthetic: "bg-bronze/20 text-bronze-ink border-bronze/60",
+  simulated: "bg-bronze/20 text-bronze-text border-bronze/60",
+  synthetic: "bg-bronze/20 text-bronze-text border-bronze/60",
   imported: "bg-sage text-teal border-sage-200",
   model: "bg-surface-2 text-ink border-line",
   assumption: "bg-surface-2 text-muted border-line border-dashed",

@@ -47,6 +47,7 @@
   --color-accent: var(--dr-accent);
   --color-accent-ink: var(--dr-accent-ink);
   --color-on-accent: var(--dr-on-accent);
+  --color-bronze-text: var(--dr-bronze-text);
 }
 
 /* Public website: warm ivory, light surfaces, deep navy/teal sections */
@@ -61,6 +62,7 @@
   --dr-accent: #183c45;
   --dr-accent-ink: #2c6b61;
   --dr-on-accent: #f5f4ef;
+  --dr-bronze-text: #6e5a3a;
   color-scheme: light;
 }
 /* Engineering Lab: light analytical workspace with teal accents */
@@ -74,6 +76,7 @@
   --dr-accent: #183c45;
   --dr-accent-ink: #2c6b61;
   --dr-on-accent: #f5f4ef;
+  --dr-bronze-text: #6e5a3a;
   color-scheme: light;
 }
 /* Digital Twin: dark technical environment, controlled contrast */
@@ -87,6 +90,7 @@
   --dr-accent: #72beb1;
   --dr-accent-ink: #8fd0c4;
   --dr-on-accent: #0b1820;
+  --dr-bronze-text: #d8c49e;
   color-scheme: dark;
 }
 
